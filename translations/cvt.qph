@@ -1,0 +1,2200 @@
+<!DOCTYPE QPH>
+<QPH sourcelanguage="ko_KR" language="en_US">
+<phrase>
+    <source>구성군</source>
+    <target>Composition Group</target>
+</phrase>
+<phrase>
+    <source>해군</source>
+    <target>Navy</target>
+</phrase>
+<phrase>
+    <source>자산 추가</source>
+    <target>Add Asset</target>
+</phrase>
+<phrase>
+    <source>공군</source>
+    <target>Air Force</target>
+</phrase>
+<phrase>
+    <source>기타</source>
+    <target>Other</target>
+</phrase>
+<phrase>
+    <source>다음 오류가 발생했습니다:{}</source>
+    <target>The following error occurred: {}</target>
+</phrase>
+<phrase>
+    <source>선택한 자산들을 삭제하시겠습니까?:</source>
+    <target>Do you want to delete the selected assets?: </target>
+</phrase>
+<phrase>
+    <source>알림: </source>
+    <target>Notification:</target>
+</phrase>
+<phrase>
+    <source>선택한 자산들이 삭제되었습니다.:</source>
+    <target>The selected assets have been deleted:</target>
+</phrase>
+<phrase>
+    <source>선택한 자산들이 삭제되었습니다.:  
+</source>
+    <target>The selected assets have been deleted: </target>
+</phrase>
+<phrase>
+    <source>경고: </source>
+    <target>Warning:</target>
+</phrase>
+<phrase>
+    <source>수정을 위해 정확히 하나의 자산을 선택해주세요.:</source>
+    <target>Please select exactly one asset for modification:</target>
+</phrase>
+<phrase>
+    <source>선택된 자산이 없습니다.:</source>
+    <target>No Asset Selected:</target>
+</phrase>
+<phrase>
+    <source>방어자산 보고서</source>
+    <target>Defense Asset Report</target>
+</phrase>
+<phrase>
+    <source>보고서 생성 일시:</source>
+    <target>Report Generation Time: </target>
+</phrase>
+<phrase>
+    <source>무기체계</source>
+    <target>Weapon System</target>
+</phrase>
+<phrase>
+    <source>보유탄수</source>
+    <target>Ammunition Count</target>
+</phrase>
+<phrase>
+    <source>자산이 성공적으로 수정되었습니다.
+</source>
+    <target>Asset Successfully Modified</target>
+</phrase>
+<phrase>
+    <source>데이터베이스 오류: {e}</source>
+    <target>Database Error: {e}</target>
+</phrase>
+<phrase>
+    <source>예기치 않은 오류 발생: {e}  Unexpected error occurred: {str(e)}
+</source>
+    <target>Unexpected Error Occurred: {e}  Unexpected error occurred: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>방어자산 정보</source>
+    <target>Defense Asset Information</target>
+</phrase>
+<phrase>
+    <source>공통상황도</source>
+    <target>COP</target>
+</phrase>
+<phrase>
+    <source>DAL 관리</source>
+    <target>DAL Management
+</target>
+</phrase>
+<phrase>
+    <source>CAL 관리</source>
+    <target>CAL Management</target>
+</phrase>
+<phrase>
+    <source>우선순위 정보가 성공적으로 저장되었습니다.
+</source>
+    <target>Priority Information Successfully Saved</target>
+</phrase>
+<phrase>
+    <source>우선순위 정보가 성공적으로 초기화되었습니다.
+</source>
+    <target>Priority Information Successfully Reset
+</target>
+</phrase>
+<phrase>
+    <source>성공</source>
+    <target>Success</target>
+</phrase>
+<phrase>
+    <source>우선순위 결정</source>
+    <target>Determination of Priority</target>
+</phrase>
+<phrase>
+    <source>가점</source>
+    <target>Bonus Points</target>
+</phrase>
+<phrase>
+    <source>가점 적용</source>
+    <target>Apply Bonus Points</target>
+</phrase>
+<phrase>
+    <source>MGRS 좌표 변환 오류 {mgrs_coord}: {e}</source>
+    <target>MGRS Coordinate Conversion Error {mgrs_coord}: {e}</target>
+</phrase>
+<phrase>
+    <source>선택된 자산이 없습니다.</source>
+    <target>No Asset Selected</target>
+</phrase>
+<phrase>
+    <source>경고</source>
+    <target>Warning</target>
+</phrase>
+<phrase>
+    <source>지도 보기</source>
+    <target>View Map</target>
+</phrase>
+<phrase>
+    <source>데이터베이스 연결 오류: {e}</source>
+    <target>Database Connection Error: {e}</target>
+</phrase>
+<phrase>
+    <source>테이블 생성 오류: {e}</source>
+    <target>Table Creation Error: {e}</target>
+</phrase>
+<phrase>
+    <source>방어대상자산 또는 지역구분 검색</source>
+    <target>Search Defense Target Asset or Area Classification</target>
+</phrase>
+<phrase>
+    <source>우선순위</source>
+    <target>Priority</target>
+</phrase>
+<phrase>
+    <source>지역구분</source>
+    <target>Area Classification</target>
+</phrase>
+<phrase>
+    <source>방어자산명</source>
+    <target>Defense Asset Name</target>
+</phrase>
+<phrase>
+    <source>전체</source>
+    <target>All</target>
+</phrase>
+<phrase>
+    <source>검색</source>
+    <target>Search</target>
+</phrase>
+<phrase>
+    <source>검색어를 입력하세요</source>
+    <target>Enter a keyword</target>
+</phrase>
+<phrase>
+    <source>로그오프</source>
+    <target>Log off</target>
+</phrase>
+<phrase>
+    <source>보고서 생성 중 오류가 발생했습니다: {str(e)}.</source>
+    <target>Report generation error occurred: {str(e)}.</target>
+</phrase>
+<phrase>
+    <source>자산 보고서가 {file_path} 파일로 저장되었습니다.</source>
+    <target>The asset report has been saved in the file {file_path}.</target>
+</phrase>
+<phrase>
+    <source>언어 선택</source>
+    <target>Language Selection</target>
+</phrase>
+<phrase>
+    <source>방어자산 추가</source>
+    <target>Add Defense Asset</target>
+</phrase>
+<phrase>
+    <source>자산이 성공적으로 저장되었습니다.</source>
+    <target>Asset Successfully Saved.</target>
+</phrase>
+<phrase>
+    <source>우선순위 정보가 성공적으로 저장되었습니다.
+</source>
+    <target>Priority Information Successfully Saved.</target>
+</phrase>
+<phrase>
+    <source>방어자산 입력</source>
+    <target>Defense Asset Input</target>
+</phrase>
+<phrase>
+    <source>수정</source>
+    <target>Modification</target>
+</phrase>
+<phrase>
+    <source>삭제</source>
+    <target>Delete</target>
+</phrase>
+<phrase>
+    <source>출력</source>
+    <target>Print</target>
+</phrase>
+<phrase>
+    <source>메인 화면으로 돌아가기</source>
+    <target>Return to Main Screen</target>
+</phrase>
+<phrase>
+    <source>확인</source>
+    <target>Confirm</target>
+</phrase>
+<phrase>
+    <source>방어체계</source>
+    <target>Defense System</target>
+</phrase>
+<phrase>
+    <source>전체</source>
+    <target></target>
+</phrase>
+<phrase>
+    <source>무기체계 선택</source>
+    <target>Weapon System Selection</target>
+</phrase>
+<phrase>
+    <source>PDF가 저장되었습니다: {}</source>
+    <target>PDF saved: {}</target>
+</phrase>
+<phrase>
+    <source>저장 완료</source>
+    <target>Save Complete</target>
+</phrase>
+<phrase>
+    <source>메인 화면으로 돌아가기</source>
+    <target>Return to Main Screen</target>
+</phrase>
+<phrase>
+    <source>CAL 입력</source>
+    <target>CAL Input</target>
+</phrase>
+<phrase>
+    <source>CAL 보기</source>
+    <target>CAL View</target>
+</phrase>
+<phrase>
+    <source>CAL 산출</source>
+    <target>CAL Output</target>
+</phrase>
+<phrase>
+    <source>CAL 수정</source>
+    <target>CAL Edit</target>
+</phrase>
+<phrase>
+    <source>위협방위</source>
+    <target>Threat Direction</target>
+</phrase>
+<phrase>
+    <source>방어반경 표시</source>
+    <target>Defense Radius Display</target>
+</phrase>
+<phrase>
+    <source>지도 출력</source>
+    <target>Map Print</target>
+</phrase>
+<phrase>
+    <source>PDF 저장 완료</source>
+    <target>PDF Save Complete</target>
+</phrase>
+<phrase>
+    <source>지도가 PDF로 저장되었습니다. 파일 위치</source>
+    <target>The map has been saved as a PDF. File location</target>
+</phrase>
+<phrase>
+    <source>위협 방위는 0에서 359 사이의 정수여야 합니다.</source>
+    <target>Threat direction should be an integer between 0 and 359.</target>
+</phrase>
+<phrase>
+    <source>자산</source>
+    <target>Asset</target>
+</phrase>
+<phrase>
+    <source>방어자산</source>
+    <target>Defense asset</target>
+</phrase>
+<phrase>
+    <source>DAL 지도 보기</source>
+    <target>DAL Map View</target>
+</phrase>
+<phrase>
+    <source>인쇄 일시: {current_time}</source>
+    <target>Print time: {current_time}</target>
+</phrase>
+<phrase>
+    <source>인쇄 중 오류 발생: {str(e)}</source>
+    <target>Error occurred during printing: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>인쇄 완료</source>
+    <target>Printing completed</target>
+</phrase>
+<phrase>
+    <source>지도가 성공적으로 출력되었습니다.</source>
+    <target>The map has been successfully printed.</target>
+</phrase>
+<phrase>
+    <source>인쇄 실패</source>
+    <target>Print failed</target>
+</phrase>
+<phrase>
+    <source>지도 출력 중 오류가 발생했습니다.</source>
+    <target>An error occurred while printing the map.</target>
+</phrase>
+<phrase>
+    <source>CAL 지도 보기
+</source>
+    <target>CAL Map View</target>
+</phrase>
+<phrase>
+    <source>자산정보</source>
+    <target>Asset Information</target>
+</phrase>
+<phrase>
+    <source>CVT 점수평가</source>
+    <target>CVT Score Evaluation</target>
+</phrase>
+<phrase>
+    <source>항목</source>
+    <target>Item</target>
+</phrase>
+<phrase>
+    <source>점수</source>
+    <target>Score</target>
+</phrase>
+<phrase>
+    <source>체크</source>
+    <target>Check</target>
+</phrase>
+<phrase>
+    <source>자산번호</source>
+    <target>Asset Number</target>
+</phrase>
+<phrase>
+    <source>담당자</source>
+    <target>Manager</target>
+</phrase>
+<phrase>
+    <source>연락처</source>
+    <target>Contact</target>
+</phrase>
+<phrase>
+    <source>방어대상자산</source>
+    <target>Defense Target Asset</target>
+</phrase>
+<phrase>
+    <source>지역구분</source>
+    <target>Area</target>
+</phrase>
+<phrase>
+    <source>위도</source>
+    <target>Lat.</target>
+</phrase>
+<phrase>
+    <source>위도</source>
+    <target>Lat</target>
+</phrase>
+<phrase>
+    <source>경도</source>
+    <target>Lon</target>
+</phrase>
+<phrase>
+    <source>군사좌표(MGRS)</source>
+    <target>MGRS</target>
+</phrase>
+<phrase>
+    <source>임무/기능(국/영문)</source>
+    <target>Mission/Function(Kor/Eng)</target>
+</phrase>
+<phrase>
+    <source>지상군</source>
+    <target>Ground Force</target>
+</phrase>
+<phrase>
+    <source>방어자산(DAL) 정보</source>
+    <target>DAL information</target>
+</phrase>
+<phrase>
+    <source>방어자산(DAL)</source>
+    <target>DAL</target>
+</phrase>
+<phrase>
+    <source>무기체계</source>
+    <target>Weapon System</target>
+</phrase>
+<phrase>
+    <source>탄수</source>
+    <target>Ammo Count</target>
+</phrase>
+<phrase>
+    <source>교전효과 수준</source>
+    <target>Engagement Effectiveness Level</target>
+</phrase>
+<phrase>
+    <source>1단계: 원격발사대</source>
+    <target>Level 1: Remote Launcher</target>
+</phrase>
+<phrase>
+    <source>2단계: 단층방어</source>
+    <target>Level 2: Single-layered Defense</target>
+</phrase>
+<phrase>
+    <source>3단계: 중첩방어</source>
+    <target>Level 3: Overlapping layered Defense</target>
+</phrase>
+<phrase>
+    <source>4단계: 다층방어</source>
+    <target>Level 4: Multi-layered Defense</target>
+</phrase>
+<phrase>
+    <source>우선순위 고려사항</source>
+    <target>BMD Location Priority</target>
+</phrase>
+<phrase>
+    <source>지휘통제시설</source>
+    <target>C2</target>
+</phrase>
+<phrase>
+    <source>비행단</source>
+    <target>Fighter Group</target>
+</phrase>
+<phrase>
+    <source>군수기지</source>
+    <target>Logistics Base</target>
+</phrase>
+<phrase>
+    <source>해군기지</source>
+    <target>Naval Base</target>
+</phrase>
+<phrase>
+    <source>주요레이다</source>
+    <target>Radar Site</target>
+</phrase>
+<phrase>
+    <source>주요레이다</source>
+    <target>Radar Site</target>
+</phrase>
+<phrase>
+    <source>CVT 점수 평가</source>
+    <target>CVT Score Evaluation</target>
+</phrase>
+<phrase>
+    <source>중요도</source>
+    <target>Criticality</target>
+</phrase>
+<phrase>
+    <source>작전계획 실행 중단 초래</source>
+    <target>Causes interruption of operation plan execution</target>
+</phrase>
+<phrase>
+    <source>작전계획 실행 위험 초래</source>
+    <target>Poses risk to operation plan execution</target>
+</phrase>
+<phrase>
+    <source>작전계획 중요 변경 초래</source>
+    <target>Causes significant changes to operation plan</target>
+</phrase>
+<phrase>
+    <source>차기 작전계획 단계 실행 지연</source>
+    <target>Delays execution of next operation plan stage</target>
+</phrase>
+<phrase>
+    <source>임무전환/자산 위치 조정하기</source>
+    <target>Mission change/asset location adjustment</target>
+</phrase>
+<phrase>
+    <source>중요도 가점(중심)</source>
+    <target>Criticality Bonus(Center)</target>
+</phrase>
+<phrase>
+    <source>작계 1,2,3단계의 중심</source>
+    <target>Center of operation plan stages 1, 2, and 3</target>
+</phrase>
+<phrase>
+    <source>중요도 가점(기능)</source>
+    <target>Criticality Bonus(Function)</target>
+</phrase>
+<phrase>
+    <source>비전투원 후송작전 통제소, 양륙공항, 양륙항만</source>
+    <target>Non-combatant evacuation operation control center, landing airport, landing port</target>
+</phrase>
+<phrase>
+    <source>취약성</source>
+    <target>Vulnerability</target>
+</phrase>
+<phrase>
+    <source>피해민감도</source>
+    <target>Damage sensitivity</target>
+</phrase>
+<phrase>
+    <source>방호강도</source>
+    <target>Protection strength</target>
+</phrase>
+<phrase>
+    <source>시설의 29%미만으로 방호 가능</source>
+    <target>Facility protection possible below 29%</target>
+</phrase>
+<phrase>
+    <source>시설의 30~74%로 방호 가능</source>
+    <target>Facility protection possible from 30% to 74%</target>
+</phrase>
+<phrase>
+    <source>시설의 75%이상 방호 가능</source>
+    <target>Facility protection possible over 75%</target>
+</phrase>
+<phrase>
+    <source>분산배치</source>
+    <target>Dispersion</target>
+</phrase>
+<phrase>
+    <source>시설의 29%미만으로 분산 배치</source>
+    <target>Facility dispersion below 29%</target>
+</phrase>
+<phrase>
+    <source>시설의 30~74%로 분산 배치</source>
+    <target>Facility dispersion from 30% to 74%</target>
+</phrase>
+<phrase>
+    <source>시설의 75%이상 분산 배치</source>
+    <target>Facility dispersion over 75%</target>
+</phrase>
+<phrase>
+    <source>복구가능성</source>
+    <target>Recoverability</target>
+</phrase>
+<phrase>
+    <source>7일 이상 또는 영구적 폐쇄</source>
+    <target>7 days or more, or permanent closure</target>
+</phrase>
+<phrase>
+    <source>1~7일 임시 폐쇄</source>
+    <target>1-7 days temporary closure</target>
+</phrase>
+<phrase>
+    <source>부대 25% 복원 능력</source>
+    <target>Unit 25% restoration capacity</target>
+</phrase>
+<phrase>
+    <source>복구능력</source>
+    <target>Recovery capacity</target>
+</phrase>
+<phrase>
+    <source>1일 이상 25~74% 임무제한</source>
+    <target>1 day or more, 25-74% mission restriction</target>
+</phrase>
+<phrase>
+    <source>1일 이상 75~100% 임무제한</source>
+    <target>1 day or more, 75-100% mission restriction</target>
+</phrase>
+<phrase>
+    <source>부대 26~75% 복원 능력</source>
+    <target>Unit 26-75% restoration capacity</target>
+</phrase>
+<phrase>
+    <source>부대 100% 복원 능력</source>
+    <target>Unit 100% restoration capacity</target>
+</phrase>
+<phrase>
+    <source>위협</source>
+    <target>Threat</target>
+</phrase>
+<phrase>
+    <source>공격가능성</source>
+    <target>Attack possibility</target>
+</phrase>
+<phrase>
+    <source>공격가능성 높음</source>
+    <target>High attack possibility</target>
+</phrase>
+<phrase>
+    <source>공격가능성 중간</source>
+    <target>Medium attack possibility</target>
+</phrase>
+<phrase>
+    <source>공격가능성 낮음</source>
+    <target>Low attack possibility</target>
+</phrase>
+<phrase>
+    <source>탐지가능성</source>
+    <target>Detection possibility</target>
+</phrase>
+<phrase>
+    <source>탐지가능성 높음</source>
+    <target>High detection possibility</target>
+</phrase>
+<phrase>
+    <source>탐지 가능성 중간</source>
+    <target>Medium detection possibility</target>
+</phrase>
+<phrase>
+    <source>탐지 가능성 낮음</source>
+    <target>Low detection possibility</target>
+</phrase>
+<phrase>
+    <source>총합 점수: 0</source>
+    <target>Total Score: 0</target>
+</phrase>
+<phrase>
+    <source>저장</source>
+    <target>Save</target>
+</phrase>
+<phrase>
+    <source>메인화면</source>
+    <target>Main Screen</target>
+</phrase>
+<phrase>
+    <source>총합 점수: {total_score}</source>
+    <target>Total Score: {total_score}</target>
+</phrase>
+<phrase>
+    <source>입력 오류</source>
+    <target>Input Error</target>
+</phrase>
+<phrase>
+    <source>{label} 값을 입력하세요.</source>
+    <target>Pleae input {label}.</target>
+</phrase>
+<phrase>
+    <source>올바른 경위도 형식을 입력해주세요.
+위도: N##.##### 또는 S##.#####
+경도: E###.##### 또는 W###.#####</source>
+    <target>Please enter the correct latitude and longitude format:
+Latitude: N##.##### or S##.#####
+Longitude: E###.##### or W###.#####</target>
+</phrase>
+<phrase>
+    <source>중요도_중요도 가점(중심)</source>
+    <target>Criticality_Criticality Bonus(Center)</target>
+</phrase>
+<phrase>
+    <source>중요도_중요도 가점(기능)</source>
+    <target>Criticality_Criticality Bonus(Function)</target>
+</phrase>
+<phrase>
+    <source>취약성_피해민감도_방호강도</source>
+    <target>Vulnerability_Damage sensitivity_Protection strength</target>
+</phrase>
+<phrase>
+    <source>취약성_피해민감도_분산배치</source>
+    <target>Vulnerability_Damage sensitivity_Dispersion</target>
+</phrase>
+<phrase>
+    <source>취약성_복구가능성_복구시간</source>
+    <target>Vulnerability_Recoverability_Recovery time</target>
+</phrase>
+<phrase>
+    <source>취약성_복구가능성_복구능력</source>
+    <target>Vulnerability_Recoverability_Recovery capacity</target>
+</phrase>
+<phrase>
+    <source>위협_공격가능성</source>
+    <target>Threat_Attack possibility</target>
+</phrase>
+<phrase>
+    <source>위협_탐지가능성</source>
+    <target>Threat_Detection possibility</target>
+</phrase>
+<phrase>
+    <source>자산 정보가 수정되었습니다!</source>
+    <target>Asset information has been updated!</target>
+</phrase>
+<phrase>
+    <source>자산 및 CVT 점수 저장 성공!</source>
+    <target>Asset and CVT Score have been saved successfully!</target>
+</phrase>
+<phrase>
+    <source>오류 발생: {e}</source>
+    <target>Error: {e}</target>
+</phrase>
+<phrase>
+    <source>예기치 않은 오류 발생: {str(e)}</source>
+    <target>Unexpected Error Occurred: {e} Unexpected error occurred: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>수정</source>
+    <target>Correction</target>
+</phrase>
+<phrase>
+    <source>자산 CVT 평가자료</source>
+    <target>Asset CVT Evaluation Data</target>
+</phrase>
+<phrase>
+    <source>경위도</source>
+    <target>Lat and Lon</target>
+</phrase>
+<phrase>
+    <source>총계</source>
+    <target>Total Score</target>
+</phrase>
+<phrase>
+    <source>항목</source>
+    <target>Item</target>
+</phrase>
+<phrase>
+    <source>PDF 저장</source>
+    <target>PDF Save</target>
+</phrase>
+<phrase>
+    <source>자산 보고서가 {} 파일로 저장되었습니다.</source>
+    <target>The asset report has been saved as {} file.</target>
+</phrase>
+<phrase>
+    <source>오류</source>
+    <target>Error</target>
+</phrase>
+<phrase>
+    <source>보고서 생성 중 오류가 발생했습니다: {}</source>
+    <target>An error occurred while generating the report: {}</target>
+</phrase>
+<phrase>
+    <source>미사일 방공포대 정보수정</source>
+    <target>Missile air defense battery information update</target>
+</phrase>
+<phrase>
+    <source>미사일 방공포대 입력</source>
+    <target>Missile air defense battery input</target>
+</phrase>
+<phrase>
+    <source>미사일 방공포대 정보</source>
+    <target>Missile air defense battery information</target>
+</phrase>
+<phrase>
+    <source>방공포대명</source>
+    <target>Air Defense Battery Name</target>
+</phrase>
+<phrase>
+    <source>군사좌표(MGRS)</source>
+    <target>MGRS</target>
+</phrase>
+<phrase>
+    <source>보유탄수</source>
+    <target>Ammo Count</target>
+</phrase>
+<phrase>
+    <source>자산이 성공적으로 수정되었습니다.</source>
+    <target>Asset has been updated successfully.</target>
+</phrase>
+<phrase>
+    <source>자산이 성공적으로 저장되었습니다.</source>
+    <target>Asset has saved successfully.</target>
+</phrase>
+<phrase>
+    <source>예기치 않은 오류 발생: {e}</source>
+    <target>Unexpected Error Occurred: {e}</target>
+</phrase>
+<phrase>
+    <source>방어자산 포함여부</source>
+    <target>Inclusion of DAL</target>
+</phrase>
+<phrase>
+    <source>지휘관 지침</source>
+    <target>Commander&apos;s Guidance</target>
+</phrase>
+<phrase>
+    <source>연합사령관 BMD 전력배치 우선순위</source>
+    <target>CFC&apos;s BMD force deployment priority</target>
+</phrase>
+<phrase>
+    <source>CAL 우선순위</source>
+    <target>CAL Priority</target>
+</phrase>
+<phrase>
+    <source>DAL 우선순위</source>
+    <target>DAL Priority</target>
+</phrase>
+<phrase>
+    <source>DAL 보기</source>
+    <target>DAL View</target>
+</phrase>
+<phrase>
+    <source>미사일 방공포대 관리</source>
+    <target>Missile Air Defense Battery Management</target>
+</phrase>
+<phrase>
+    <source>방공무기체계</source>
+    <target>Air Defense Weapon System</target>
+</phrase>
+<phrase>
+    <source>적 미사일 발사기지</source>
+    <target>Enemy Missile Base</target>
+</phrase>
+<phrase>
+    <source>적 미사일 제원</source>
+    <target>Enemy Missile Specification</target>
+</phrase>
+<phrase>
+    <source>시뮬레이션</source>
+    <target>Simulation</target>
+</phrase>
+<phrase>
+    <source>종  료</source>
+    <target>Close</target>
+</phrase>
+<phrase>
+    <source>DAL 자산</source>
+    <target>DAL</target>
+</phrase>
+<phrase>
+    <source>CAL 자산</source>
+    <target>CAL</target>
+</phrase>
+<phrase>
+    <source>미사일 방공포대</source>
+    <target>Missile Battery</target>
+</phrase>
+<phrase>
+    <source>적 기지</source>
+    <target>Enemy Base</target>
+</phrase>
+<phrase>
+    <source>적 기지</source>
+    <target>Enemy Missile Base</target>
+</phrase>
+<phrase>
+    <source>적 미사일 기지정보</source>
+    <target>Enemy Missile Base Information</target>
+</phrase>
+<phrase>
+    <source>적 미사일 발사위치</source>
+    <target>Enemy Missile Location</target>
+</phrase>
+<phrase>
+    <source>Common Operational Picture</source>
+    <target>Common Operational Picture</target>
+</phrase>
+<phrase>
+    <source>미사일궤적 및 최적배치 산출</source>
+    <target>Missile Trajectories and Optimal Deployment</target>
+</phrase>
+<phrase>
+    <source>로그아웃</source>
+    <target>LOG OUT</target>
+</phrase>
+<phrase>
+    <source>정말 로그아웃하시겠습니까?</source>
+    <target>Are you sure you want to log out?</target>
+</phrase>
+<phrase>
+    <source>작계 0단계</source>
+    <target>OPLAN 0 Phase</target>
+</phrase>
+<phrase>
+    <source>작계 1단계</source>
+    <target>OPLAN Phase 1</target>
+</phrase>
+<phrase>
+    <source>작계 2단계</source>
+    <target>OPLAN Phase 2</target>
+</phrase>
+<phrase>
+    <source>작계 3단계</source>
+    <target>OPLAN Phase 3</target>
+</phrase>
+<phrase>
+    <source>구분</source>
+    <target>Div</target>
+</phrase>
+<phrase>
+    <source>테이블 데이터가 한국어와 영어로 저장되었습니다.</source>
+    <target>Table data has been stored in Korean and English.</target>
+</phrase>
+<phrase>
+    <source>자산명</source>
+    <target>Asset Name</target>
+</phrase>
+<phrase>
+    <source>좌표</source>
+    <target>Coordinate</target>
+</phrase>
+<phrase>
+    <source>BMD 우선순위</source>
+    <target>BMD Deployment Priority</target>
+</phrase>
+<phrase>
+    <source>좌표 변환 오류 {coordinate}: {e}</source>
+    <target>Coordinate conversion error {coordinate}: {e}</target>
+</phrase>
+<phrase>
+    <source>필터</source>
+    <target>Filter</target>
+</phrase>
+<phrase>
+    <source>구성군 선택</source>
+    <target>Composition Group Selection</target>
+</phrase>
+<phrase>
+    <source>찾기</source>
+    <target>Search</target>
+</phrase>
+<phrase>
+    <source>ID</source>
+    <target>ID</target>
+</phrase>
+<phrase>
+    <source>임무/기능 기술</source>
+    <target>Mission/Function Description</target>
+</phrase>
+<phrase>
+    <source>방어자산</source>
+    <target>DAL</target>
+</phrase>
+<phrase>
+    <source>합산 점수</source>
+    <target>Total Score</target>
+</phrase>
+<phrase>
+    <source>초기화</source>
+    <target>Reset</target>
+</phrase>
+<phrase>
+    <source>필터가 적용되어 있거나 검색어가 입력된 상태에서는 우선순위를 변경할 수 없습니다.</source>
+    <target>Priorities cannot be changed when filters are applied or search terms are entered.</target>
+</phrase>
+<phrase>
+    <source>정말로 우선순위를 초기화하시겠습니까?</source>
+    <target>Are you sure you want to reset the priorities?</target>
+</phrase>
+<phrase>
+    <source>알림</source>
+    <target>Notification</target>
+</phrase>
+<phrase>
+    <source>우선순위가 저장되었습니다.</source>
+    <target>Priorities have been saved.</target>
+</phrase>
+<phrase>
+    <source>우선순위 저장 중 오류가 발생했습니다: {str(e)}</source>
+    <target>An error occurred while saving priorities: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>정말로 &apos;{}&apos; (ID: {}) 을(를) 테이블에서 삭제하시겠습니까?</source>
+    <target>Are you sure you want to delete &apos;{}&apos; (ID: {}) from the table?</target>
+</phrase>
+<phrase>
+    <source>정보</source>
+    <target>Information</target>
+</phrase>
+<phrase>
+    <source>위협방위 값을 실수로 변환할 수 없습니다: {threat_degree}</source>
+    <target>Cannot convert the threat azimuth value to a float: {threat_degree}</target>
+</phrase>
+<phrase>
+    <source>언어를 선택하세요:</source>
+    <target>Select a language:</target>
+</phrase>
+<phrase>
+    <source>     한 국 어</source>
+    <target>     Korean</target>
+</phrase>
+<phrase>
+    <source>적 미사일 기지</source>
+    <target>Enemy Missile Base</target>
+</phrase>
+<phrase>
+    <source>적 보유 미사일</source>
+    <target>Enemy Missile</target>
+</phrase>
+<phrase>
+    <source>잘못된 MGRS 형식: {mgrs_string}</source>
+    <target>Invalid MGRS format: {mgrs_string}</target>
+</phrase>
+<phrase>
+    <source>아이디:</source>
+    <target>ID:</target>
+</phrase>
+<phrase>
+    <source>비밀번호:</source>
+    <target>Password:</target>
+</phrase>
+<phrase>
+    <source>로 그 인</source>
+    <target>LOGIN</target>
+</phrase>
+<phrase>
+    <source>로그인 성공</source>
+    <target>LOGIN Success</target>
+</phrase>
+<phrase>
+    <source>로그인에 성공했습니다.</source>
+    <target>Login successful.</target>
+</phrase>
+<phrase>
+    <source>로그인 실패</source>
+    <target>LOGIN Fail</target>
+</phrase>
+<phrase>
+    <source>중요자산</source>
+    <target>CAL</target>
+</phrase>
+<phrase>
+    <source>내용</source>
+    <target>Contents</target>
+</phrase>
+<phrase>
+    <source>주요자산목록</source>
+    <target>Assets LIst</target>
+</phrase>
+<phrase>
+    <source>로그인: {self.login_time.strftime(&apos;%Y-%m-%d %H:%M:%S&apos;)}</source>
+    <target>LOGIN: {self.login_time.strftime(&apos;%Y-%m-%d %H:%M:%S&apos;)}</target>
+</phrase>
+<phrase>
+    <source>데이터베이스 통합</source>
+    <target>DB Integrity</target>
+</phrase>
+<phrase>
+    <source>지도설정</source>
+    <target>Map Setting</target>
+</phrase>
+<phrase>
+    <source>설 정</source>
+    <target>Setting</target>
+</phrase>
+<phrase>
+    <source>로그아웃</source>
+    <target>LOGOUT</target>
+</phrase>
+<phrase>
+    <source>PW 변경</source>
+    <target>PW Change</target>
+</phrase>
+<phrase>
+    <source>경과 시간: 00:00:00</source>
+    <target>Elapsed time: 00:00:00</target>
+</phrase>
+<phrase>
+    <source>방어자산</source>
+    <target>DAL</target>
+</phrase>
+<phrase>
+    <source>자산구분</source>
+    <target>Asset</target>
+</phrase>
+<phrase>
+    <source>지역</source>
+    <target>Area</target>
+</phrase>
+<phrase>
+    <source>비밀번호 변경</source>
+    <target>PW Change</target>
+</phrase>
+<phrase>
+    <source>현재 비밀번호:</source>
+    <target>Current PW:</target>
+</phrase>
+<phrase>
+    <source>새 비밀번호:</source>
+    <target>New PW:</target>
+</phrase>
+<phrase>
+    <source>비밀번호 확인:</source>
+    <target>PW Confirm:</target>
+</phrase>
+<phrase>
+    <source>현재 비밀번호와 다른 비밀번호를 입력해야됩니다.</source>
+    <target>A password different from the current password must be entered.</target>
+</phrase>
+<phrase>
+    <source>현재 비밀번호가 일치하지 않습니다.</source>
+    <target>The current password does not match.</target>
+</phrase>
+<phrase>
+    <source>새 비밀번호가 일치하지 않습니다.</source>
+    <target>The new password does not match.</target>
+</phrase>
+<phrase>
+    <source>비밀번호는 최소 8자 이상이어야 하며, 대문자, 소문자, 숫자 및 특수 문자를 포함해야 합니다.</source>
+    <target>The password must be at least 8 characters long and include uppercase letters, lowercase letters, numbers, and special characters.</target>
+</phrase>
+<phrase>
+    <source>지도 설정</source>
+    <target>Map setting</target>
+</phrase>
+<phrase>
+    <source>지도 설정</source>
+    <target>Map Setting</target>
+</phrase>
+<phrase>
+    <source>초기 위치</source>
+    <target>Initial location</target>
+</phrase>
+<phrase>
+    <source>지도 스타일</source>
+    <target>Map Style</target>
+</phrase>
+<phrase>
+    <source>스타일:</source>
+    <target>Style:</target>
+</phrase>
+<phrase>
+    <source>취소</source>
+    <target>Cancel</target>
+</phrase>
+<phrase>
+    <source>통합 파일 선택</source>
+    <target>Select Integrated File</target>
+</phrase>
+<phrase>
+    <source>서브 파일 선택</source>
+    <target>Select Sub File</target>
+</phrase>
+<phrase>
+    <source>통합 시작</source>
+    <target>Start Integrity</target>
+</phrase>
+<phrase>
+    <source>통합 파일과 서브 파일을 모두 선택해주세요.</source>
+    <target>Please select both the integrated file and sub-files.</target>
+</phrase>
+<phrase>
+    <source>[{os.path.basename(sub_file)}] 데이터베이스 통합 중 오류가 발생했습니다.</source>
+    <target>[{os.path.basename(sub_file)}] An error occurred during database integration.</target>
+</phrase>
+<phrase>
+    <source>완료</source>
+    <target>Complete</target>
+</phrase>
+<phrase>
+    <source>데이터베이스 통합이 완료되었습니다.</source>
+    <target>Database integration has been completed.</target>
+</phrase>
+<phrase>
+    <source>데이터베이스 통합 중 오류가 발생했습니다.</source>
+    <target>An error occurred during database integration.</target>
+</phrase>
+<phrase>
+    <source>기지명</source>
+    <target>Base Name</target>
+</phrase>
+<phrase>
+    <source>적 미사일 기지 정보</source>
+    <target>Enemy Missile Base Info</target>
+</phrase>
+<phrase>
+    <source>적 미사일 기지 정보 입력</source>
+    <target>Enemy Missile Base Info Input</target>
+</phrase>
+<phrase>
+    <source>적 기지 정보가 성공적으로 수정되었습니다.</source>
+    <target>Enemy base information has been successfully updated.</target>
+</phrase>
+<phrase>
+    <source>적 기지 정보가 성공적으로 저장되었습니다.</source>
+    <target>Enemy base information has been successfully saved.</target>
+</phrase>
+<phrase>
+    <source>방공무기체계 제원 입력</source>
+    <target>Air Defense Weapon System Spec Input</target>
+</phrase>
+<phrase>
+    <source>미사일명</source>
+    <target>Missile Name</target>
+</phrase>
+<phrase>
+    <source>최소위협반경</source>
+    <target>Minimum threat radius</target>
+</phrase>
+<phrase>
+    <source>주요기능</source>
+    <target>Main function</target>
+</phrase>
+<phrase>
+    <source>수정</source>
+    <target>Edit</target>
+</phrase>
+<phrase>
+    <source>최대위협반경</source>
+    <target>Maximum threat radius</target>
+</phrase>
+<phrase>
+    <source>모든 필드를 입력해주세요.</source>
+    <target>Please fill in all fields.</target>
+</phrase>
+<phrase>
+    <source>기지명 또는 지역 검색</source>
+    <target>Search base name or area</target>
+</phrase>
+<phrase>
+    <source>위협반경 표시</source>
+    <target>Threat radius display</target>
+</phrase>
+<phrase>
+    <source>CAL 목록</source>
+    <target>CAL</target>
+</phrase>
+<phrase>
+    <source>BMD 우선순위 목록</source>
+    <target>BMD Deployment Priority List</target>
+</phrase>
+<phrase>
+    <source>정말로 &apos;{}&apos; (ID: {}) 을(를) 삭제하시겠습니까?</source>
+    <target>Are you sure you want to delete &apos;{}&apos; (ID: {})?</target>
+</phrase>
+<phrase>
+    <source>무기체계명</source>
+    <target>Weapon System Name</target>
+</phrase>
+<phrase>
+    <source>최저요격고도</source>
+    <target>Minimum intercept altitude</target>
+</phrase>
+<phrase>
+    <source>최고요격고도</source>
+    <target>Maximum Intercept Altitude</target>
+</phrase>
+<phrase>
+    <source>최소방어반경</source>
+    <target>Minimum defense radius</target>
+</phrase>
+<phrase>
+    <source>최대방어반경</source>
+    <target>Maximum defense radius</target>
+</phrase>
+<phrase>
+    <source>방어각</source>
+    <target>Defense angle</target>
+</phrase>
+<phrase>
+    <source>무기체계명:</source>
+    <target>Weapon System Name:</target>
+</phrase>
+<phrase>
+    <source>최저요격고도:</source>
+    <target>Minimum intercept altitude:</target>
+</phrase>
+<phrase>
+    <source>최고요격고도:</source>
+    <target>Maximum Intercept Altitude:</target>
+</phrase>
+<phrase>
+    <source>최소방어반경:</source>
+    <target>Minimum defense radius:</target>
+</phrase>
+<phrase>
+    <source>최대방어반경:</source>
+    <target>Maximum defense radius:</target>
+</phrase>
+<phrase>
+    <source>방어각:</source>
+    <target>Defense angle:</target>
+</phrase>
+<phrase>
+    <source>주요기능:</source>
+    <target>Main function:</target>
+</phrase>
+<phrase>
+    <source>숫자 필드에 올바른 값을 입력해주세요.</source>
+    <target>Please enter a valid value in the numeric field.</target>
+</phrase>
+<phrase>
+    <source>이미 존재하는 무기체계명입니다. 수정하시겠습니까?</source>
+    <target>This is an existing weapons system name. Do you want to modify it?</target>
+</phrase>
+<phrase>
+    <source>무기체계 정보가 저장되었습니다.</source>
+    <target>Weapon system information has been saved.</target>
+</phrase>
+<phrase>
+    <source>수정할 항목을 하나만 선택해주세요.</source>
+    <target>Please select only one item to edit.</target>
+</phrase>
+<phrase>
+    <source>삭제할 항목을 선택해주세요.</source>
+    <target>Please select the item to delete.</target>
+</phrase>
+<phrase>
+    <source>선택한 항목을 삭제하시겠습니까?</source>
+    <target>Do you want to delete the selected item(s)?</target>
+</phrase>
+<phrase>
+    <source>미사일 방어 시뮬레이션</source>
+    <target>Missile Defense Simulation</target>
+</phrase>
+<phrase>
+    <source>방어대상자산 또는 지역구분 검색</source>
+    <target>Search Defense Target Asset or Area</target>
+</phrase>
+<phrase>
+    <source>방어대상자산 또는 지역구분 검색</source>
+    <target>Search defense target asset or area</target>
+</phrase>
+<phrase>
+    <source>적 기지명 또는 지역 검색</source>
+    <target>Search enemy base or area</target>
+</phrase>
+<phrase>
+    <source>발사기지</source>
+    <target>Base</target>
+</phrase>
+<phrase>
+    <source>보유미사일</source>
+    <target>Missile</target>
+</phrase>
+<phrase>
+    <source>미사일 기지 또는 방어 대상 자산을 선택하세요.</source>
+    <target>Select base(s) or defense target asset(s).</target>
+</phrase>
+<phrase>
+    <source>에러</source>
+    <target>Error</target>
+</phrase>
+<phrase>
+    <source>궤적 계산 중 오류 발생: {str(e)}</source>
+    <target>Error occurred during trajectory calculation: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>미사일 궤적 분석 오류: {e}</source>
+    <target>Missile trajectory analysis error: {e}</target>
+</phrase>
+<phrase>
+    <source>최적 방공포대 위치 산출 오류: {e}</source>
+    <target>Error in calculating optimal air defense battery location: {e}</target>
+</phrase>
+<phrase>
+    <source>적 미사일 기지 목록</source>
+    <target>Enemy Missile Base List</target>
+</phrase>
+<phrase>
+    <source>무기 자산 목록</source>
+    <target>Weapon Asset List</target>
+</phrase>
+<phrase>
+    <source>방공포대 검색</source>
+    <target>Air Defense Battery Search</target>
+</phrase>
+<phrase>
+    <source>방어자산만 표시</source>
+    <target>DAL only display</target>
+</phrase>
+<phrase>
+    <source>미사일 궤적분석</source>
+    <target>Missile trajectory analysis</target>
+</phrase>
+<phrase>
+    <source>N/A</source>
+    <target>N/A</target>
+</phrase>
+<phrase>
+    <source>위협 방위각</source>
+    <target>Threat azimuth</target>
+</phrase>
+<phrase>
+    <source>무기 유형</source>
+    <target>Weapon type</target>
+</phrase>
+<phrase>
+    <source>방어 가능 자산</source>
+    <target>Defendable Assets</target>
+</phrase>
+<phrase>
+    <source>최적 위치</source>
+    <target>Optimized Location</target>
+</phrase>
+<phrase>
+    <source>방어율</source>
+    <target>Defense rate</target>
+</phrase>
+<phrase>
+    <source>방어 가능 궤적</source>
+    <target>Defendable trajectory</target>
+</phrase>
+<phrase>
+    <source>총 미사일 궤적</source>
+    <target>Total trajectories</target>
+</phrase>
+<phrase>
+    <source>최적 방공포대 위치산출</source>
+    <target>Optimized Air Defense Battery Location</target>
+</phrase>
+<phrase>
+    <source>최적 방공포대 위치산출</source>
+    <target>Optimized Battery Location</target>
+</phrase>
+<phrase>
+    <source>적 미사일</source>
+    <target>Enemy Missile</target>
+</phrase>
+<phrase>
+    <source>방어반경 외곽 CAL 목록</source>
+    <target>List of CALs Outside the Defense Radius</target>
+</phrase>
+<phrase>
+    <source>입력</source>
+    <target>Input</target>
+</phrase>
+<phrase>
+    <source>수정을 위해 정확히 하나의 자산을 선택해주세요.</source>
+    <target>Please select exactly one asset for modification.</target>
+</phrase>
+<phrase>
+    <source>방어자산 보고서</source>
+    <target>DAL Report</target>
+</phrase>
+<phrase>
+    <source>자산 관리</source>
+    <target>Assets Management</target>
+</phrase>
+<phrase>
+    <source>복구 시간</source>
+    <target>Recovery Time</target>
+</phrase>
+<phrase>
+    <source>복구 능력</source>
+    <target>Recovery Capability</target>
+</phrase>
+<phrase>
+    <source>탐지 가능성</source>
+    <target>Detection Possibility</target>
+</phrase>
+<phrase>
+    <source>복구 능력</source>
+    <target>Recovery capacity</target>
+</phrase>
+<phrase>
+    <source>탐지 가능성</source>
+    <target>Detection possibility</target>
+</phrase>
+<phrase>
+    <source>자산 관리 시스템</source>
+    <target>Assets Management System</target>
+</phrase>
+<phrase>
+    <source>적 미사일 기지 관리 시스템</source>
+    <target>Enemy Missile Base Management System</target>
+</phrase>
+<phrase>
+    <source>적 기지 관리</source>
+    <target>Enemy Base Management</target>
+</phrase>
+<phrase>
+    <source>구성군</source>
+    <target>Group</target>
+</phrase>
+<phrase>
+    <source>구성군 선택</source>
+    <target>Group</target>
+</phrase>
+<phrase>
+    <source>교전효과 수준</source>
+    <target>EEL</target>
+</phrase>
+<phrase>
+    <source>우선순위 고려사항</source>
+    <target>BMD Priority</target>
+</phrase>
+<phrase>
+    <source>연합사령관 BMD 전력배치 우선순위</source>
+    <target>CFC&apos;s BMD deployment priority</target>
+</phrase>
+<phrase>
+    <source>BMD 우선순위</source>
+    <target>BMD Priority</target>
+</phrase>
+<phrase>
+    <source>방어대상자산</source>
+    <target>Assets</target>
+</phrase>
+<phrase>
+    <source>방어대상자산 또는 지역구분 검색</source>
+    <target>Search asset or area</target>
+</phrase>
+<phrase>
+    <source>우선순위 결정</source>
+    <target>Decision</target>
+</phrase>
+<phrase>
+    <source>미사일 방공포대 정보</source>
+    <target>Missile air defense battery info</target>
+</phrase>
+<phrase>
+    <source>미사일 방공포대 정보</source>
+    <target>Air Defense Missile Battery Info</target>
+</phrase>
+<phrase>
+    <source>방공포대명</source>
+    <target>Battery Name</target>
+</phrase>
+<phrase>
+    <source>미사일 방공포대 관리</source>
+    <target>Air Defense Missile Battery Management</target>
+</phrase>
+<phrase>
+    <source>미사일 방공포대 관리 시스템</source>
+    <target>Air Defense Missile Battery Management System</target>
+</phrase>
+<phrase>
+    <source>최적 방공포대 위치산출</source>
+    <target>Optimization</target>
+</phrase>
+<phrase>
+    <source>최적 방공포대 위치산출</source>
+    <target>Optimization</target>
+</phrase>
+<phrase>
+    <source>방공포대 검색</source>
+    <target>Missile Battery Search</target>
+</phrase>
+<phrase>
+    <source>미사일 방공포대 관리</source>
+    <target>Missile Battery Management</target>
+</phrase>
+<phrase>
+    <source>방공포대 검색</source>
+    <target>Missile Battery Search</target>
+</phrase>
+<phrase>
+    <source>최고요격고도</source>
+    <target>Max Alt</target>
+</phrase>
+<phrase>
+    <source>최대방어반경</source>
+    <target>Max Radius</target>
+</phrase>
+<phrase>
+    <source>최고요격고도:</source>
+    <target>Max Alt:</target>
+</phrase>
+<phrase>
+    <source>최대방어반경:</source>
+    <target>Max Radius:</target>
+</phrase>
+<phrase>
+    <source>최대위협반경</source>
+    <target>Max Radius</target>
+</phrase>
+<phrase>
+    <source>최대위협반경:</source>
+    <target>Max Radius:</target>
+</phrase>
+<phrase>
+    <source>최소위협반경</source>
+    <target>Min Radius</target>
+</phrase>
+<phrase>
+    <source>최소위협반경:</source>
+    <target>Min Radius:</target>
+</phrase>
+<phrase>
+    <source>최저요격고도</source>
+    <target>Min Alt</target>
+</phrase>
+<phrase>
+    <source>최소방어반경</source>
+    <target>Min Radius</target>
+</phrase>
+<phrase>
+    <source>최저요격고도:</source>
+    <target>Min Alt:</target>
+</phrase>
+<phrase>
+    <source>최소방어반경:</source>
+    <target>Min Radius:</target>
+</phrase>
+<phrase>
+    <source>미사일 방공포대 목록</source>
+    <target>Air Defense Missile Battery List</target>
+</phrase>
+<phrase>
+    <source>최적 방어 위치</source>
+    <target>Optimized Location</target>
+</phrase>
+<phrase>
+    <source>총 방어율</source>
+    <target>Total Rate</target>
+</phrase>
+<phrase>
+    <source>미사일 유형</source>
+    <target>Missile Type</target>
+</phrase>
+<phrase>
+    <source>초기화 확인</source>
+    <target>Reset Confirm</target>
+</phrase>
+<phrase>
+    <source>최적 방공포대 위치 및 위협방위 산출 오류: {str(e)}</source>
+    <target>Error calculating optimal air defense position and threat direction: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>초기화 중 오류가 발생했습니다: {str(e)}</source>
+    <target>Error occurred during initialization: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>초기화 오류</source>
+    <target>Reset Error</target>
+</phrase>
+<phrase>
+    <source>초기화 완료</source>
+    <target>Reset Complete</target>
+</phrase>
+<phrase>
+    <source>시뮬레이션을 초기화하시겠습니까?</source>
+    <target>Would you like to initialize the simulation?</target>
+</phrase>
+<phrase>
+    <source>시뮬레이션이 성공적으로 초기화되었습니다.</source>
+    <target>The simulation has been successfully initialized.</target>
+</phrase>
+<phrase>
+    <source>요격지점</source>
+    <target>Intercept Point</target>
+</phrase>
+<phrase>
+    <source>최적화가 성공적으로 완료되었습니다.</source>
+    <target>Optimization has been successfully completed.</target>
+</phrase>
+<phrase>
+    <source>최적화가 사용자에 의해 취소되었습니다.</source>
+    <target>Optimization has been cancelled by user.</target>
+</phrase>
+<phrase>
+    <source>최적화 취소</source>
+    <target>Optimization Cancelled</target>
+</phrase>
+<phrase>
+    <source>최적화 취소</source>
+    <target>Optimization Cancel</target>
+</phrase>
+<phrase>
+    <source>최적화 진행 상황</source>
+    <target>Optimization Progress</target>
+</phrase>
+<phrase>
+    <source>최적화 중...</source>
+    <target>Optimizing...</target>
+</phrase>
+<phrase>
+    <source>최적화 중 오류 발생: {error_message}</source>
+    <target>Error occurred during optimization: {error_message}</target>
+</phrase>
+<phrase>
+    <source>최적화 완료</source>
+    <target>Optimization Complete</target>
+</phrase>
+<phrase>
+    <source>최적화 결과 처리 중 오류 발생: {str(e)}</source>
+    <target>Error occurred while processing optimization results: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>CAL 우선순위 지도 보기</source>
+    <target>CAL Priority Map View</target>
+</phrase>
+<phrase>
+    <source>1순위</source>
+    <target>1st Priority</target>
+</phrase>
+<phrase>
+    <source>5순위</source>
+    <target>5th Priority</target>
+</phrase>
+<phrase>
+    <source>3순위</source>
+    <target>3rd Priority</target>
+</phrase>
+<phrase>
+    <source>2순위</source>
+    <target>2nd Priority</target>
+</phrase>
+<phrase>
+    <source>궤적계수</source>
+    <target>Trajectory Coefficients</target>
+</phrase>
+<phrase>
+    <source>궤적계수</source>
+    <target>Missile Trajectory Coefficients</target>
+</phrase>
+<phrase>
+    <source>데이터 로드 중 오류가 발생했습니다: {str(e)}</source>
+    <target>Error occurred while loading data: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>미사일 궤적분석</source>
+    <target>Trajectory</target>
+</phrase>
+<phrase>
+    <source>방어 가능 자산</source>
+    <target>Defendable</target>
+</phrase>
+<phrase>
+    <source>위협 방위각</source>
+    <target>Azimuth</target>
+</phrase>
+<phrase>
+    <source>최적 위치명</source>
+    <target>Loc.</target>
+</phrase>
+<phrase>
+    <source>최적 위치 좌표</source>
+    <target>Coord.</target>
+</phrase>
+<phrase>
+    <source>총 미사일 궤적</source>
+    <target>Total</target>
+</phrase>
+<phrase>
+    <source>방어 가능 궤적</source>
+    <target>Defendable</target>
+</phrase>
+<phrase>
+    <source>사용자</source>
+    <target>User</target>
+</phrase>
+<phrase>
+    <source>로그인</source>
+    <target>LOGIN</target>
+</phrase>
+<phrase>
+    <source>경과 시간</source>
+    <target>Time Duration</target>
+</phrase>
+<phrase>
+    <source>연합사 BMD 우선순위</source>
+    <target>CFC&apos;s BMD Priority</target>
+</phrase>
+<phrase>
+    <source>방공무기체계 제원</source>
+    <target>Air Defense Weapon Specification</target>
+</phrase>
+<phrase>
+    <source>방공포대 자산 목록</source>
+    <target>Missile Battery List</target>
+</phrase>
+<phrase>
+    <source>적 미사일 제원 입력</source>
+    <target>Enemy Missile Specification Input</target>
+</phrase>
+<phrase>
+    <source>미사일 궤적 분석 중...</source>
+    <target>Analyzing missile trajectories...</target>
+</phrase>
+<phrase>
+    <source>미사일 궤적 분석이 완료되었습니다.</source>
+    <target>Missile trajectories analysis has been completed.</target>
+</phrase>
+<phrase>
+    <source>미사일 방어포대 정보수정</source>
+    <target>Missile Defense Battery Update</target>
+</phrase>
+<phrase>
+    <source>미사일 방어포대 입력</source>
+    <target>Missile Defense Battery Input</target>
+</phrase>
+<phrase>
+    <source>미사일 방어포대 정보</source>
+    <target>Missile Defense Battery Information</target>
+</phrase>
+<phrase>
+    <source>방어포대명</source>
+    <target>Battery Name</target>
+</phrase>
+<phrase>
+    <source>미사일 방어포대 관리</source>
+    <target>Missile Defense  Battery Management</target>
+</phrase>
+<phrase>
+    <source>미사일 방어포대 입력/보기</source>
+    <target>Missile Defense Battery Input/View</target>
+</phrase>
+<phrase>
+    <source>미사일 방어포대</source>
+    <target>Missile Defense Battery</target>
+</phrase>
+<phrase>
+    <source>미사일 방어포대 목록</source>
+    <target>Missile Defense Battery List</target>
+</phrase>
+<phrase>
+    <source>결과 테이블 출력</source>
+    <target>Table Print</target>
+</phrase>
+<phrase>
+    <source>방어 가능 자산(미사일 유형)</source>
+    <target>Defendable Assets(Missile Type)</target>
+</phrase>
+<phrase>
+    <source>사용자 등록</source>
+    <target>Registration</target>
+</phrase>
+<phrase>
+    <source>군 구분:</source>
+    <target>Group:</target>
+</phrase>
+<phrase>
+    <source>육군</source>
+    <target>Army</target>
+</phrase>
+<phrase>
+    <source>군  번:</source>
+    <target>Military ID:</target>
+</phrase>
+<phrase>
+    <source>이  름:</source>
+    <target>Name:</target>
+</phrase>
+<phrase>
+    <source>등 록</source>
+    <target>Register</target>
+</phrase>
+<phrase>
+    <source>사용자 등록</source>
+    <target>Register</target>
+</phrase>
+<phrase>
+    <source>비밀번호 오류</source>
+    <target>Password Error</target>
+</phrase>
+<phrase>
+    <source>비밀번호가 일치하지 않습니다.</source>
+    <target>Passwords do not match.</target>
+</phrase>
+<phrase>
+    <source>비밀번호는 다음 조건을 만족해야 합니다:
+- 최소 8자 이상
+- 영문 소문자 포함
+- 숫자 포함
+- 특수문자 포함</source>
+    <target>The password must meet the following requirements:
+- At least 8 characters long
+- Contain at least one lowercase letter
+- Contain at least one number
+- Contain at least one special character</target>
+</phrase>
+<phrase>
+    <source>등록 오류</source>
+    <target>Register Error</target>
+</phrase>
+<phrase>
+    <source>해당 군, 군번은 이미 등록되어 있습니다.</source>
+    <target>The selected military branch and military number are already registered.</target>
+</phrase>
+<phrase>
+    <source>이미 존재하는 아이디입니다.</source>
+    <target>The ID already exists.</target>
+</phrase>
+<phrase>
+    <source>등록 성공</source>
+    <target>Register Success</target>
+</phrase>
+<phrase>
+    <source>사용자 등록이 완료되었습니다.</source>
+    <target>User registration has been completed.</target>
+</phrase>
+<phrase>
+    <source>데이터베이스 오류</source>
+    <target>Database Error</target>
+</phrase>
+<phrase>
+    <source>등록 중 오류가 발생했습니다: {str(e)}</source>
+    <target>An error occurred during registration: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>예상치 못한 오류가 발생했습니다: {str(e)}</source>
+    <target>Unexpected Error Occurred: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>우선순위가 초기화되었습니다.</source>
+    <target>The priorities have been reset.</target>
+</phrase>
+<phrase>
+    <source>미사일 방어포대 관리</source>
+    <target>Missile Defense  Battery Management</target>
+</phrase>
+<phrase>
+    <source>미사일 방어포대 관리 시스템</source>
+    <target>Missile Defense  Battery Management System</target>
+</phrase>
+<phrase>
+    <source>방어포대 자산 목록</source>
+    <target>Battery Assets List</target>
+</phrase>
+<phrase>
+    <source>방어포대 검색</source>
+    <target>Battery Search</target>
+</phrase>
+<phrase>
+    <source>아이디/비밀번호 찾기</source>
+    <target>Find ID/Password</target>
+</phrase>
+<phrase>
+    <source>군번:</source>
+    <target>Military ID:</target>
+</phrase>
+<phrase>
+    <source>이름:</source>
+    <target>Name:</target>
+</phrase>
+<phrase>
+    <source>아이디 찾기</source>
+    <target>Find ID</target>
+</phrase>
+<phrase>
+    <source>비밀번호 초기화</source>
+    <target>Password Reset</target>
+</phrase>
+<phrase>
+    <source>찾은 아이디: {result[0]}</source>
+    <target>ID found: {result[0]}</target>
+</phrase>
+<phrase>
+    <source>일치하는 사용자가 없습니다.</source>
+    <target>No matching user found.</target>
+</phrase>
+<phrase>
+    <source>오류가 발생했습니다: {str(e)}</source>
+    <target>An error occurred: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>비밀번호가 군번으로 초기화되었습니다.</source>
+    <target>The password has been reset to the military ID.</target>
+</phrase>
+<phrase>
+    <source>현재 비밀번호와 다른 비밀번호를 입력해야 됩니다.</source>
+    <target>A different password from the current password must be entered.</target>
+</phrase>
+<phrase>
+    <source>사용자를 찾을 수 없습니다.</source>
+    <target>The user cannot be found.</target>
+</phrase>
+<phrase>
+    <source>비밀번호가 성공적으로 변경되었습니다.</source>
+    <target>The password has been successfully changed.</target>
+</phrase>
+<phrase>
+    <source>비밀번호는 최소 8자 이상이어야 하며, 영문, 숫자 및 특수 문자를 포함해야 합니다.</source>
+    <target>The password must be at least 8 characters long and must include a combination of letters, numbers, and special characters.</target>
+</phrase>
+<phrase>
+    <source>비밀번호 변경 중 오류가 발생했습니다: {str(e)}</source>
+    <target>An error occurred while changing the password: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>결과 테이블 인쇄 중 오류 발생: {str(e)}</source>
+    <target>Error occurred while printing the result table: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>결과 테이블이 성공적으로 출력되었습니다.</source>
+    <target>The result table was successfully printed.</target>
+</phrase>
+<phrase>
+    <source>결과 테이블 출력 중 오류가 발생했습니다.</source>
+    <target>An error occurred while printing the result table.</target>
+</phrase>
+<phrase>
+    <source>최적 방어포대 위치산출</source>
+    <target>Optimal Location</target>
+</phrase>
+<phrase>
+    <source>최적 방어포대 위치 및 위협방위 산출 오류: {str(e)}</source>
+    <target>Optimal Battery Location and threat azimuth Error: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>최적 방어포대 위치 및 위협 방위각</source>
+    <target>Optimal Battery Location and Threat Azimuth</target>
+</phrase>
+<phrase>
+    <source>미사일 궤적 분석 결과</source>
+    <target>Missile Trajectories Analysis Result</target>
+</phrase>
+<phrase>
+    <source>미사일 궤도 분석</source>
+    <target>Missile Trajectories Analysis</target>
+</phrase>
+<phrase>
+    <source>찾은 아이디</source>
+    <target>ID found</target>
+</phrase>
+<phrase>
+    <source>존재하지 않는 사용자입니다.</source>
+    <target>This user does not exist.</target>
+</phrase>
+<phrase>
+    <source>로그인 시도 횟수 초과. 10분 후 다시 시도하세요.</source>
+    <target>Login attempts exceeded. Please try again after 10 minutes.</target>
+</phrase>
+<phrase>
+    <source>최적화 실행 중 오류 발생: {str(e)}</source>
+    <target>Error occurred during optimization: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>최적화 완료 처리 중 오류 발생: {str(e)}</source>
+    <target>Error occurred while processing optimization completion: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>최적화 범위 설정</source>
+    <target>Set Optimization Range</target>
+</phrase>
+<phrase>
+    <source>위도 최소값:</source>
+    <target>Lat Min:</target>
+</phrase>
+<phrase>
+    <source>위도 최대값:</source>
+    <target>lat Max:</target>
+</phrase>
+<phrase>
+    <source>위도 최대값:</source>
+    <target>Lat Max:</target>
+</phrase>
+<phrase>
+    <source>경도 최소값:</source>
+    <target>Lon Min:</target>
+</phrase>
+<phrase>
+    <source>경도 최대값:</source>
+    <target>Lon Max:</target>
+</phrase>
+<phrase>
+    <source>최적화 결과 처리 중 오류가 발생했습니다: {str(e)}</source>
+    <target>An error occurred while processing optimization results: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>최적화가 성공적으로 완료되었습니다.
+총 방어율: {summary.get(&apos;best_scores&apos;, {}).get(&apos;total_defense_rate&apos;, 0):.1f}%</source>
+    <target>Optimization completed successfully.
+Total defense rate: {summary.get(&apos;best_scores&apos;, {}).get(&apos;total_defense_rate&apos;, 0):.1f}%</target>
+</phrase>
+<phrase>
+    <source>최적화 취소 중 오류가 발생했습니다: {str(e)}</source>
+    <target>An error occurred while canceling optimization: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>취소 오류</source>
+    <target>Cancel Error</target>
+</phrase>
+<phrase>
+    <source>최적화가 성공적으로 취소되었습니다.</source>
+    <target>Optimization has been successfully canceled.</target>
+</phrase>
+<phrase>
+    <source>취소 완료</source>
+    <target>Cancel Complete</target>
+</phrase>
+<phrase>
+    <source>최적화를 취소하시겠습니까?</source>
+    <target>Are you sure you want to cancel the optimization?</target>
+</phrase>
+<phrase>
+    <source>취소 확인</source>
+    <target>Cancel Confirm</target>
+</phrase>
+<phrase>
+    <source>정리 작업 중 오류 발생: {str(e)}</source>
+    <target>Error occurred during cleanup: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>선택된 방어 자산이 없습니다.</source>
+    <target>No defense assets selected.</target>
+</phrase>
+<phrase>
+    <source>잘못된 최적화 결과 형식입니다</source>
+    <target>Invalid optimization result format</target>
+</phrase>
+<phrase>
+    <source>현재 시도 진행률:</source>
+    <target>Current Attemp Processing:</target>
+</phrase>
+<phrase>
+    <source>전체 진행률:</source>
+    <target>Total Processing:</target>
+</phrase>
+<phrase>
+    <source>최대반경</source>
+    <target>Max Radius</target>
+</phrase>
+<phrase>
+    <source>좌표 변환 중 오류가 발생했습니다: {e}</source>
+    <target>An error occurred during coordinate conversion: {e}</target>
+</phrase>
+<phrase>
+    <source>예기치 않은 오류가 발생했습니다: {e}</source>
+    <target>An unexpected error occurred: {e}</target>
+</phrase>
+<phrase>
+    <source>변환 오류</source>
+    <target>Conversion Error</target>
+</phrase>
+<phrase>
+    <source>위도와 경도 형식이 올바르지 않습니다.
+올바른 형식: N##.######° 또는 S##.######°, E###.######° 또는 W###.######°</source>
+    <target>Latitude and longitude format is incorrect.
+Correct format: N##.######° or S##.######°, E###.######° or W###.######°</target>
+</phrase>
+<phrase>
+    <source>최적화 결과 요약:
+    - 총 {summary.get(&apos;attempts&apos;, 0)}회 최적화 시도 수행
+    - {&apos;최적화된 위치가 더 우수함&apos; if summary.get(&apos;is_improved&apos;, False) else &apos;최초 위치가 더 우수하여 유지&apos;}
+
+    최종 선택된 위치의 점수:
+    - 우선순위 가점: {summary.get(&apos;best_scores&apos;, {}).get(&apos;priority_score&apos;, 0):.0f}점
+    - 방어율 가점: {summary.get(&apos;best_scores&apos;, {}).get(&apos;defense_rate_score&apos;, 0):.0f}점
+    - 최소방어율 페널티: {summary.get(&apos;best_scores&apos;, {}).get(&apos;min_defense_penalty&apos;, 0):.0f}점
+    - 방어범위 페널티: {summary.get(&apos;best_scores&apos;, {}).get(&apos;coverage_penalty&apos;, 0):.0f}점
+    - 중복방어 페널티: {summary.get(&apos;best_scores&apos;, {}).get(&apos;overlap_penalty&apos;, 0):.0f}점
+    - 총 방어율: {summary.get(&apos;best_scores&apos;, {}).get(&apos;total_defense_rate&apos;, 0):.1f}%
+    - 최종 점수: {summary.get(&apos;best_scores&apos;, {}).get(&apos;total_score&apos;, 0):.0f}점
+    </source>
+    <target>Optimization Result Summary:
+- Total {summary.get(&apos;attempts&apos;, 0)} optimization attempts performed
+- {&apos;Optimized positions are superior&apos; if summary.get(&apos;is_improved&apos;, False) else &apos;Initial positions maintained as they are superior&apos;}
+
+Scores for Final Selected Positions:
+- Priority Points: {summary.get(&apos;best_scores&apos;, {}).get(&apos;priority_score&apos;, 0):.0f} points
+- Defense Rate Points: {summary.get(&apos;best_scores&apos;, {}).get(&apos;defense_rate_score&apos;, 0):.0f} points
+- Minimum Defense Rate Penalty: {summary.get(&apos;best_scores&apos;, {}).get(&apos;min_defense_penalty&apos;, 0):.0f} points
+- Coverage Penalty: {summary.get(&apos;best_scores&apos;, {}).get(&apos;coverage_penalty&apos;, 0):.0f} points
+- Overlap Defense Penalty: {summary.get(&apos;best_scores&apos;, {}).get(&apos;overlap_penalty&apos;, 0):.0f} points
+- Total Defense Rate: {summary.get(&apos;best_scores&apos;, {}).get(&apos;total_defense_rate&apos;, 0):.1f}%
+- Final Score: {summary.get(&apos;best_scores&apos;, {}).get(&apos;total_score&apos;, 0):.0f} points
+   </target>
+</phrase>
+<phrase>
+    <source>최적화 결과 요약:
+    - 총 {summary.get(&apos;attempts&apos;, 0)}회 최적화 시도 수행
+    - {&apos;최적화된 위치가 더 우수함&apos; if summary.get(&apos;is_improved&apos;, False) else &apos;최초 위치가 더 우수하여 유지&apos;}
+
+    최종 선택된 위치의 점수:
+    - 우선순위 가점: {summary.get(&apos;best_scores&apos;, {}).get(&apos;priority_score&apos;, 0):.0f}점
+    - 방어율 가점: {summary.get(&apos;best_scores&apos;, {}).get(&apos;defense_rate_score&apos;, 0):.0f}점
+    - 최소방어율 페널티: {summary.get(&apos;best_scores&apos;, {}).get(&apos;min_defense_penalty&apos;, 0):.0f}점
+    - 방어범위 페널티: {summary.get(&apos;best_scores&apos;, {}).get(&apos;coverage_penalty&apos;, 0):.0f}점
+    - 중복방어 페널티: {summary.get(&apos;best_scores&apos;, {}).get(&apos;overlap_penalty&apos;, 0):.0f}점
+    - 총 방어율: {summary.get(&apos;best_scores&apos;, {}).get(&apos;total_defense_rate&apos;, 0):.1f}%
+    - 최종 점수: {summary.get(&apos;best_scores&apos;, {}).get(&apos;total_score&apos;, 0):.0f}점
+    </source>
+    <target>Optimization Result Summary:
+    - Total {summary.get(&apos;attempts&apos;, 0)} optimization attempts performed
+    - {&apos;Optimized positions are superior&apos; if summary.get(&apos;is_improved&apos;, False) else &apos;Initial positions maintained as they are superior&apos;}
+
+    Scores for Final Selected Positions:
+    - Priority Points: {summary.get(&apos;best_scores&apos;, {}).get(&apos;priority_score&apos;, 0):.0f} points
+    - Defense Rate Points: {summary.get(&apos;best_scores&apos;, {}).get(&apos;defense_rate_score&apos;, 0):.0f} points
+    - Minimum Defense Rate Penalty: {summary.get(&apos;best_scores&apos;, {}).get(&apos;min_defense_penalty&apos;, 0):.0f} points
+    - Coverage Penalty: {summary.get(&apos;best_scores&apos;, {}).get(&apos;coverage_penalty&apos;, 0):.0f} points
+    - Overlap Defense Penalty: {summary.get(&apos;best_scores&apos;, {}).get(&apos;overlap_penalty&apos;, 0):.0f} points
+    - Total Defense Rate: {summary.get(&apos;best_scores&apos;, {}).get(&apos;total_defense_rate&apos;, 0):.1f}%
+    - Final Score: {summary.get(&apos;best_scores&apos;, {}).get(&apos;total_score&apos;, 0):.0f} points
+   </target>
+</phrase>
+<phrase>
+    <source>최적화 결과 요약</source>
+    <target>Optimization Result Summary</target>
+</phrase>
+<phrase>
+    <source>결과 요약 표시 중 오류 발생: {str(e)}</source>
+    <target>An error occurred while displaying the result summary: {str(e)}</target>
+</phrase>
+<phrase>
+    <source>이미 존재하는 미사일 정보입니다. 수정하시겠습니까?</source>
+    <target>Would you like to modify the existing missile information?</target>
+</phrase>
+<phrase>
+    <source>미사일 정보가 저장되었습니다.</source>
+    <target>Missile information has been saved.</target>
+</phrase>
+<phrase>
+    <source>[{os.path.basename(sub_file)}] 테이블 {table} 통합 중...</source>
+    <target>[{os.path.basename(sub_file)}] Integrating table {table}...</target>
+</phrase>
+<phrase>
+    <source>[{os.path.basename(sub_file)}] 테이블 {table} 통합 완료</source>
+    <target>[{os.path.basename(sub_file)}] Table {table} integration completed</target>
+</phrase>
+<phrase>
+    <source>모든 테이블 통합 완료</source>
+    <target>All tables integration completed</target>
+</phrase>
+<phrase>
+    <source>오류 발생: {str(e)}</source>
+    <target>Error occurred: {str(e)}</target>
+</phrase>
+</QPH>
