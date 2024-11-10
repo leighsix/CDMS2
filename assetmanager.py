@@ -60,10 +60,10 @@ class AssetManager(QtWidgets.QMainWindow, QObject):
         font_id = QtGui.QFontDatabase.addApplicationFont(font_path)
         if font_id != -1:
             font_family = QtGui.QFontDatabase.applicationFontFamilies(font_id)[0]
-            self.custom_font = QtGui.QFont(font_family, 12, QtGui.QFont.Weight.Bold)
+            self.custom_font = QtGui.QFont(font_family, 12)
         else:
             print("폰트 로딩 실패")
-            self.custom_font = QtGui.QFont("Arial", 12, QtGui.QFont.Weight.Bold)
+            self.custom_font = QtGui.QFont("Arial", 12)
 
     def start_application(self):
         if self.language_selection_window.exec() == QDialog.DialogCode.Accepted:
@@ -200,8 +200,8 @@ class AssetManager(QtWidgets.QMainWindow, QObject):
         button_table.verticalHeader().setVisible(False)
         button_table.horizontalHeader().setVisible(False)
         button_table.setShowGrid(False)
-        button_table.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
-        button_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        button_table.setVerticalScrollMode(QAbstractItemView.ScrollMode.ScrollPerPixel)
+        button_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
         for i, (text, sub_buttons) in enumerate(buttons):
             main_btn = QPushButton(text)
@@ -288,7 +288,7 @@ class AssetManager(QtWidgets.QMainWindow, QObject):
         pixmap = QPixmap("image/airdefense10.png")
         background_label.setPixmap(pixmap)
         background_label.setScaledContents(True)
-        background_label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        background_label.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         center_layout.addWidget(background_label, 1)  # stretch factor 1
 
         # 데이터베이스 요약 정보 (테이블)
@@ -297,7 +297,7 @@ class AssetManager(QtWidgets.QMainWindow, QObject):
 
         # 저작권 정보
         copyright_label = QLabel("© 2024 ROK AF LT.COL Jo Yongho and ROK Navy CDR Cho Hyunchel. All rights reserved.")
-        copyright_label.setAlignment(Qt.AlignLeft | Qt.AlignBottom)
+        copyright_label.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignBottom)
         center_layout.addWidget(copyright_label)
 
         # 중앙 위젯을 메인 레이아웃에 추가
@@ -335,7 +335,7 @@ class AssetManager(QtWidgets.QMainWindow, QObject):
             for j in range(table.columnCount()):
                 item = table.item(i, j)
                 if item:
-                    item.setTextAlignment(Qt.AlignCenter)
+                    item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # 테이블 스타일 및 크기 설정
         table.setStyleSheet("""
@@ -353,8 +353,8 @@ class AssetManager(QtWidgets.QMainWindow, QObject):
             }
         """)
 
-        table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        table.verticalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
+        table.verticalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         table.setFixedHeight(100)
         table.verticalHeader().setVisible(False)
 
@@ -378,7 +378,7 @@ class AssetManager(QtWidgets.QMainWindow, QObject):
             for j in range(self.summary_table.columnCount()):
                 item = self.summary_table.item(i, j)
                 if item is not None:
-                    item.setTextAlignment(Qt.AlignCenter)
+                    item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
     def get_dal_assets_count(self, table_name):
         try:
@@ -779,7 +779,7 @@ class FancyTitleBar(QWidget):
         center_widget = QWidget()
         center_layout = QHBoxLayout(center_widget)
         self.title_label = TitleLabel(self.tr("C D M S"), self.tr("CAL/DAL Management System"))
-        center_layout.addWidget(self.title_label, 0, Qt.AlignCenter)
+        center_layout.addWidget(self.title_label, 0, Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(center_widget, 3)
 
         # 오른쪽 섹터
@@ -787,8 +787,9 @@ class FancyTitleBar(QWidget):
         right_layout = QHBoxLayout(right_widget)
         self.korea_flag = QLabel()
         pixmap = QPixmap("image/korea.png")
-        self.korea_flag.setPixmap(pixmap.scaled(50, 50, Qt.KeepAspectRatio, Qt.SmoothTransformation))
-        right_layout.addWidget(self.korea_flag, 0, Qt.AlignRight)
+        self.korea_flag.setPixmap(
+            pixmap.scaled(50, 50, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
+        right_layout.addWidget(self.korea_flag, 0, Qt.AlignmentFlag.AlignRight)
         layout.addWidget(right_widget, 1)
 
         self.setLayout(layout)
@@ -816,7 +817,7 @@ class FancyTitleBar(QWidget):
         painter.drawLine(0, self.height() - 1, self.width(), self.height() - 1)
 
         # 패턴 오버레이
-        painter.setPen(QPen(QColor(255, 255, 255, 10), 1, Qt.SolidLine))
+        painter.setPen(QPen(QColor(255, 255, 255, 10), 1, Qt.PenStyle.SolidLine))
         for i in range(0, self.width(), 40):
             painter.drawLine(i, 0, i, self.height())
 
@@ -845,7 +846,7 @@ class TitleLabel(QWidget):
         # 타이틀 설정
         title_font = QFont("Arial", 32, QFont.Weight.Bold)
         title_metrics = QFontMetrics(title_font)
-        title_width = title_metrics.width(self.title)
+        title_width = title_metrics.horizontalAdvance(self.title)
 
         # 서브타이틀 설정
         subtitle_font = QFont("Arial", 14)
@@ -885,7 +886,7 @@ class TitleLabel(QWidget):
                 painter.setFont(subtitle_font)
 
             painter.drawText(QPointF(x, y), char)
-            x += painter.fontMetrics().width(char)
+            x += painter.fontMetrics().horizontalAdvance(char)  # 수정된 부분
 
 class LogoTitleWidget(QWidget):
     def __init__(self, parent=None):
@@ -920,6 +921,9 @@ class LogoTitleWidget(QWidget):
         self.englishLabel.setFont(QFont('Arial', 8))
         self.englishLabel.setStyleSheet("color: #FFFFFF;")
         title_container_layout.addWidget(self.englishLabel)
+
+        # title_container를 title_layout에 추가
+        title_layout.addWidget(title_container)
 
         # Qt 정렬 플래그 변경
         title_container_layout.setAlignment(Qt.AlignmentFlag.AlignLeft)
@@ -969,7 +973,7 @@ class RightArea(QGroupBox):
         login = self.tr('로그인')
         login_time_layout = QHBoxLayout()
         login_time_icon = QLabel()
-        login_time_icon.setPixmap(QPixmap("path/to/clock_icon.png").scaled(16, 16, Qt.KeepAspectRatio))
+        login_time_icon.setPixmap(QPixmap("path/to/clock_icon.png").scaled(16, 16, Qt.AspectRatioMode.KeepAspectRatio))
         login_time_label = QLabel(f"{login}: {self.login_time.strftime('%Y-%m-%d %H:%M:%S')}")
         login_time_layout.addWidget(login_time_icon)
         login_time_layout.addWidget(login_time_label)
@@ -979,7 +983,7 @@ class RightArea(QGroupBox):
         duration = self.tr('경과 시간')
         duration_layout = QHBoxLayout()
         duration_icon = QLabel()
-        duration_icon.setPixmap(QPixmap("path/to/timer_icon.png").scaled(16, 16, Qt.KeepAspectRatio))
+        duration_icon.setPixmap(QPixmap("path/to/timer_icon.png").scaled(16, 16, Qt.AspectRatioMode.KeepAspectRatio))
         self.duration_label = QLabel(f"{duration}: 00:00:00")
         duration_layout.addWidget(duration_icon)
         duration_layout.addWidget(self.duration_label)
@@ -1323,10 +1327,9 @@ class ChangePasswordWindow(QDialog):
             conn.close()
 
 
-
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)  # QApplication 인스턴스 생성
-    app.setFont(QtGui.QFont("바른공군체", 12, QtGui.QFont.Weight.Bold))  # 애플리케이션 전역 글꼴 설정
+    app.setFont(QtGui.QFont("바른공군체", 12))  # 애플리케이션 전역 글꼴 설정
     # 앱 인스턴스 생성 및 실행
     window = AssetManager()  # AssetManager 인스턴스 생성
     window.show()  # 창 표시

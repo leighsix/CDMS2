@@ -13,13 +13,15 @@ from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QLabel, QPushButton,
 from PyQt6.QtPrintSupport import QPrinter, QPrintPreviewDialog
 from PyQt6.QtGui import QPixmap, QFont, QIcon, QLinearGradient, QColor, QPainter, QPainterPath, QPen
 from PyQt6.QtGui import QPageLayout, QPageSize
-from PyQt6.QtCore import QUrl, QSize, QTimer, QTemporaryFile, QDir, QEventLoop, QDateTime
+from PyQt6.QtCore import QUrl, QSize, QTimer, QTemporaryFile, QDir, QEventLoop, QDateTime, QMarginsF
 from PyQt6.QtCore import Qt, QCoreApplication, QTranslator, QObject, QDir, QRect
 from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import *
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon, QFont
+from PyQt6.QtGui import QTextDocument, QTextCursor, QTextTableFormat, QTextFrameFormat, QTextLength, QTextCharFormat, QFont, QTextBlockFormat
+from PyQt6.QtCore import QDateTime
 from addasset import AutoSpacingLineEdit, UnderlineEdit
 from setting import MapApp
 from enemy_map_view import EnemyBaseMapView, EnemyWeaponMapView
@@ -39,7 +41,7 @@ class EnemyBaseInputDialog(QDialog):
             self.setWindowTitle(self.tr("적 미사일 기지 정보 수정"))
             if hasattr(self, 'enemy_data') and self.enemy_data:
                 self.populate_fields()
-        self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint | Qt.WindowMinimizeButtonHint)
+        self.setWindowFlags(self.windowFlags() | Qt.WindowType.WindowMaximizeButtonHint | Qt.WindowType.WindowMinimizeButtonHint)
 
     def initUI(self):
         # 창 제목 및 아이콘 설정
@@ -92,7 +94,7 @@ class EnemyBaseInputDialog(QDialog):
                         input_widget.editingFinished.connect(self.check_coordinates)
                     else:
                         input_widget = UnderlineEdit()
-                    input_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                    input_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
                     input_widget.setStyleSheet("background-color: white; font: 바른공군체; font-size: 13pt;")
                     input_widgets.append(input_widget)
 
@@ -110,8 +112,8 @@ class EnemyBaseInputDialog(QDialog):
                 # 레이블 위젯 스타일 설정
                 for widget in [label_widget, sub_label_widget]:
                     widget.setStyleSheet("font: 강한공군체; font-size: 16px; font-weight: bold;")
-                    widget.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
-                    widget.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    widget.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+                    widget.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
                     widget.setFixedWidth(75)
 
             else:  # 레이블이 단일 문자열인 경우
@@ -131,12 +133,12 @@ class EnemyBaseInputDialog(QDialog):
                         checkbox.setStyleSheet("font: 바른공군체; font-size: 13pt;")
                         self.weapon_checkboxes.append(checkbox)
                         weapon_layout.addWidget(checkbox)
-                    self.weapon_system_input.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                    self.weapon_system_input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
                     input_widget = self.weapon_system_input
                 else:
                     input_widget = UnderlineEdit()
 
-                input_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                input_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
                 input_widget.setStyleSheet("background-color: white; font: 바른공군체; font-size: 13pt;")
 
                 hbox.addWidget(label_widget)
@@ -146,8 +148,8 @@ class EnemyBaseInputDialog(QDialog):
 
             # 레이블 위젯 스타일 설정
             label_widget.setStyleSheet("font: 강한공군체; font-size: 16px; font-weight: bold;")
-            label_widget.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
-            label_widget.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            label_widget.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+            label_widget.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
             label_widget.setFixedWidth(150)
 
             # 메인 레이아웃에 수평 레이아웃 추가
@@ -357,11 +359,11 @@ class EnemyBaseWindow(QDialog):
 
             for col_idx, item in enumerate(enemy_base[1:], start=1):  # id 열 제외
                 table_item = QTableWidgetItem(str(item))
-                table_item.setTextAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+                table_item.setTextAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
                 self.enemy_base_table.setItem(row_idx, col_idx, table_item)
 
             # id를 첫 번째 열의 UserRole에 저장
-            self.enemy_base_table.item(row_idx, 1).setData(Qt.UserRole, enemy_base[0])
+            self.enemy_base_table.item(row_idx, 1).setData(Qt.ItemDataRole.UserRole, enemy_base[0])
         self.enemy_base_table.setColumnHidden(4, True)
 
     def refresh(self):
@@ -385,7 +387,7 @@ class EnemyBaseWindow(QDialog):
         main_layout = QHBoxLayout()
 
         # QSplitter 생성
-        splitter = QSplitter(Qt.Horizontal)
+        splitter = QSplitter(Qt.Orientation.Horizontal)
 
         # 좌측 레이아웃 (필터 및 테이블)
         left_widget = QWidget()
@@ -416,34 +418,34 @@ class EnemyBaseWindow(QDialog):
         self.enemy_base_table.setAlternatingRowColors(True)
         self.enemy_base_table.setStyleSheet("QTableWidget {background-color: #ffffff; font: 바른공군체; font-size: 16px;}"
                                         "QTableWidget::item { padding: 1px; }")
-        self.enemy_base_table.setSelectionBehavior(QTableView.SelectRows)
+        self.enemy_base_table.setSelectionBehavior(QTableView.SelectionBehavior.SelectRows)
 
         font = QFont("강한공군체", 13)
         font.setBold(True)
         self.enemy_base_table.horizontalHeader().setFont(font)
 
         header = self.enemy_base_table.horizontalHeader()
-        header.setSectionResizeMode(QtWidgets.QHeaderView.Interactive)
+        header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Interactive)
         header.setMinimumSectionSize(80)  # 최소 열 너비 설정
         header.resizeSection(0, 30)
 
         # 테이블 설정
         self.enemy_base_table.horizontalHeader().setStretchLastSection(False)
-        self.enemy_base_table.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.enemy_base_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.enemy_base_table.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
+        self.enemy_base_table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
 
         # 헤더 텍스트 중앙 정렬
         for column in range(header.count()):
             item = self.enemy_base_table.horizontalHeaderItem(column)
             if item:
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # 나머지 열들이 남은 공간을 채우도록 설정
         for column in range(1, header.count()):
-            self.enemy_base_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.Stretch)
+            self.enemy_base_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.ResizeMode.Stretch)
 
         # 헤더 높이 자동 조절
-        self.enemy_base_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
+        self.enemy_base_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Fixed)
         self.enemy_base_table.verticalHeader().setDefaultSectionSize(60)
 
         left_layout.addWidget(self.enemy_base_table)
@@ -476,7 +478,7 @@ class EnemyBaseWindow(QDialog):
         self.pagination_layout.addWidget(self.next_button)
 
         # 레이아웃 정렬 및 간격 설정
-        self.pagination_layout.setAlignment(Qt.AlignCenter)
+        self.pagination_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.pagination_layout.setSpacing(10)
 
         left_layout.addLayout(self.pagination_layout)
@@ -501,15 +503,17 @@ class EnemyBaseWindow(QDialog):
         self.enemy_base_input_button = QPushButton(self.tr("적 기지 입력"), self)
         self.correction_button = QPushButton(self.tr("수정"), self)
         self.delete_button = QPushButton(self.tr("삭제"), self)
+        self.print_button = QPushButton(self.tr("출력"), self)
         self.return_button = QPushButton(self.tr("메인화면"), self)
         self.enemy_base_input_button.clicked.connect(self.add_enemy_base)
         self.correction_button.clicked.connect(self.correct_enemy_base)
         self.delete_button.clicked.connect(self.delete_enemy_base)
+        self.print_button.clicked.connect(self.print_enemy_bases_table)
         self.return_button.clicked.connect(self.parent.show_main_page)
 
 
         for button in [self.enemy_base_input_button, self.correction_button,
-                       self.delete_button, self.return_button]:
+                       self.delete_button, self.print_button, self.return_button]:
             button.setFont(QFont("강한공군체", 12, QFont.Weight.Bold))
             button.setFixedSize(150, 50)
 
@@ -517,6 +521,7 @@ class EnemyBaseWindow(QDialog):
         button_layout.addWidget(self.enemy_base_input_button)
         button_layout.addWidget(self.correction_button)
         button_layout.addWidget(self.delete_button)
+        button_layout.addWidget(self.print_button)
         button_layout.addWidget(self.return_button)
 
         left_layout.addLayout(button_layout)  # addWidget 대신 addLayout 사용
@@ -593,7 +598,7 @@ class EnemyBaseWindow(QDialog):
         self.load_enemy_bases()
 
     def toggle_threat_radius(self, state):
-        self.show_threat_radius = state == Qt.Checked
+        self.show_threat_radius = state == Qt.CheckState.Checked.value
         self.update_map()
 
     def load_enemy_bases(self):
@@ -632,11 +637,11 @@ class EnemyBaseWindow(QDialog):
 
             for col_idx, item in enumerate(enemy_base[1:], start=1):  # id 열 제외
                 table_item = QTableWidgetItem(str(item))
-                table_item.setTextAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+                table_item.setTextAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
                 self.enemy_base_table.setItem(row_idx, col_idx, table_item)
 
             # id를 첫 번째 열의 UserRole에 저장
-            self.enemy_base_table.item(row_idx, 1).setData(Qt.UserRole, enemy_base[0])
+            self.enemy_base_table.item(row_idx, 1).setData(Qt.ItemDataRole.UserRole, enemy_base[0])
 
         self.enemy_base_table.setColumnHidden(4, True)
 
@@ -665,7 +670,7 @@ class EnemyBaseWindow(QDialog):
 
     def add_enemy_base(self):
         add_enemy_base_dialog = EnemyBaseInputDialog(self)
-        add_enemy_base_dialog.exec_()
+        add_enemy_base_dialog.exec()
 
     def delete_enemy_base(self):
         rows_to_delete = []
@@ -679,12 +684,12 @@ class EnemyBaseWindow(QDialog):
             return
 
         reply = QMessageBox.question(self, self.tr('확인'), self.tr('선택한 기지들을 삭제하시겠습니까?'),
-                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-        if reply == QMessageBox.Yes:
+                                     QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
+        if reply == QMessageBox.StandardButton.Yes:
             cursor = self.parent.cursor
             conn = self.parent.conn
             for row in rows_to_delete:
-                asset_id = self.enemy_base_table.item(row, 1).data(Qt.UserRole)
+                asset_id = self.enemy_base_table.item(row, 1).data(Qt.ItemDataRole.UserRole)
                 cursor.execute("DELETE FROM enemy_bases_en WHERE id = ?", (asset_id,))
                 cursor.execute("DELETE FROM enemy_bases_ko WHERE id = ?", (asset_id,))
             conn.commit()
@@ -707,7 +712,7 @@ class EnemyBaseWindow(QDialog):
             return
 
         row = checked_rows[0]
-        asset_id = self.enemy_base_table.item(row, 1).data(Qt.UserRole)
+        asset_id = self.enemy_base_table.item(row, 1).data(Qt.ItemDataRole.UserRole)
 
         cursor = self.parent.cursor
         cursor.execute(f"SELECT * FROM enemy_bases_ko WHERE id = ?", (asset_id,))
@@ -715,7 +720,7 @@ class EnemyBaseWindow(QDialog):
         enemy_base_data = cursor.fetchone()
 
         edit_window = EnemyBaseInputDialog(self, edit_mode=True, enemy_data=enemy_base_data)
-        if edit_window.exec_() == QDialog.Accepted:
+        if edit_window.exec() == QDialog.DialogCode.Accepted:
             self.load_all_enemy_bases()
 
     def update_map(self):
@@ -727,10 +732,8 @@ class EnemyBaseWindow(QDialog):
 
         selected_enemy_bases = self.get_selected_enemy_bases()
         selected_weapons = self.get_selected_weapons()
-        print
         if selected_enemy_bases:
             EnemyBaseMapView(selected_enemy_bases, self.map)
-
         if selected_weapons:
             EnemyWeaponMapView(selected_weapons, self.map, self.show_threat_radius)
 
@@ -765,11 +768,137 @@ class EnemyBaseWindow(QDialog):
                             selected_enemy_weapons.append((base_name, coord, weapon))
         return selected_enemy_weapons
 
+    def print_enemy_bases_table(self):
+        try:
+            document = QTextDocument()
+            cursor = QTextCursor(document)
+
+            # 개선된 CSS 스타일
+            document.setDefaultStyleSheet("""
+                @page { size: A4 portrait; margin: 10mm; }
+                body { 
+                    font-family: 'Malgun Gothic', sans-serif;
+                    width: 100%;
+                    margin: 0 auto;
+                    background-color: #ffffff;
+                }
+                h1 { 
+                    color: #2c3e50; 
+                    text-align: center;
+                    margin-bottom: 20px;
+                    font-size: 22px;
+                    padding: 10px;
+                    border-bottom: 2px solid #3498db;
+                }
+                .info { 
+                    padding: 5px;
+                    color: #7f8c8d;
+                    font-size: 12px;
+                    margin-bottom: 15px;
+                }
+                table { 
+                    border-collapse: collapse; 
+                    width: 100%;
+                    margin: 10px auto;
+                    background-color: #ffffff;
+                }
+                th { 
+                    color: black;
+                    text-align: center;
+                    font-weight: bold;
+                    padding: 12px 8px;
+                    border: 1px solid #2980b9;
+                }
+                td { 
+                    border: 1px solid #bdc3c7;
+                    padding: 8px;
+                    text-align: center;
+                    color: #2c3e50;
+                }
+                tr:nth-child(even) {
+                    background-color: #f9f9f9;
+                }
+                tr:hover {
+                    background-color: #f5f6fa;
+                }
+            """)
+
+            font = QFont("Arial", 10)
+            document.setDefaultFont(font)
+
+            # 헤더 섹션
+            cursor.insertHtml(f"""
+                <h1>{self.tr("적 미사일 기지 목록")}</h1>
+                <div class='info' style='text-align: right;'>
+                    {self.tr("보고서 생성 일시: ")} {QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss")}
+                </div>
+            """)
+
+            # 테이블 포맷 설정
+            table_format = QTextTableFormat()
+            table_format.setBorderStyle(QTextFrameFormat.BorderStyle.BorderStyle_Solid)
+            table_format.setCellPadding(1)
+            table_format.setCellSpacing(0)
+            table_format.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            table_format.setWidth(QTextLength(QTextLength.Type.PercentageLength, 100))
+
+
+            excluded_columns = [0]
+            cols = self.enemy_base_table.columnCount() - len(excluded_columns)
+            rows = self.enemy_base_table.rowCount() + 1
+
+            # 테이블 생성
+            table = cursor.insertTable(rows, cols, table_format)
+
+            # 헤더 추가
+            header_col = 0
+            for col in range(self.enemy_base_table.columnCount()):
+                if col not in excluded_columns:
+                    cell = table.cellAt(0, header_col)
+                    cellCursor = cell.firstCursorPosition()
+                    header_text = self.enemy_base_table.horizontalHeaderItem(col).text()
+                    cellCursor.insertHtml(f"<th>{header_text}</th>")
+                    header_col += 1
+
+            # 데이터 추가
+            for row in range(self.enemy_base_table.rowCount()):
+                data_col = 0
+                for col in range(self.enemy_base_table.columnCount()):
+                    if col not in excluded_columns:
+                        item = self.enemy_base_table.item(row, col)
+                        if item:
+                            cell = table.cellAt(row + 1, data_col)
+                            cellCursor = cell.firstCursorPosition()
+                            cellCursor.insertText(item.text())
+                        data_col += 1
+
+            preview = QPrintPreviewDialog()
+            preview.setWindowIcon(QIcon("image/logo.png"))
+
+            def handle_print(printer):
+                printer.setPageOrientation(QPageLayout.Orientation.Portrait)
+                page_layout = QPageLayout(
+                    QPageSize(QPageSize.PageSizeId.A4),
+                    QPageLayout.Orientation.Portrait,
+                    QMarginsF(1, 1, 1, 1),
+                    QPageLayout.Unit.Millimeter
+                )
+                printer.setPageLayout(page_layout)
+                document.print(printer)
+
+            preview.paintRequested.connect(handle_print)
+            preview.exec()
+
+            QCoreApplication.processEvents()
+
+        except Exception as e:
+            QMessageBox.critical(self, self.tr("오류"), self.tr("다음 오류가 발생했습니다: {}").format(str(e)))
+
     def print_map(self):
-        self.printer = QPrinter(QPrinter.HighResolution)
-        self.printer.setPageOrientation(QPageLayout.Landscape)
-        self.printer.setPageSize(QPageSize(QPageSize.A4))
-        self.printer.setPageMargins(10, 10, 10, 10, QPrinter.Millimeter)
+        self.printer = QPrinter(QPrinter.PrinterMode.HighResolution)
+        self.printer.setPageOrientation(QPageLayout.Orientation.Landscape)
+        self.printer.setPageSize(QPageSize(QPageSize.PageSizeId.A4))  # A4 크기 지정
+        self.printer.setPageMargins(QMarginsF(10, 10, 10, 10), QPageLayout.Unit.Millimeter)
 
         self.preview = QPrintPreviewDialog(self.printer, self)
         self.preview.setMinimumSize(1000, 800)
@@ -782,7 +911,7 @@ class EnemyBaseWindow(QDialog):
             painter = QPainter()
             painter.begin(printer)
 
-            page_rect = printer.pageRect(QPrinter.DevicePixel)
+            page_rect = printer.pageRect(QPrinter.Unit.DevicePixel)
 
             title_font = QFont("Arial", 16, QFont.Weight.Bold)
             painter.setFont(title_font)
@@ -795,7 +924,7 @@ class EnemyBaseWindow(QDialog):
 
             content_rect = page_rect.adjusted(0, title_rect.height() + 10, 0, -30)
             scaled_image = combined_image.scaled(QSize(int(content_rect.width()), int(content_rect.height())),
-                                                 Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                                                 Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
 
             x = int(content_rect.left() + (content_rect.width() - scaled_image.width()) / 2)
             y = int(content_rect.top() + (content_rect.height() - scaled_image.height()) / 2)
@@ -805,7 +934,7 @@ class EnemyBaseWindow(QDialog):
             painter.setFont(info_font)
             current_time = QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss")
             info_text = self.tr(f"인쇄 일시: {current_time}")
-            painter.drawText(page_rect.adjusted(10, -20, -10, -10), Qt.AlignBottom | Qt.AlignRight, info_text)
+            painter.drawText(page_rect.adjusted(10, -20, -10, -10), Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignRight, info_text)
 
             painter.end()
         except Exception as e:
@@ -833,15 +962,15 @@ class CheckBoxHeader(QHeaderView):
         if logicalIndex == 0:
             option = QStyleOptionButton()
             option.rect = QRect(rect.x() + rect.width() // 2 - 12, rect.y() + rect.height() // 2 - 12, 24, 24)
-            option.state = QStyle.State_Enabled | QStyle.State_Active
+            option.state = QStyle.StateFlag.State_Enabled | QStyle.StateFlag.State_Active
             if self.isOn:
-                option.state |= QStyle.State_On
+                option.state |= QStyle.StateFlag.State_On
             else:
-                option.state |= QStyle.State_Off
-            self.style().drawControl(QStyle.CE_CheckBox, option, painter)
+                option.state |= QStyle.StateFlag.State_Off
+            self.style().drawControl(QStyle.ControlElement.CE_CheckBox, option, painter)
 
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
+        if event.button() == Qt.MouseButton.LeftButton:
             x = self.logicalIndexAt(event.pos().x())
             if x == 0:
                 self.isOn = not self.isOn
@@ -856,7 +985,7 @@ class CenteredCheckBox(QWidget):
         self.checkbox = QCheckBox()
         self.checkbox.setStyleSheet("QCheckBox::indicator { width: 24px; height: 24px; }")
         layout.addWidget(self.checkbox)
-        layout.setAlignment(Qt.AlignCenter)
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
@@ -869,21 +998,19 @@ class CenteredCheckBox(QWidget):
 class MyTableWidget(QTableWidget):
     def __init__(self, *args):
         super().__init__(*args)
-        self.header_checked = False
-        self.setHorizontalHeader(CheckBoxHeader(Qt.Horizontal, self))
+        self.header = CheckBoxHeader(Qt.Orientation.Horizontal, self)
+        self.setHorizontalHeader(self.header)
 
     def on_header_clicked(self, checked):
-        self.header_checked = checked
         for row in range(self.rowCount()):
             checkbox_widget = self.cellWidget(row, 0)
-            if checkbox_widget:
-                checkbox_widget.checkbox.setChecked(checked)
+            if isinstance(checkbox_widget, CenteredCheckBox):
+                checkbox_widget.setChecked(checked)
 
     def uncheckAllRows(self):
-        self.header_checked = False
-        # 헤더 체크박스도 해제
-        self.horizontalHeader().isOn = False
-        self.horizontalHeader().updateSection(0)
+        self.header.isOn = False
+        self.header.updateSection(0)
+        self.on_header_clicked(False)
 
 class MainWindow(QtWidgets.QMainWindow, QObject):
     def __init__(self):
@@ -944,7 +1071,7 @@ class MainWindow(QtWidgets.QMainWindow, QObject):
         layout = QVBoxLayout(page)
 
         title = QLabel(self.tr("적 미사일 기지 관리 시스템"))
-        title.setAlignment(Qt.AlignCenter)
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setFont(QtGui.QFont("Arial", 24))
         layout.addWidget(title)
         manage_assets_button = QPushButton(self.tr("적 기지 관리"))
@@ -962,4 +1089,4 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     main_window = MainWindow()
     main_window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

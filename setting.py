@@ -224,7 +224,7 @@ class MapApp(QMainWindow):
     def openSettings(self):
         self.setting_window = SettingWindow(self)
         self.setting_window.settingsChanged.connect(self.updateSettings)
-        self.setting_window.exec_()
+        self.setting_window.exec()
 
     def updateSettings(self, new_settings):
         self.settings.update({
@@ -317,4 +317,4 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = MapApp()
     ex.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

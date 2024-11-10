@@ -5,7 +5,7 @@ import sqlite3  # SQLite 데이터베이스와의 연결을 위한 모듈
 import sys  # 시스템 관련 기능을 위한 모듈
 from PyQt6 import QtGui  # PyQt5 GUI 기능 사용
 from PyQt6.QtGui import QTextDocument, QTextCursor, QIcon, QPageLayout, QTextTableFormat, QTextTable, QTextFrameFormat, QTextLength, QTextCharFormat, QFont, QTextBlockFormat
-from PyQt6.QtCore import QObject
+from PyQt6.QtCore import QObject, QMarginsF, QSizeF,  QDateTime
 from PyQt6.QtPrintSupport import QPrinter, QPrintPreviewDialog
 from PyQt6.QtWidgets import (QMessageBox, QFileDialog, QCheckBox)
 from PyQt6.QtCore import Qt
@@ -65,7 +65,7 @@ class AddAssetWindow(QDialog, QObject):
             (self.tr("담당자"), self.tr("(영문)")),
             self.tr("연락처"),
             (self.tr("방어대상자산"), self.tr("(영문)")),
-            (self.tr("지역구분"), self.tr("(영문)")),
+            (self.tr("지역"), self.tr("(영문)")),
             (self.tr("위도"), self.tr("경도")),
             self.tr("군사좌표(MGRS)"),
             self.tr("임무/기능(국/영문)"),  # 수정된 부분: 임무/기능 라벨을 별도로 처리
@@ -76,13 +76,13 @@ class AddAssetWindow(QDialog, QObject):
             if label == self.tr("임무/기능(국/영문)"):  # 수정된 부분: 임무/기능 라벨 처리
                 label_widget = QLabel(label)
                 label_widget.setStyleSheet("font: 강한공군체; font-size: 16px; font-weight: bold;")
-                label_widget.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
-                label_widget.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)  # 왼쪽 정렬
+                label_widget.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+                label_widget.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)  # 왼쪽 정렬
                 asset_info_layout_main.addWidget(label_widget, row, 0, 1, 4)
 
                 input_widget = QTextEdit()
                 input_widget.setMinimumHeight(100)
-                input_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                input_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
                 input_widget.setStyleSheet("background-color: white; font: 바른공군체; font-size: 13pt;")
                 asset_info_layout_main.addWidget(input_widget, row + 1, 0, 1, 4)  # 다음 줄에 입력창 배치
                 self.asset_info_fields[label] = input_widget
@@ -102,7 +102,7 @@ class AddAssetWindow(QDialog, QObject):
                             input_widget.editingFinished.connect(self.check_coordinates)
                         else:
                             input_widget = UnderlineEdit()
-                        input_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                        input_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
                         input_widget.setStyleSheet("background-color: white; font: 바른공군체; font-size: 13pt;")
                         input_widgets.append(input_widget)
 
@@ -123,8 +123,8 @@ class AddAssetWindow(QDialog, QObject):
 
                     for widget in [label_widget, sub_label_widget]:  # 라벨 스타일 설정
                         widget.setStyleSheet("font: 강한공군체; font-size: 16px; font-weight: bold;")
-                        widget.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
-                        widget.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)  # 왼쪽 정렬
+                        widget.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+                        widget.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)  # 왼쪽 정렬
 
                     # 레이아웃에 추가 (hbox를 추가해야 함)
                     asset_info_layout_main.addLayout(hbox, row, 0, 1, 4)
@@ -133,15 +133,15 @@ class AddAssetWindow(QDialog, QObject):
                 else:  # 단일 라벨 처리
                     label_widget = QLabel(label)
                     label_widget.setStyleSheet("font: 강한공군체; font-size: 16px; font-weight: bold;")
-                    label_widget.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)  # 크기 정책 설정
-                    label_widget.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)  # 왼쪽 정렬
+                    label_widget.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)  # 크기 정책 설정
+                    label_widget.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)  # 왼쪽 정렬
 
                     # 입력 필드 생성
                     if label == self.tr("구성군"):
                         # 콤보박스 생성
                         self.unit_combo = QComboBox()
                         self.unit_combo.addItems([self.tr("지상군"), self.tr("해군"), self.tr("공군"), self.tr("기타")])
-                        self.unit_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                        self.unit_combo.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
                         self.unit_combo.setStyleSheet("background-color: white; font: 바른공군체; font-size: 13pt;")
                         input_widget = self.unit_combo
 
@@ -151,7 +151,7 @@ class AddAssetWindow(QDialog, QObject):
                     else:
                         input_widget = UnderlineEdit()
 
-                    input_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                    input_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
                     input_widget.setStyleSheet("background-color: white; font: 바른공군체; font-size: 13pt;")
                     self.asset_info_fields[label] = input_widget
 
@@ -204,7 +204,7 @@ class AddAssetWindow(QDialog, QObject):
             ammo_input.setFixedWidth(100)
             ammo_input.setEnabled(False)
 
-            checkbox.stateChanged.connect(lambda state, input=ammo_input: input.setEnabled(state == Qt.Checked))
+            checkbox.stateChanged.connect(lambda state, input=ammo_input: input.setEnabled(state == Qt.CheckState.Checked.value))
 
             self.weapon_checkboxes[weapon] = checkbox
             self.ammo_inputs[weapon] = ammo_input
@@ -232,7 +232,7 @@ class AddAssetWindow(QDialog, QObject):
         threat_hbox = QHBoxLayout()
         threat_hbox.addWidget(threat_degree_label)
         threat_hbox.addWidget(self.threat_degree_edit)
-        threat_hbox.setAlignment(Qt.AlignLeft)
+        threat_hbox.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
         # 새로운 QWidget을 생성하고 QHBoxLayout을 설정
         threat_widget = QWidget()
@@ -247,7 +247,7 @@ class AddAssetWindow(QDialog, QObject):
         engagement_layout = QVBoxLayout(engagement_group)
 
         self.engagement_combo = QComboBox()
-        self.engagement_combo.setStyleSheet("font: 강한공군체; font-size: 16px; font-weight:bold;")  # 콤보 박스 글꼴 설정
+        self.engagement_combo.setStyleSheet("font: 강한공군체; font-size: 16px;")  # 콤보 박스 글꼴 설정
         self.engagement_combo.addItems([
             "",
             self.tr("1단계: 원격발사대"),
@@ -263,7 +263,7 @@ class AddAssetWindow(QDialog, QObject):
         bmd_priority_layout = QVBoxLayout(bmd_priority_group)
 
         self.bmd_priority_combo = QComboBox()
-        self.bmd_priority_combo.setStyleSheet("font: 강한공군체; font-size: 16px; font-weight:bold;")  # 콤보 박스 글꼴 설정
+        self.bmd_priority_combo.setStyleSheet("font: 강한공군체; font-size: 16px;")  # 콤보 박스 글꼴 설정
         self.bmd_priority_combo.addItems([
             "",
             self.tr("지휘통제시설"),
@@ -353,11 +353,11 @@ class AddAssetWindow(QDialog, QObject):
                 if isinstance(item, tuple) and isinstance(item[1], (int, float)):
                     desc, score = item
                     checkbox = QCheckBox(f"{desc} ({score})")
-                    checkbox.setStyleSheet("background-color: white; font: 바른공군체; font-size: 16px; font-weight: bold;")
+                    checkbox.setStyleSheet("background-color: white; font: 바른공군체; font-size: 16px;")
                     checkbox.score = score
                     checkbox.section = section
                     checkbox.toggled.connect(lambda checked, cb=checkbox: self.checkbox_clicked(checked, cb))
-                    layout.addWidget(checkbox, alignment=Qt.AlignLeft)
+                    layout.addWidget(checkbox, alignment=Qt.AlignmentFlag.AlignLeft)
                     self.checkboxes[f"{section}_{desc}"] = checkbox
                 elif isinstance(item, tuple) and isinstance(item[1], list):
                     sub_group_box = QGroupBox(item[0])
@@ -388,7 +388,7 @@ class AddAssetWindow(QDialog, QObject):
         score_layout_main.addWidget(self.score_scroll)  # 점수 레이아웃에 스크롤 추가
 
         # # QSplitter를 사용하여 좌우 너비 조절 가능하게 설정
-        splitter = QSplitter(Qt.Horizontal)
+        splitter = QSplitter(Qt.Orientation.Horizontal)
         splitter.addWidget(left_widget)
         splitter.addWidget(score_group_main)  # 스크롤 영역을 splitter에 추가
         splitter.setStretchFactor(0, 4)
@@ -438,7 +438,7 @@ class AddAssetWindow(QDialog, QObject):
 
     # toggle_dal_fields 메서드 수정
     def toggle_dal_fields(self, state):
-        is_enabled = state == Qt.Checked
+        is_enabled = state == Qt.CheckState.Checked.value
         for checkbox in self.weapon_checkboxes.values():
             checkbox.setEnabled(is_enabled)
         self.threat_degree_edit.setEnabled(is_enabled)
@@ -678,7 +678,7 @@ class AddAssetWindow(QDialog, QObject):
                 ''', (
                     unit_tuple[0], asset_data[self.tr("자산번호")], asset_data[(self.tr("담당자"), self.tr("(영문)"))][0],
                     asset_data[self.tr("연락처")],
-                    asset_data[(self.tr("방어대상자산"), self.tr("(영문)"))][0], asset_data[(self.tr("지역구분"), self.tr("(영문)"))][0], lat_lon,
+                    asset_data[(self.tr("방어대상자산"), self.tr("(영문)"))][0], asset_data[(self.tr("지역"), self.tr("(영문)"))][0], lat_lon,
                     asset_data[self.tr("군사좌표(MGRS)")],
                     asset_data[self.tr("임무/기능(국/영문)")],
                     dal_select, weapon_system_str, total_ammo, threat_degree, engagement_effectiveness_ko, bmd_priority_ko,
@@ -708,7 +708,7 @@ class AddAssetWindow(QDialog, QObject):
                 ''', (
                     unit_tuple[1], asset_data[self.tr("자산번호")], asset_data[(self.tr("담당자"), self.tr("(영문)"))][1],
                     asset_data[self.tr("연락처")],
-                    asset_data[(self.tr("방어대상자산"), self.tr("(영문)"))][1], asset_data[(self.tr("지역구분"), self.tr("(영문)"))][1], lat_lon,
+                    asset_data[(self.tr("방어대상자산"), self.tr("(영문)"))][1], asset_data[(self.tr("지역"), self.tr("(영문)"))][1], lat_lon,
                     asset_data[self.tr("군사좌표(MGRS)")],
                     asset_data[self.tr("임무/기능(국/영문)")],
                     dal_select, weapon_system_str, total_ammo, threat_degree, engagement_effectiveness_en, bmd_priority_en,
@@ -746,7 +746,7 @@ class AddAssetWindow(QDialog, QObject):
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ''', (
                     new_id, unit_tuple[0], asset_data[self.tr("자산번호")], asset_data[(self.tr("담당자"), self.tr("(영문)"))][0], asset_data[self.tr("연락처")],
-                    asset_data[(self.tr("방어대상자산"), self.tr("(영문)"))][0], asset_data[(self.tr("지역구분"), self.tr("(영문)"))][0], lat_lon, asset_data[self.tr("군사좌표(MGRS)")],
+                    asset_data[(self.tr("방어대상자산"), self.tr("(영문)"))][0], asset_data[(self.tr("지역"), self.tr("(영문)"))][0], lat_lon, asset_data[self.tr("군사좌표(MGRS)")],
                     asset_data[self.tr("임무/기능(국/영문)")],
                     dal_select, weapon_system_str, total_ammo, threat_degree, engagement_effectiveness_ko, bmd_priority_ko,
                     scores_data.get(self.tr("중요도"), 0),
@@ -772,7 +772,7 @@ class AddAssetWindow(QDialog, QObject):
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ''', (
                     new_id, unit_tuple[1], asset_data[self.tr("자산번호")], asset_data[(self.tr("담당자"), self.tr("(영문)"))][1], asset_data[self.tr("연락처")],
-                    asset_data[(self.tr("방어대상자산"), self.tr("(영문)"))][1], asset_data[(self.tr("지역구분"), self.tr("(영문)"))][1], lat_lon, asset_data[self.tr("군사좌표(MGRS)")],
+                    asset_data[(self.tr("방어대상자산"), self.tr("(영문)"))][1], asset_data[(self.tr("지역"), self.tr("(영문)"))][1], lat_lon, asset_data[self.tr("군사좌표(MGRS)")],
                     asset_data[self.tr("임무/기능(국/영문)")],
                     dal_select, weapon_system_str, total_ammo, threat_degree, engagement_effectiveness_en, bmd_priority_en,
                     scores_data.get(self.tr("중요도"), 0),
@@ -823,7 +823,7 @@ class AddAssetWindow(QDialog, QObject):
                     elif label == (self.tr("방어대상자산"), self.tr("(영문)")):
                         field[0].setText(asset_data_ko[5])
                         field[1].setText(asset_data_en[5])  # 영문 테이블에서 가져와야 함
-                    elif label == (self.tr("지역구분"), self.tr("(영문)")):
+                    elif label == (self.tr("지역"), self.tr("(영문)")):
                         field[0].setText(asset_data_ko[6])
                         field[1].setText(asset_data_en[6])  # 영문 테이블에서 가져와야 함
                     elif label == (self.tr("위도"), self.tr("경도")):
@@ -935,145 +935,210 @@ class AddAssetWindow(QDialog, QObject):
                                                 if score == j[1]:
                                                     checkbox.setChecked(True)  # 체크
 
+    def generate_cal_info_table(self):
+        table_style = "border-collapse: collapse; width: 100%; margin-bottom: 20px;"
+        cell_style = "border: 1px solid black; padding: 8px;"
+        header_style = cell_style + "background-color: #f2f2f2;"
+        coordinate = self.tr("경위도")
+        table_items = self.tr('항목')
+        contents = self.tr('내용')
+
+        html = f"""
+            <table style="{table_style}">
+                <tr>
+                    <th style="{header_style}" width="30%">{table_items}</th>
+                    <th style="{header_style}" width="70%">{contents}</th>
+                </tr>
+        """
+        # 기존 자산 정보 필드 추가
+        for label, field in self.asset_info_fields.items():
+            if isinstance(label, tuple):
+                if label == (self.tr("위도"), self.tr("경도")):
+                    lat, lon = field
+                    value = f"{lat.text().strip()}, {lon.text().strip()}"
+                    html += f"""
+                        <tr>
+                            <td style="{cell_style}">{coordinate}</td>
+                            <td style="{cell_style}">{value.strip()}</td>
+                        </tr>
+                    """
+                else:
+                    selected_field = field[0] if self.parent.selected_language == 'ko' else field[1]
+                    if isinstance(selected_field, QLineEdit):
+                        value = selected_field.text().strip()
+                    else:
+                        value = selected_field.toPlainText().strip()
+                    html += f"""
+                        <tr>
+                            <td style="{cell_style}">{label[0]}</td>
+                            <td style="{cell_style}">{value.strip()}</td>
+                        </tr>
+                    """
+            else:
+                if isinstance(field, QLineEdit):
+                    value = field.text()
+                elif isinstance(field, QTextEdit):
+                    value = field.toPlainText()
+                elif isinstance(field, QComboBox):
+                    value = self.unit_combo.currentText().strip()
+                else:
+                    value = str(field)
+                html += f"""
+                    <tr>
+                        <td style="{cell_style}">{self.tr(label)}</td>
+                        <td style="{cell_style}">{value.strip()}</td>
+                    </tr>
+                """
+        html += "</table>"
+        return html
+
+    def generate_dal_info_table(self):
+        table_style = "border-collapse: collapse; width: 100%; margin-bottom: 20px;"
+        cell_style = "border: 1px solid black; padding: 8px;"
+        header_style = cell_style + "background-color: #f2f2f2;"
+        table_items = self.tr('항목')
+        contents = self.tr('내용')
+        dal = self.tr('방어자산(DAL)')
+        weapon_systems = self.tr('무기체계')
+        threat_degree = self.tr('위협방위')
+        engage_levels = self.tr('교전효과 수준')
+        bmd_priorities = self.tr('연합사 BMD 우선순위')
+
+        html = f"""
+            <table style="{table_style}">
+                <tr>
+                    <th style="{header_style}" width="30%">{table_items}</th>
+                    <th style="{header_style}" width="70%">{contents}</th>
+                </tr>
+        """
+
+        html += f"""
+                <tr>
+                    <td style="{cell_style}">{dal}</td>
+                    <td style="{cell_style}">{"☑" if self.dal_checkbox.isChecked() else "☐"}</td>
+                </tr>
+                <tr>
+                    <td style="{cell_style}">{weapon_systems}</td>
+                    <td style="{cell_style}">{", ".join([k for k, v in self.weapon_checkboxes.items() if v.isChecked()])}</td>
+                </tr>
+                <tr>
+                    <td style="{cell_style}">{threat_degree}</td>
+                    <td style="{cell_style}">{self.threat_degree_edit.text()}</td>
+                </tr>
+                <tr>
+                    <td style="{cell_style}">{engage_levels}</td>
+                    <td style="{cell_style}">{self.engagement_combo.currentText()}</td>
+                </tr>
+                <tr>
+                    <td style="{cell_style}">{bmd_priorities}</td>
+                    <td style="{cell_style}">{self.bmd_priority_combo.currentText()}</td>
+                </tr>
+            </table>
+        """
+        return html
+
+    def generate_cvt_score_table(self):
+        total, importance, vulnerability, threat = self.summarize_score()
+
+        table_style = "border-collapse: collapse; width: 100%; margin-bottom: 20px;"
+        cell_style = "border: 1px solid black; padding: 8px;"
+        header_style = cell_style + "background-color: #f2f2f2;"
+        total_style = cell_style + "background-color: #e8e8e8; font-weight: bold;"
+        total_score_table = self.tr('총합 점수')
+        criticality_table = self.tr('중요도(C)')
+        vulnerability_table = self.tr('취약성(V)')
+        threat_table = self.tr('위협(T)')
+        table_items = self.tr('항목')
+        table_scores = self.tr('점수')
+        html = f"""
+            <table style="{table_style}">
+                <tr>
+                    <th style="{header_style}" width="30%">{table_items}</th>
+                    <th style="{header_style}" width="70%">{table_scores}</th>
+                </tr>
+                <tr>
+                    <td style="{cell_style}" width="30%">{criticality_table}</td>
+                    <td style="{cell_style}">{importance:.1f}</td>
+                </tr>
+                <tr>
+                    <td style="{cell_style}">{vulnerability_table}</td>
+                    <td style="{cell_style}">{vulnerability:.1f}</td>
+                </tr>
+                <tr>
+                    <td style="{cell_style}">{threat_table}</td>
+                    <td style="{cell_style}">{threat:.1f}</td>
+                </tr>
+                <tr>
+                    <td style="{total_style}">{total_score_table}</td>
+                    <td style="{total_style}">{total:.1f}</td>
+                </tr>
+            </table>
+        """
+        return html
+
     def print_data(self):
         try:
-            document = QTextDocument()
-            cursor = QTextCursor(document)
-
-            # 전체 문서 스타일 설정
-            document.setDefaultStyleSheet("""
-                body { font-family: Arial, sans-serif; }
-                table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
-                th, td { border: 1px solid black; padding: 8px; text-align: left; }
-                th { background-color: #f2f2f2; font-weight: bold; }
-                h1, h2 { text-align: center; }
-                .section { font-size: 14pt; font-weight: bold; padding-top: 20px; }
-                .subsection { font-size: 12pt; font-weight: bold; padding-top: 10px; }
-                .checkbox { font-family: 'Arial Unicode MS', sans-serif; }
-                .item { width: 70%; }
-                .score { width: 15%; text-align: center; }
-                .check { width: 15%; text-align: center; }
-            """)
-
-            # 공통 스타일
-            table_style = "style='border-collapse: collapse; width: 100%; margin-bottom: 20px;'"
-            th_style = "style='border: 1px solid black; padding: 8px; background-color: #f2f2f2;'"
-            td_style = "style='border: 1px solid black; padding: 8px;'"
-            evaluation_data = self.tr('자산 CVT 평가자료')
-            # 제목 추가 (중앙 정렬)
-            cursor.insertHtml(f"<h1>{evaluation_data}</h1>")
-            # 제목과 자산정보 사이에 공간 추가
-            cursor.insertHtml("<br><br>")
-
-            # 자산 정보 섹션
-            assets_info = self.tr('자산정보')
-            coordinate = self.tr("경위도")
-            lang = 0 if self.parent.selected_language == 'ko' else 1
-            cursor.insertHtml(f"<h2>{assets_info}</h2>")
-            cursor.insertHtml(f"<table {table_style}>")
-
-
-            # 기존 자산 정보 필드 추가
-            for label, field in self.asset_info_fields.items():
-                if isinstance(label, tuple):
-                    if label == (self.tr("위도"), self.tr("경도")):
-                        lat, lon = field
-                        value = f"{lat.text().strip()}, {lon.text().strip()}"
-                        cursor.insertHtml(f"<tr><th {th_style} width='30%'>{coordinate}</th>"
-                                          f"<td {td_style} width='70%'>{value.strip()}</td></tr>")
-                    else:
-                        selected_field = field[0] if self.parent.selected_language == 'ko' else field[1]
-                        if isinstance(selected_field, QLineEdit):
-                            value = selected_field.text().strip()
-                        else:
-                            value = selected_field.toPlainText().strip()
-                        cursor.insertHtml(f"<tr><th {th_style} width='30%'>{label[0]}</th>"
-                                          f"<td {td_style} width='70%'>{value.strip()}</td></tr>")
-
-                else:
-                    if isinstance(field, QLineEdit):
-                        value = field.text()
-                    elif isinstance(field, QTextEdit):
-                        value = field.toPlainText()
-                    elif isinstance(field, QComboBox):
-                        value = self.unit_combo.currentText().strip()
-                    else:
-                        value = str(field)
-                    cursor.insertHtml(f"<tr><th {th_style} width='30%'>{self.tr(label)}</th>"
-                                      f"<td {td_style} width='70%'>{value.strip()}</td></tr>")
-
-            # 방어자산 정보 추가
-            cursor.insertHtml(
-                f"<tr><th {th_style} width='30%'>{self.tr('방어자산(DAL)')}</th><td {td_style} width='70%'>{self.dal_checkbox.isChecked()}</td></tr>")
-
-            # 무기체계 정보 추가
-            weapon_systems = []
-            for weapon, checkbox in self.weapon_checkboxes.items():
-                if checkbox.isChecked():
-                    ammo = self.ammo_inputs[weapon].text()
-                    weapon_systems.append(f"{weapon}({ammo})")
-            cursor.insertHtml(
-                f"<tr><th {th_style} width='30%'>{self.tr('무기체계')}</th><td {td_style} width='70%'>{', '.join(weapon_systems)}</td></tr>")
-
-            # 위협방위 정보 추가
-            cursor.insertHtml(
-                f"<tr><th {th_style} width='30%'>{self.tr('위협방위')}</th><td {td_style} width='70%'>{self.threat_degree_edit.text()}</td></tr>")
-
-            # 교전효과 수준 추가
-            cursor.insertHtml(
-                f"<tr><th {th_style} width='30%'>{self.tr('교전효과 수준')}</th><td {td_style} width='70%'>{self.engagement_combo.currentText()}</td></tr>")
-
-            # BMD 우선순위 추가
-            cursor.insertHtml(
-                f"<tr><th {th_style} width='30%'>{self.tr('우선순위 고려사항')}</th><td {td_style} width='70%'>{self.bmd_priority_combo.currentText()}</td></tr>")
-
-            cursor.insertHtml("</table>")
-            cursor.insertHtml("<br><br>")
-
-            # CVT 점수 평가 섹션
-            score_evaluation = self.tr('CVT 점수평가')
-            total_score_table = self.tr('총계')
-            importance_table = self.tr('중요도')
-            vulnerability_table = self.tr('취약성')
-            threat_table = self.tr('위협')
-            table_items = self.tr('항목')
-            table_scores = self.tr('점수')
-            cursor.insertHtml(f"<h2>{score_evaluation}</h2>")
-            total_score, importance_score, vulnerability_score, threat_score = self.summarize_score()
-
-            # 점수 요약 표 생성
-            cursor.insertHtml("<table>")
-            cursor.insertHtml(
-                f"<tr><th width='20%'>{table_items}</th><th width='20%'>{total_score_table}</th><th width='20%'>{importance_table}</th><th width='20%'>{vulnerability_table}</th><th width='20%'>{threat_table}</th></tr>")
-            cursor.insertHtml(
-                f"<tr><td width='20%'>{table_scores}</td><td width='20%'>{total_score}</td><td width='20%'>{importance_score}</td><td width='20%'>{vulnerability_score}</td><td width='20%'>{threat_score}</td></tr>")
-            cursor.insertHtml("</table>")
-            cursor.insertHtml("<br><br>")
-
-            # 중요도 섹션
-            self.add_criticality_section(cursor)
-            cursor.insertHtml("<br><br>")
-            # 취약성 섹션
-            self.add_vulnerability_section(cursor)
-            cursor.insertHtml("<br><br>")
-
-            # 위협 섹션
-            self.add_threat_section(cursor)
-
-            # 미리보기 및 저장 로직
-            preview = QPrintPreviewDialog()
+            printer = QPrinter(QPrinter.PrinterMode.HighResolution)
+            printer.setPageOrientation(QPageLayout.Orientation.Portrait)
+            margins = QMarginsF(20, 20, 20, 20)
+            printer.setPageMargins(margins, QPageLayout.Unit.Millimeter)
+            preview = QPrintPreviewDialog(printer)
+            preview.setWindowTitle(self.tr("인쇄 미리보기"))
             preview.setWindowIcon(QIcon("image/logo.png"))
-            preview.paintRequested.connect(lambda p: document.print_(p))
-            preview.exec_()
 
-            file_path, _ = QFileDialog.getSaveFileName(self, self.tr("PDF 저장"), "", "PDF Files (*.pdf)")
-            if file_path:
-                printer = QPrinter(QPrinter.HighResolution)
-                printer.setOutputFormat(QPrinter.PdfFormat)
-                printer.setOutputFileName(file_path)
-                printer.setPageOrientation(QPageLayout.Landscape)
-                document.print_(printer)
-                QMessageBox.information(self, self.tr("저장 완료"), self.tr("자산 보고서가 {} 파일로 저장되었습니다.").format(file_path))
+            def on_paint_request(printer):
+                document = QTextDocument()
+                document.setPageSize(QSizeF(595.0, 842.0))
+                evaluation_data = self.tr('자산 CVT 평가자료')
+                current_datetime = QDateTime.currentDateTime().toString('yyyy-MM-dd hh:mm:ss')
+                # 제목 추가 (중앙 정렬)
+                html_content = f"""
+                <div style="text-align: center;"><h1>{evaluation_data}</h1></div>
+                """
+                # 출력일시 추가 (우측 정렬)
+                html_content += f"""
+                <div style="text-align: center;">{self.tr('보고서 출력 일시')}: {current_datetime}</div>
+                """
+                html_content += "<br><br>"
+                html_content += f"""
+                    <div style="width: 100%;">
+                        <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
+                            <h2 style="margin-top: 0;">{self.tr('CAL 정보')}</h2>
+                            {self.generate_cal_info_table()}
+                        </div>
+
+                        <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
+                            <h2 style="margin-top: 0;">{self.tr('DAL 정보')}</h2>
+                            {self.generate_dal_info_table()}
+                        </div>
+
+                        <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
+                            <h2 style="margin-top: 0;">{self.tr('CVT 점수 평가')}</h2>
+                            {self.generate_cvt_score_table()}
+                        </div>
+
+                        <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
+                            <h2 style="margin-top: 0;">{self.tr('중요도 평가')}</h2>
+                            {self.generate_criticality_section()}
+                        </div>
+
+                        <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
+                            <h2 style="margin-top: 0;">{self.tr('취약성 평가')}</h2>
+                            {self.generate_vulnerability_section()}
+                        </div>
+
+                        <div style="border: 1px solid #ccc; padding: 15px;">
+                            <h2 style="margin-top: 0;">{self.tr('위협 평가')}</h2>
+                            {self.generate_threat_section()}
+                        </div>
+                    </div>
+                """
+
+                document.setHtml(html_content)
+                document.print(printer)
+
+            preview.paintRequested.connect(on_paint_request)
+            preview.exec()
 
         except Exception as e:
             QMessageBox.critical(self, self.tr("오류"), self.tr("보고서 생성 중 오류가 발생했습니다: {}").format(str(e)))
@@ -1086,109 +1151,109 @@ class AddAssetWindow(QDialog, QObject):
 
         for checkbox_name, checkbox in self.checkboxes.items():
             if checkbox.isChecked():
-                if checkbox_name.startswith("중요도"):
+                if checkbox_name.startswith(self.tr("중요도")):
                     importance_score += checkbox.score
-                elif checkbox_name.startswith("취약성"):
+                elif checkbox_name.startswith(self.tr("취약성")):
                     vulnerability_score += checkbox.score
-                elif checkbox_name.startswith("위협"):
+                elif checkbox_name.startswith(self.tr("위협")):
                     threat_score += checkbox.score
 
         total_score = importance_score + vulnerability_score + threat_score
         return total_score, importance_score, vulnerability_score, threat_score
 
-    def add_criticality_section(self, cursor):
-        cursor.insertHtml(f"<h3>{self.tr(self.sections[0][0])}</h3>")
 
-        # 공통 스타일
-        table_style = "style='border-collapse: collapse; width: 100%; margin-bottom: 20px;'"
-        th_style = "style='border: 1px solid black; padding: 8px; background-color: #f2f2f2;'"
-        td_style = "style='border: 1px solid black; padding: 8px;'"
+    def generate_criticality_section(self):
+        html = f"<h3>{self.tr(self.sections[0][0])}</h3>"
 
-        # 메인 중요도 테이블
-        table_items = self.tr('항목')
-        table_scores = self.tr('점수')
-        table_checks = self.tr('체크')
-        cursor.insertHtml(f"<table {table_style}>")
-        cursor.insertHtml(
-            f"<tr><th {th_style} width='70%'align='center'>{table_items}</th><th {th_style} width='15%' align='center'>{table_scores}</th><th {th_style} width='15%' align='center'>{table_checks}</th></tr>")
+        table_style = "border-collapse: collapse; width: 100%; margin-bottom: 20px;"
+        cell_style = "border: 1px solid black; padding: 8px;"
+        header_style = cell_style + "background-color: #f2f2f2;"
+
+        html += f"""
+            <table style="{table_style}">
+                <tr>
+                    <th style="{header_style}" width="70%">{self.tr('항목')}</th>
+                    <th style="{header_style}" width="15%">{self.tr('점수')}</th>
+                    <th style="{header_style}" width="15%">{self.tr('체크')}</th>
+                </tr>
+        """
+
         for item, score in self.sections[0][1]:
             if isinstance(score, (int, float)):
                 checkbox = self.checkboxes.get(self.sections[0][0] + "_" + item)
-                checkbox = "☑" if checkbox.isChecked() else "☐"
-                cursor.insertHtml(
-                    f"<tr><td {td_style} width='70%'>{self.tr(item)}</td><td {td_style} width='15%' align='center'>{score}</td><td {td_style} width='15%' align='center'>{checkbox}</td></tr>")
-        cursor.insertHtml("</table>")
-        cursor.insertHtml("<br><br>")
+                check_mark = "☑" if checkbox.isChecked() else "☐"
+                html += f"""
+                    <tr>
+                        <td style="{cell_style}">{self.tr(item)}</td>
+                        <td style="{cell_style}" align="center">{score}</td>
+                        <td style="{cell_style}" align="center">{check_mark}</td>
+                    </tr>
+                """
 
-        # 중요도 가점 테이블들
-        for subsection in self.sections[0][1]:
-            if isinstance(subsection[1], list):
-                cursor.insertHtml(f"<h4>{self.tr(subsection[0])}</h4>")
-                cursor.insertHtml(f"<table {table_style}>")
-                cursor.insertHtml(
-                    f"<tr><th {th_style} width='70%'align='center'>{table_scores}</th><th {th_style} width='15%'align='center'>{table_scores}</th><th {th_style} width='15%'align='center'>{table_checks}</th></tr>")
-                for item, score in subsection[1]:
-                    checkbox = self.checkboxes.get(self.sections[0][0] + "_" + subsection[0] + "_" + item)
-                    checkbox = "☑" if checkbox.isChecked() else "☐"
-                    cursor.insertHtml(
-                        f"<tr><td {td_style} width='70%'>{self.tr(item)}</td><td {td_style} width='15%' align='center'>{score}</td><td {td_style} width='15%' align='center'>{checkbox}</td></tr>")
-                cursor.insertHtml("</table>")
-                cursor.insertHtml("<br><br>")
+        html += "</table>"
+        return html
 
-    def add_vulnerability_section(self, cursor):
-        cursor.insertHtml(f"<h3>{self.tr(self.sections[1][0])}</h3>")
-        cursor.insertHtml("<br><br>")
-        # 공통 스타일
-        table_style = "style='border-collapse: collapse; width: 100%; margin-bottom: 20px;'"
-        th_style = "style='border: 1px solid black; padding: 8px; background-color: #f2f2f2;'"
-        td_style = "style='border: 1px solid black; padding: 8px;'"
-        table_items = self.tr('항목')
-        table_scores = self.tr('점수')
-        table_checks = self.tr('체크')
+    def generate_vulnerability_section(self):
+        html = f"<h3>{self.tr(self.sections[1][0])}</h3>"
+
+        table_style = "border-collapse: collapse; width: 100%; margin-bottom: 20px;"
+        cell_style = "border: 1px solid black; padding: 8px;"
+        header_style = cell_style + "background-color: #f2f2f2;"
 
         for subsection in self.sections[1][1]:
             for item, scores in subsection[1]:
-                cursor.insertHtml(f"<h4>{self.tr(self.sections[1][0] + '_' + subsection[0] + '_' + item)}</h4>")
-                cursor.insertHtml(f"<table {table_style}>")
-                cursor.insertHtml(
-                    f"<tr><th {th_style} width='70%'align='center'>{table_items}</th><th {th_style} width='15%'align='center'>{table_scores}</th><th {th_style} width='15%'align='center'>{table_checks}</th></tr>")
+                html += f"""
+                    <h4>{self.tr(self.sections[1][0] + '_' + subsection[0] + '_' + item)}</h4>
+                    <table style="{table_style}">
+                        <tr>
+                            <th style="{header_style}" width="70%">{self.tr('항목')}</th>
+                            <th style="{header_style}" width="15%">{self.tr('점수')}</th>
+                            <th style="{header_style}" width="15%">{self.tr('체크')}</th>
+                        </tr>
+                """
+
                 for ite, score in scores:
                     checkbox = self.checkboxes.get(self.sections[1][0] + "_" + subsection[0] + "_" + item + "_" + ite)
-                    checkbox = "☑" if checkbox.isChecked() else "☐"
-                    cursor.insertHtml(
-                        f"<tr><td {td_style} width='70%'>{self.tr(ite)}</td><td {td_style} width='15%' align='center'>{score}</td><td {td_style} width='15%' align='center'>{checkbox}</td></tr>")
-                cursor.insertHtml("</table>")
-                cursor.insertHtml("<br><br>")
+                    check_mark = "☑" if checkbox.isChecked() else "☐"
+                    html += f"""
+                            <tr>
+                                <td style="{cell_style}">{self.tr(item)}</td>
+                                <td style="{cell_style}" align="center">{score}</td>
+                                <td style="{cell_style}" align="center">{check_mark}</td>
+                            </tr>
+                            """
+                html += "</table>"
+        return html
 
-        # 테이블 간 간격 추가
-        cursor.insertHtml("<br><br>")
+    def generate_threat_section(self):
+        html = f"<h3>{self.tr(self.sections[2][0])}</h3>"
 
-    def add_threat_section(self, cursor):
-        cursor.insertHtml(f"<h3>{self.tr(self.sections[2][0])}</h3>")
-        cursor.insertHtml("<br><br>")
-        # 공통 스타일
-        table_style = "style='border-collapse: collapse; width: 100%; margin-bottom: 20px;'"
-        th_style = "style='border: 1px solid black; padding: 8px; background-color: #f2f2f2;'"
-        td_style = "style='border: 1px solid black; padding: 8px;'"
-        table_items = self.tr('항목')
-        table_scores = self.tr('점수')
-        table_checks = self.tr('체크')
+        table_style = "border-collapse: collapse; width: 100%; margin-bottom: 20px;"
+        cell_style = "border: 1px solid black; padding: 8px;"
+        header_style = cell_style + "background-color: #f2f2f2;"
 
         for subsection in self.sections[2][1]:
-            cursor.insertHtml(f"<h4>{self.tr(self.sections[2][0] + '_' + subsection[0])}</h4>")
-            cursor.insertHtml(f"<table {table_style}>")
-            cursor.insertHtml(
-                f"<tr><th {th_style} width='70%' align='center'>{table_items}</th><th {th_style} width='15%' align='center'>{table_scores}</th><th {th_style} width='15%' align='center'>{table_checks}</th></tr>")
+            html += f"""
+                <h4>{self.tr(self.sections[2][0] + '_' + subsection[0])}</h4>
+                <table style="{table_style}">
+                    <tr>
+                        <th style="{header_style}" width="70%">{self.tr('항목')}</th>
+                        <th style="{header_style}" width="15%">{self.tr('점수')}</th>
+                        <th style="{header_style}" width="15%">{self.tr('체크')}</th>
+                    </tr>
+            """
             for item, score in subsection[1]:
-                checkbox = self.checkboxes.get(self.sections[2][0] + "_" + subsection[0] + "_" + item)
-                checkbox = "☑" if checkbox.isChecked() else "☐"
-                cursor.insertHtml(
-                    f"<tr><td {td_style} width='70%'>{self.tr(item)}</td><td {td_style} width='15%' align='center'>{score}</td><td {td_style} width='15%' align='center'>{checkbox}</td></tr>")
-            cursor.insertHtml("</table>")
-            cursor.insertHtml("<br><br>")
-
-        # 테이블 간 간격 추가
-        cursor.insertHtml("<br>")
+                checkbox = self.checkboxes.get(self.sections[2][0] + "_" + subsection[0] + "_" + item )
+                check_mark = "☑" if checkbox.isChecked() else "☐"
+                html += f"""
+                        <tr>
+                            <td style="{cell_style}">{self.tr(item)}</td>
+                            <td style="{cell_style}" align="center">{score}</td>
+                            <td style="{cell_style}" align="center">{check_mark}</td>
+                        </tr>
+                        """
+            html += "</table>"
+        return html
 
     @staticmethod
     def validate_latitude(lat):
@@ -1252,7 +1317,7 @@ class MainWindow(QtWidgets.QMainWindow):
         super(MainWindow, self).__init__()
         self.setWindowTitle(self.tr("자산 관리"))  # 창 제목 설정
         self.setMinimumSize(1024, 768)  # 최소 크기 설정
-        self.selected_language = "en"
+        self.selected_language = "ko"
         self.db_path = 'assets_management.db'
         self.conn = sqlite3.connect(self.db_path)  # 데이터베이스 연결
         self.cursor = self.conn.cursor()  # 커서 생성
@@ -1384,7 +1449,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # 메인 페이지 구성
         page = QWidget()
         layout = QVBoxLayout()  # 수직 레이아웃 생성
-        layout.setAlignment(Qt.AlignCenter)  # 중앙 정렬
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)  # 중앙 정렬
 
         title = QLabel(self.tr("자산 관리 시스템"))  # 제목 레이블
         title.setStyleSheet("font-size: 30px; font-family: Arial;")  # 제목 스타일 설정
@@ -1403,9 +1468,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.add_asset_win = AddAssetWindow(self)  # AddAssetWindow 인스턴스 생성
         self.centralWidget.addWidget(self.add_asset_win)  # 중앙 위젯에 추가
 
+
     def show_add_asset_page(self):
         # 자산 추가 페이지 표시
         self.centralWidget.setCurrentWidget(self.add_asset_win)  # 자산 추가 페이지로 전환
+
+    def show_cal_view_page(self):
+        self.centralWidget.setCurrentIndex(0)  # 자산 추가 페이지로 전환
 
     def show_main_page(self):
         # 메인 페이지 표시
@@ -1427,7 +1496,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)  # QApplication 인스턴스 생성
-    app.setFont(QtGui.QFont("강한공군체", 12, QtGui.QFont.Weight.Bold))
+    app.setFont(QtGui.QFont("강한공군체", 12))
     win = MainWindow()  # 메인 윈도우 인스턴스 생성
     win.show()  # 윈도우 표시
-    sys.exit(app.exec_())  # 애플리케이션 실행
+    sys.exit(app.exec())  # 애플리케이션 실행

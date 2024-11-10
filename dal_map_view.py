@@ -147,31 +147,44 @@ class DalMapView(QObject):
     def get_shape_html(shape_num, color):
         shapes = {
             1: f'''<svg width="20" height="20" viewBox="0 0 100 100">
-                <path d="M50 5 L61 35 L98 35 L68 57 L79 91 L50 70 L21 91 L32 57 L2 35 L39 35 Z" fill="{color}"/>
-                <circle cx="50" cy="50" r="10" fill="white"/>
-            </svg>''',
-            2:f'''<svg width="20" height="20" viewBox="0 0 100 100">
-                <path d="M50 10 L10 90 H90 Z" fill="{color}"/>
-                <path d="M50 30 L30 70 H70 Z" fill="white"/>
-            </svg>''',
-            3:f'''<svg width="20" height="20" viewBox="0 0 100 100">
-                <path d="M20 0 H80 L100 20 V80 L80 100 H20 L0 80 V20 Z" fill="{color}"/>
-                <rect x="30" y="30" width="40" height="40" fill="white"/>
-            </svg>''',
-            4:f'''<svg width="20" height="20" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="{color}"/>
+                <path d="M50 20 L80 65 H20 Z" fill="white"/>
+                <circle cx="50" cy="50" r="15" fill="white"/>
+                <path d="M35 45 L65 45 L65 55 L35 55 Z" fill="{color}"/>
+            </svg>''',  # 지휘통제시설 - 통신/제어를 상징하는 안테나 형태
+
+            2: f'''<svg width="20" height="20" viewBox="0 0 100 100">
+                <path d="M50 10 L90 90 L10 90 Z" fill="{color}"/>
+                <path d="M30 50 L50 30 L70 50 L60 80 L40 80 Z" fill="white"/>
+                <path d="M45 40 L55 40 L55 60 L45 60 Z" fill="{color}"/>
+            </svg>''',  # 비행단 - 상승하는 비행기 형상
+
+            3: f'''<svg width="20" height="20" viewBox="0 0 100 100">
+                <rect x="10" y="10" width="80" height="80" rx="10" fill="{color}"/>
+                <path d="M30 40 H70 M30 50 H70 M30 60 H70" stroke="white" stroke-width="8"/>
+                <rect x="25" y="30" width="50" height="40" fill="white"/>
+            </svg>''',  # 군수기지 - 창고/보관 형태
+
+            4: f'''<svg width="20" height="20" viewBox="0 0 100 100">
                 <path d="M50 0 L100 50 L50 100 L0 50 Z" fill="{color}"/>
-                <circle cx="50" cy="50" r="20" fill="white"/>
-            </svg>''',
+                <path d="M35 35 L65 35 L65 65 L35 65 Z" fill="white"/>
+                <path d="M30 50 H70" stroke="{color}" stroke-width="6"/>
+            </svg>''',  # 해군기지 - 정박지 형태
+
             5: f'''<svg width="20" height="20" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="50" fill="{color}"/>
-                <path d="M50 20 L80 80 H20 Z" fill="white"/>
-                <circle cx="50" cy="50" r="10" fill="{color}"/>
-            </svg>''',
+                <circle cx="50" cy="50" r="45" fill="{color}"/>
+                <path d="M50 15 A35 35 0 0 1 85 50 L50 50 Z" fill="white"/>
+                <circle cx="50" cy="50" r="15" fill="{color}"/>
+                <circle cx="50" cy="50" r="5" fill="white"/>
+            </svg>''',  # 주요레이다 - 레이다 스캔 형태
+
             6: f'''<svg width="20" height="20" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="40" fill="{color}"/>
-            </svg>'''
-            }
-        return shapes[shape_num].format(color)
+                <circle cx="50" cy="50" r="20" fill="white"/>
+            </svg>'''  # 기본 형태
+        }
+        return shapes[shape_num]
+
 
 class WeaponMapView(QObject):
     def __init__(self, coordinates_list, map_obj, show_defense_radius):
@@ -406,31 +419,43 @@ class PriorityDalMapView(QObject):
     def get_shape_html(shape_num, color):
         shapes = {
             1: f'''<svg width="20" height="20" viewBox="0 0 100 100">
-                <path d="M50 5 L61 35 L98 35 L68 57 L79 91 L50 70 L21 91 L32 57 L2 35 L39 35 Z" fill="{color}"/>
-                <circle cx="50" cy="50" r="10" fill="white"/>
-            </svg>''',
-            2:f'''<svg width="20" height="20" viewBox="0 0 100 100">
-                <path d="M50 10 L10 90 H90 Z" fill="{color}"/>
-                <path d="M50 30 L30 70 H70 Z" fill="white"/>
-            </svg>''',
-            3:f'''<svg width="20" height="20" viewBox="0 0 100 100">
-                <path d="M20 0 H80 L100 20 V80 L80 100 H20 L0 80 V20 Z" fill="{color}"/>
-                <rect x="30" y="30" width="40" height="40" fill="white"/>
-            </svg>''',
-            4:f'''<svg width="20" height="20" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="45" fill="{color}"/>
+                <path d="M50 20 L80 65 H20 Z" fill="white"/>
+                <circle cx="50" cy="50" r="15" fill="white"/>
+                <path d="M35 45 L65 45 L65 55 L35 55 Z" fill="{color}"/>
+            </svg>''',  # 지휘통제시설 - 통신/제어를 상징하는 안테나 형태
+
+            2: f'''<svg width="20" height="20" viewBox="0 0 100 100">
+                <path d="M50 10 L90 90 L10 90 Z" fill="{color}"/>
+                <path d="M30 50 L50 30 L70 50 L60 80 L40 80 Z" fill="white"/>
+                <path d="M45 40 L55 40 L55 60 L45 60 Z" fill="{color}"/>
+            </svg>''',  # 비행단 - 상승하는 비행기 형상
+
+            3: f'''<svg width="20" height="20" viewBox="0 0 100 100">
+                <rect x="10" y="10" width="80" height="80" rx="10" fill="{color}"/>
+                <path d="M30 40 H70 M30 50 H70 M30 60 H70" stroke="white" stroke-width="8"/>
+                <rect x="25" y="30" width="50" height="40" fill="white"/>
+            </svg>''',  # 군수기지 - 창고/보관 형태
+
+            4: f'''<svg width="20" height="20" viewBox="0 0 100 100">
                 <path d="M50 0 L100 50 L50 100 L0 50 Z" fill="{color}"/>
-                <circle cx="50" cy="50" r="20" fill="white"/>
-            </svg>''',
+                <path d="M35 35 L65 35 L65 65 L35 65 Z" fill="white"/>
+                <path d="M30 50 H70" stroke="{color}" stroke-width="6"/>
+            </svg>''',  # 해군기지 - 정박지 형태
+
             5: f'''<svg width="20" height="20" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="50" fill="{color}"/>
-                <path d="M50 20 L80 80 H20 Z" fill="white"/>
-                <circle cx="50" cy="50" r="10" fill="{color}"/>
-            </svg>''',
+                <circle cx="50" cy="50" r="45" fill="{color}"/>
+                <path d="M50 15 A35 35 0 0 1 85 50 L50 50 Z" fill="white"/>
+                <circle cx="50" cy="50" r="15" fill="{color}"/>
+                <circle cx="50" cy="50" r="5" fill="white"/>
+            </svg>''',  # 주요레이다 - 레이다 스캔 형태
+
             6: f'''<svg width="20" height="20" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="40" fill="{color}"/>
-            </svg>'''
-            }
-        return shapes[shape_num].format(color)
+                <circle cx="50" cy="50" r="20" fill="white"/>
+            </svg>'''  # 기본 형태
+        }
+        return shapes[shape_num]
 
 class PriorityWeaponMapView(QObject):
     def __init__(self, coordinates_list, map_obj, show_defense_radius):

@@ -40,7 +40,7 @@ class AddWeaponAssetWindow(QDialog):
         if self.edit_mode and self.asset_data:
             self.setWindowTitle(self.tr("미사일 방어포대 정보수정"))
             self.populate_fields()  # initUI 호출 후에 populate_fields 호출
-        self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint | Qt.WindowMinimizeButtonHint)
+        self.setWindowFlags(self.windowFlags() | Qt.WindowType.WindowMaximizeButtonHint | Qt.WindowType.WindowMinimizeButtonHint)
 
 
     def initUI(self):
@@ -62,7 +62,7 @@ class AddWeaponAssetWindow(QDialog):
 
         labels = [
             self.tr("구성군"),
-            (self.tr("지역구분"), self.tr("(영문)")),
+            (self.tr("지역"), self.tr("(영문)")),
             (self.tr("방어포대명"), self.tr("(영문)")),
             (self.tr("위도"), self.tr("경도")),
             self.tr("군사좌표(MGRS)"),
@@ -89,7 +89,7 @@ class AddWeaponAssetWindow(QDialog):
                         input_widget.editingFinished.connect(self.check_coordinates)
                     else:
                         input_widget = UnderlineEdit()
-                    input_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                    input_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
                     input_widget.setStyleSheet("background-color: white; font: 바른공군체; font-size: 13pt;")
                     input_widgets.append(input_widget)
 
@@ -107,8 +107,8 @@ class AddWeaponAssetWindow(QDialog):
                 # 레이블 위젯 스타일 설정 (메인 레이블과 서브 레이블 모두 동일한 스타일 적용)
                 for widget in [label_widget, sub_label_widget]:
                     widget.setStyleSheet("font: 강한공군체; font-size: 16px; font-weight: bold;")
-                    widget.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
-                    widget.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                    widget.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+                    widget.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
                     widget.setFixedWidth(75)  # 레이블 너비를 절반으로 줄임
 
 
@@ -118,7 +118,7 @@ class AddWeaponAssetWindow(QDialog):
                 if label == self.tr("구성군"):
                     self.unit_combo = QComboBox()
                     self.unit_combo.addItems([self.tr("지상군"), self.tr("해군"), self.tr("공군"), self.tr("기타")])
-                    self.unit_combo.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                    self.unit_combo.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
                     self.unit_combo.setStyleSheet("background-color: white; font: 바른공군체; font-size: 13pt;")
                     input_widget = self.unit_combo
 
@@ -136,7 +136,7 @@ class AddWeaponAssetWindow(QDialog):
                     # 무기체계 이름들을 콤보박스에 추가
                     self.weapon_system_input.addItems(weapon_systems.keys())
 
-                    self.weapon_system_input.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                    self.weapon_system_input.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
                     self.weapon_system_input.setStyleSheet("background-color: white; font: 바른공군체; font-size: 13pt;")
                     input_widget = self.weapon_system_input
 
@@ -147,7 +147,7 @@ class AddWeaponAssetWindow(QDialog):
                 else:
                     input_widget = UnderlineEdit()
 
-                input_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+                input_widget.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
                 input_widget.setStyleSheet("background-color: white; font: 바른공군체; font-size: 13pt;")
 
                 hbox.addWidget(label_widget)
@@ -157,8 +157,8 @@ class AddWeaponAssetWindow(QDialog):
 
             # 레이블 위젯 스타일 설정
             label_widget.setStyleSheet("font: 강한공군체; font-size: 16px; font-weight: bold;")
-            label_widget.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Preferred)
-            label_widget.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            label_widget.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+            label_widget.setAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
             label_widget.setFixedWidth(150)  # 모든 레이블의 너비를 고정
 
             asset_info_layout_main.addLayout(hbox, row, 0, 1, 4)
@@ -269,7 +269,7 @@ class AddWeaponAssetWindow(QDialog):
                 if self.edit_mode:
                     cursor.execute(
                         "UPDATE weapon_assets_ko SET unit=?, area=?, asset_name=?, coordinate=?, mgrs=?, weapon_system=?, ammo_count=?, threat_degree=?, dal_select=? WHERE id=?",
-                        (unit_tuple[0], asset_data[(self.tr("지역구분"), self.tr("(영문)"))][0],
+                        (unit_tuple[0], asset_data[(self.tr("지역"), self.tr("(영문)"))][0],
                          asset_data[(self.tr("방어포대명"), self.tr("(영문)"))][0], lat_lon,
                          asset_data[self.tr("군사좌표(MGRS)")],
                          weapon_system, asset_data[self.tr("보유탄수")], asset_data[self.tr("위협방위")], dal_select,
@@ -278,7 +278,7 @@ class AddWeaponAssetWindow(QDialog):
 
                     cursor.execute(
                         "UPDATE weapon_assets_en SET unit=?, area=?, asset_name=?, coordinate=?, mgrs=?, weapon_system=?, ammo_count=?, threat_degree=?, dal_select=? WHERE id=?",
-                        (unit_tuple[1], asset_data[(self.tr("지역구분"), self.tr("(영문)"))][1],
+                        (unit_tuple[1], asset_data[(self.tr("지역"), self.tr("(영문)"))][1],
                          asset_data[(self.tr("방어포대명"), self.tr("(영문)"))][1], lat_lon,
                          asset_data[self.tr("군사좌표(MGRS)")],
                          weapon_system, asset_data[self.tr("보유탄수")], asset_data[self.tr("위협방위")], dal_select,
@@ -287,14 +287,14 @@ class AddWeaponAssetWindow(QDialog):
                 else:
                     cursor.execute(
                         "INSERT INTO weapon_assets_ko (unit, area, asset_name, coordinate, mgrs, weapon_system, ammo_count, threat_degree, dal_select) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                        (unit_tuple[0], asset_data[(self.tr("지역구분"), self.tr("(영문)"))][0],
+                        (unit_tuple[0], asset_data[(self.tr("지역"), self.tr("(영문)"))][0],
                          asset_data[(self.tr("방어포대명"), self.tr("(영문)"))][0], lat_lon,
                          asset_data[self.tr("군사좌표(MGRS)")],
                          weapon_system, asset_data[self.tr("보유탄수")], asset_data[self.tr("위협방위")], dal_select)
                     )
                     cursor.execute(
                         "INSERT INTO weapon_assets_en (unit, area, asset_name, coordinate, mgrs, weapon_system, ammo_count, threat_degree, dal_select) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                        (unit_tuple[1], asset_data[(self.tr("지역구분"), self.tr("(영문)"))][1],
+                        (unit_tuple[1], asset_data[(self.tr("지역"), self.tr("(영문)"))][1],
                          asset_data[(self.tr("방어포대명"), self.tr("(영문)"))][1], lat_lon,
                          asset_data[self.tr("군사좌표(MGRS)")],
                          weapon_system, asset_data[self.tr("보유탄수")], asset_data[self.tr("위협방위")], dal_select)
@@ -324,7 +324,7 @@ class AddWeaponAssetWindow(QDialog):
             lat, lon = coord_str.split(',')
             for label, field in self.asset_info_fields.items():
                 if isinstance(field, tuple):
-                    if label == (self.tr("지역구분"), self.tr("(영문)")):
+                    if label == (self.tr("지역"), self.tr("(영문)")):
                         f1, f2 = field
                         print(f1, f2)
                         f1.setText(str(asset_data1[2]))
@@ -379,7 +379,6 @@ class WeaponAssetWindow(QDialog):
             zoom_start=self.parent.map_app.loadSettings()['zoom'],
             tiles=self.parent.map_app.loadSettings()['style'])
         self.initUI()
-        self.weapon_assets_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.load_all_assets()
         self.show_threat_radius = False
         self.update_map()
@@ -388,7 +387,7 @@ class WeaponAssetWindow(QDialog):
         main_layout = QHBoxLayout()
 
         # QSplitter 생성
-        splitter = QSplitter(Qt.Horizontal)
+        splitter = QSplitter(Qt.Orientation.Horizontal)
 
         # 좌측 레이아웃 (필터 및 테이블)
         left_widget = QWidget()
@@ -401,11 +400,11 @@ class WeaponAssetWindow(QDialog):
         # 필터 레이아웃 생성
         filter_layout = QVBoxLayout()
         filter_layout.setSpacing(10)
-        filter_layout.setAlignment(Qt.AlignLeft)
+        filter_layout.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
         # 첫 번째 줄: 콤보박스들
         combo_layout = QHBoxLayout()
-        combo_layout.setAlignment(Qt.AlignLeft)
+        combo_layout.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
         # 구성군 선택 필터
         unit_filter_label = QLabel(self.tr("구성군 선택"), self)
@@ -442,7 +441,7 @@ class WeaponAssetWindow(QDialog):
 
         # 두 번째 줄: 검색 섹션
         search_layout = QHBoxLayout()
-        search_layout.setAlignment(Qt.AlignLeft)
+        search_layout.setAlignment(Qt.AlignmentFlag.AlignLeft)
 
         search_label = QLabel(self.tr("검색"), self)
         search_label.setStyleSheet("font: 바른공군체; font-size: 16px;")
@@ -477,7 +476,7 @@ class WeaponAssetWindow(QDialog):
         self.weapon_assets_table = MyTableWidget()
         self.weapon_assets_table.setColumnCount(10)  # 삭제 버튼 열 추가
         self.weapon_assets_table.setHorizontalHeaderLabels([
-            "", self.tr("구성군"), self.tr("지역구분"), self.tr("방어포대명"), self.tr("경위도"), self.tr("군사좌표(MGRS)"),
+            "", self.tr("구성군"), self.tr("지역"), self.tr("방어포대명"), self.tr("경위도"), self.tr("군사좌표(MGRS)"),
             self.tr("무기체계"), self.tr("보유탄수"), self.tr("위협방위"), self.tr("삭제")])
 
         # 행 번호 숨기기
@@ -485,14 +484,15 @@ class WeaponAssetWindow(QDialog):
         self.weapon_assets_table.setAlternatingRowColors(True)
         self.weapon_assets_table.setStyleSheet("QTableWidget {background-color: #ffffff; font: 바른공군체; font-size: 16px;}"
                                         "QTableWidget::item { padding: 1px; }")
-        self.weapon_assets_table.setSelectionBehavior(QTableView.SelectRows)
+        self.weapon_assets_table.setSelectionBehavior(QTableView.SelectionBehavior.SelectRows)
+
         font = QFont("강한공군체", 13)
         font.setBold(True)
         self.weapon_assets_table.horizontalHeader().setFont(font)
 
         # 헤더 설정
         header = self.weapon_assets_table.horizontalHeader()
-        header.setSectionResizeMode(QtWidgets.QHeaderView.Interactive)
+        header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Interactive)
         header.resizeSection(0, 50)
         header.resizeSection(-1, 100)
 
@@ -500,19 +500,19 @@ class WeaponAssetWindow(QDialog):
         for column in range(header.count()):
             item = self.weapon_assets_table.horizontalHeaderItem(column)
             if item:
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # 테이블 설정
         self.weapon_assets_table.horizontalHeader().setStretchLastSection(False)
-        self.weapon_assets_table.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.weapon_assets_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.weapon_assets_table.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
+        self.weapon_assets_table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
 
         # 각 열의 내용에 맞게 너비 설정
         for column in range(1, header.count() - 1):
-            self.weapon_assets_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.Stretch)
+            self.weapon_assets_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.ResizeMode.Stretch)
 
         # 헤더 높이 자동 조절
-        self.weapon_assets_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
+        self.weapon_assets_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Fixed)
         self.weapon_assets_table.verticalHeader().setDefaultSectionSize(60)
 
         left_layout.addWidget(self.weapon_assets_table)
@@ -604,7 +604,7 @@ class WeaponAssetWindow(QDialog):
         self.load_assets()
 
     def toggle_threat_radius(self, state):
-        self.show_threat_radius = state == Qt.Checked
+        self.show_threat_radius = state == Qt.CheckState.Checked.value
         self.update_map()
 
     def refresh(self):
@@ -634,19 +634,20 @@ class WeaponAssetWindow(QDialog):
         self.weapon_assets_table.setRowCount(len(assets))
         for row_idx, asset in enumerate(assets):
             checkbox = CenteredCheckBox()
-            self.weapon_assets_table.setCellWidget(row_idx, 0, checkbox)
             checkbox.checkbox.stateChanged.connect(self.update_map)
+            self.weapon_assets_table.setCellWidget(row_idx, 0, checkbox)
+
             for col_idx, item in enumerate(asset[1:], start=1):  # id 열 제외
                 if col_idx == 8 :  # 위협방위 열
                     threat_degree = f"{int(item):03d}°"  # 3자리 숫자로 변환하고 도(°) 기호 추가
                     table_item = QTableWidgetItem(threat_degree)
                 else:
                     table_item = QTableWidgetItem(str(item))
-                table_item.setTextAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+                table_item.setTextAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
                 self.weapon_assets_table.setItem(row_idx, col_idx, table_item)
 
             # id를 첫 번째 열의 UserRole에 저장
-            self.weapon_assets_table.item(row_idx, 1).setData(Qt.UserRole, asset[0])
+            self.weapon_assets_table.item(row_idx, 1).setData(Qt.ItemDataRole.UserRole, asset[0])
         self.weapon_assets_table.setColumnHidden(4, True)
         self.weapon_assets_table.setColumnHidden(5, True)
         self.weapon_assets_table.setColumnHidden(10, True)
@@ -693,16 +694,16 @@ class WeaponAssetWindow(QDialog):
         self.weapon_assets_table.setRowCount(len(assets))
         for row_idx, asset in enumerate(assets):
             checkbox = CenteredCheckBox()
-            self.weapon_assets_table.setCellWidget(row_idx, 0, checkbox)
             checkbox.checkbox.stateChanged.connect(self.update_map)
+            self.weapon_assets_table.setCellWidget(row_idx, 0, checkbox)
 
             for col_idx, item in enumerate(asset[1:], start=1):  # id 열 제외
-                if col_idx == 7:  # 위협방위 열
+                if col_idx == 8:  # 위협방위 열
                     threat_degree = f"{int(item):03d}°"  # 3자리 숫자로 변환하고 도(°) 기호 추가
                     table_item = QTableWidgetItem(threat_degree)
                 else:
                     table_item = QTableWidgetItem(str(item))
-                table_item.setTextAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+                table_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.weapon_assets_table.setItem(row_idx, col_idx, table_item)
                 delete_button = QPushButton("삭제")
                 delete_button.clicked.connect(lambda _, r=row_idx: self.delete_asset(r))
@@ -710,13 +711,13 @@ class WeaponAssetWindow(QDialog):
 
             # id를 첫 번째 열의 UserRole에 저장
             self.update_map()
-            self.weapon_assets_table.item(row_idx, 1).setData(Qt.UserRole, asset[0])
+            self.weapon_assets_table.item(row_idx, 1).setData(Qt.ItemDataRole.UserRole, asset[0])
 
     def delete_asset(self, row):
-        asset_id = self.weapon_assets_table.item(row, 1).data(Qt.UserRole)
+        asset_id = self.weapon_assets_table.item(row, 1).data(Qt.ItemDataRole.UserRole)
         reply = QMessageBox.question(self, '확인', '이 자산을 삭제하시겠습니까?',
-                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-        if reply == QMessageBox.Yes:
+                                     QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
+        if reply == QMessageBox.StandardButton.Yes:
             cursor = self.parent.cursor
             cursor.execute(f"DELETE FROM weapon_assets_ko WHERE id = ?", (asset_id,))
             self.parent.conn.commit()
@@ -736,7 +737,7 @@ class WeaponAssetWindow(QDialog):
             return
 
         row = checked_rows[0]
-        asset_id = self.weapon_assets_table.item(row, 1).data(Qt.UserRole)
+        asset_id = self.weapon_assets_table.item(row, 1).data(Qt.ItemDataRole.UserRole)
         cursor = self.parent.cursor
 
         if self.parent.selected_language == 'ko':
@@ -748,8 +749,8 @@ class WeaponAssetWindow(QDialog):
         asset_data = cursor.fetchone()
 
         edit_window = AddWeaponAssetWindow(self, edit_mode=True, asset_data=asset_data)
-        if edit_window.exec_() == QDialog.Accepted:
-            self.load__assets()
+        if edit_window.exec() == QDialog.DialogCode.Accepted:
+            self.load_assets()
 
     def update_map(self):
         # 새로운 지도 객체를 생성하되, 현재의 중심 위치와 줌 레벨을 사용합니다.
@@ -805,77 +806,104 @@ class WeaponAssetWindow(QDialog):
 
     def add_weapon_asset(self):
         add_defense_asset = AddWeaponAssetWindow(self)
-        add_defense_asset.exec_()
+        add_defense_asset.exec()
 
     def print_weapon_assets_table(self):
         try:
             document = QTextDocument()
             cursor = QTextCursor(document)
 
-            # CSS 스타일 수정
+            # 개선된 CSS 스타일
             document.setDefaultStyleSheet("""
-                @page { size: A4; margin: 20mm; }
+                @page { size: A4 portrait; margin: 10mm; }
                 body { 
-                    font-family: 'Arial', sans-serif;
+                    font-family: 'Malgun Gothic', sans-serif;
                     width: 100%;
                     margin: 0 auto;
+                    background-color: #ffffff;
                 }
                 h1 { 
-                    color: black; 
+                    color: #2c3e50; 
                     text-align: center;
                     margin-bottom: 20px;
+                    font-size: 22px;
+                    padding: 10px;
+                    border-bottom: 2px solid #3498db;
                 }
-                .info { padding: 1px; }
+                .info { 
+                    padding: 5px;
+                    color: #7f8c8d;
+                    font-size: 12px;
+                    margin-bottom: 15px;
+                }
                 table { 
                     border-collapse: collapse; 
-                    width: 90%;
-                    margin: 0 auto;
-                    text-align: center;
+                    width: 100%;
+                    margin: 10px auto;
+                    background-color: #ffffff;
                 }
-                td, th { 
-                    border: 1px solid black; 
-                    padding: 5px; 
+                th { 
+                    color: black;
                     text-align: center;
+                    font-weight: bold;
+                    padding: 12px 8px;
+                    border: 1px solid #2980b9;
+                }
+                td { 
+                    border: 1px solid #bdc3c7;
+                    padding: 8px;
+                    text-align: center;
+                    color: #2c3e50;
+                }
+                tr:nth-child(even) {
+                    background-color: #f9f9f9;
+                }
+                tr:hover {
+                    background-color: #f5f6fa;
                 }
             """)
 
-            font = QFont("Arial", 8)
+            font = QFont("Arial", 10)
             document.setDefaultFont(font)
 
-            cursor.insertHtml("<h1 align='center'>" + self.tr("미사일 방어포대 목록") + "</h1>")
-            cursor.insertBlock()
+            # 헤더 섹션
+            cursor.insertHtml(f"""
+                <h1>{self.tr("미사일 방어포대 목록")}</h1>
+                <div class='info' style='text-align: right;'>
+                    {self.tr("보고서 생성 일시: ")} {QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss")}
+                </div>
+            """)
 
-            cursor.insertHtml("<div class='info' style='text-align: left; font-size: 0.9em;'>")
-            cursor.insertHtml(self.tr("보고서 생성 일시: ") + QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))
-            cursor.insertHtml("</div>")
-            cursor.insertBlock()
-
+            # 테이블 포맷 설정
             table_format = QTextTableFormat()
-            table_format.setBorderStyle(QTextFrameFormat.BorderStyle_Solid)
+            table_format.setBorderStyle(QTextFrameFormat.BorderStyle.BorderStyle_Solid)
             table_format.setCellPadding(1)
-            table_format.setAlignment(Qt.AlignCenter)
-            table_format.setWidth(QTextLength(QTextLength.PercentageLength, 100))
+            table_format.setCellSpacing(0)
+            table_format.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            table_format.setWidth(QTextLength(QTextLength.Type.PercentageLength, 100))
 
+
+            excluded_columns = [0, 5, 9]
+            cols = self.weapon_assets_table.columnCount() - len(excluded_columns)
             rows = self.weapon_assets_table.rowCount() + 1
-            cols = self.weapon_assets_table.columnCount()-1
 
+            # 테이블 생성
+            table = cursor.insertTable(rows, cols, table_format)
 
-            excluded_columns = [0, 5]
-
-            actual_cols = cols - len(excluded_columns)
-            table = cursor.insertTable(rows, actual_cols, table_format)
-
+            # 헤더 추가
             header_col = 0
-            for col in range(cols):
+            for col in range(self.weapon_assets_table.columnCount()-1):
                 if col not in excluded_columns:
                     cell = table.cellAt(0, header_col)
                     cellCursor = cell.firstCursorPosition()
-                    cellCursor.insertHtml(f"<th>{self.weapon_assets_table.horizontalHeaderItem(col).text()}</th>")
+                    header_text = self.weapon_assets_table.horizontalHeaderItem(col).text()
+                    cellCursor.insertHtml(f"<th>{header_text}</th>")
                     header_col += 1
 
+            # 데이터 추가
             for row in range(self.weapon_assets_table.rowCount()):
                 data_col = 0
-                for col in range(cols):
+                for col in range(self.weapon_assets_table.columnCount()):
                     if col not in excluded_columns:
                         item = self.weapon_assets_table.item(row, col)
                         if item:
@@ -886,19 +914,20 @@ class WeaponAssetWindow(QDialog):
 
             preview = QPrintPreviewDialog()
             preview.setWindowIcon(QIcon("image/logo.png"))
-            preview.paintRequested.connect(lambda p: document.print_(p))
-            preview.exec_()
 
-            file_path, _ = QFileDialog.getSaveFileName(self, self.tr("PDF 저장"), "", "PDF Files (*.pdf)")
-            if file_path:
-                printer = QPrinter(QPrinter.HighResolution)
-                printer.setOutputFormat(QPrinter.PdfFormat)
-                printer.setOutputFileName(file_path)
-                printer.setPageSize(QPageSize(QPageSize.A4))
-                printer.setPageMargins(QMarginsF(20, 20, 20, 20), QPageLayout.Millimeter)
-                printer.setPageOrientation(QPageLayout.Landscape)
-                document.print_(printer)
-                QMessageBox.information(self, self.tr("저장 완료"), self.tr("PDF가 저장되었습니다: {}").format(file_path))
+            def handle_print(printer):
+                printer.setPageOrientation(QPageLayout.Orientation.Portrait)
+                page_layout = QPageLayout(
+                    QPageSize(QPageSize.PageSizeId.A4),
+                    QPageLayout.Orientation.Portrait,
+                    QMarginsF(1, 1, 1, 1),
+                    QPageLayout.Unit.Millimeter
+                )
+                printer.setPageLayout(page_layout)
+                document.print(printer)
+
+            preview.paintRequested.connect(handle_print)
+            preview.exec()
 
             QCoreApplication.processEvents()
 
@@ -906,23 +935,23 @@ class WeaponAssetWindow(QDialog):
             QMessageBox.critical(self, self.tr("오류"), self.tr("다음 오류가 발생했습니다: {}").format(str(e)))
 
     def print_map(self):
-        self.printer = QPrinter(QPrinter.HighResolution)
-        self.printer.setPageOrientation(QPageLayout.Landscape)
-        self.printer.setPageSize(QPageSize(QPageSize.A4))
-        self.printer.setPageMargins(10, 10, 10, 10, QPrinter.Millimeter)
+        self.printer = QPrinter(QPrinter.PrinterMode.HighResolution)
+        self.printer.setPageOrientation(QPageLayout.Orientation.Landscape)
+        self.printer.setPageSize(QPageSize(QPageSize.PageSizeId.A4))  # A4 크기 지정
+        self.printer.setPageMargins(QMarginsF(10, 10, 10, 10), QPageLayout.Unit.Millimeter)
 
         self.preview = QPrintPreviewDialog(self.printer, self)
         self.preview.setMinimumSize(1000, 800)
         self.preview.paintRequested.connect(self.handle_print_requested)
         self.preview.finished.connect(self.print_finished)
-        self.preview.exec_()
+        self.preview.exec()
 
     def handle_print_requested(self, printer):
         try:
             painter = QPainter()
             painter.begin(printer)
 
-            page_rect = printer.pageRect(QPrinter.DevicePixel)
+            page_rect = printer.pageRect(QPrinter.Unit.DevicePixel)
 
             title_font = QFont("Arial", 16, QFont.Weight.Bold)
             painter.setFont(title_font)
@@ -935,7 +964,7 @@ class WeaponAssetWindow(QDialog):
 
             content_rect = page_rect.adjusted(0, title_rect.height() + 10, 0, -30)
             scaled_image = combined_image.scaled(QSize(int(content_rect.width()), int(content_rect.height())),
-                                                 Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                                                 Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
 
             x = int(content_rect.left() + (content_rect.width() - scaled_image.width()) / 2)
             y = int(content_rect.top() + (content_rect.height() - scaled_image.height()) / 2)
@@ -945,7 +974,7 @@ class WeaponAssetWindow(QDialog):
             painter.setFont(info_font)
             current_time = QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss")
             info_text = self.tr(f"인쇄 일시: {current_time}")
-            painter.drawText(page_rect.adjusted(10, -20, -10, -10), Qt.AlignBottom | Qt.AlignRight, info_text)
+            painter.drawText(page_rect.adjusted(10, -20, -10, -10), Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignRight, info_text)
 
             painter.end()
         except Exception as e:
@@ -1025,7 +1054,7 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout(page)
 
         title = QLabel(self.tr("미사일 방어포대 관리 시스템"))
-        title.setAlignment(Qt.AlignCenter)
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         title.setFont(QtGui.QFont("Arial", 24))
         layout.addWidget(title)
         manage_assets_button = QPushButton(self.tr("미사일 방어포대 관리"))
@@ -1058,15 +1087,15 @@ class CheckBoxHeader(QHeaderView):
         if logicalIndex == 0:
             option = QStyleOptionButton()
             option.rect = QRect(rect.x() + rect.width() // 2 - 12, rect.y() + rect.height() // 2 - 12, 24, 24)
-            option.state = QStyle.State_Enabled | QStyle.State_Active
+            option.state = QStyle.StateFlag.State_Enabled | QStyle.StateFlag.State_Active
             if self.isOn:
-                option.state |= QStyle.State_On
+                option.state |= QStyle.StateFlag.State_On
             else:
-                option.state |= QStyle.State_Off
-            self.style().drawControl(QStyle.CE_CheckBox, option, painter)
+                option.state |= QStyle.StateFlag.State_Off
+            self.style().drawControl(QStyle.ControlElement.CE_CheckBox, option, painter)
 
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
+        if event.button() == Qt.MouseButton.LeftButton:
             x = self.logicalIndexAt(event.pos().x())
             if x == 0:
                 self.isOn = not self.isOn
@@ -1081,7 +1110,7 @@ class CenteredCheckBox(QWidget):
         self.checkbox = QCheckBox()
         self.checkbox.setStyleSheet("QCheckBox::indicator { width: 24px; height: 24px; }")
         layout.addWidget(self.checkbox)
-        layout.setAlignment(Qt.AlignCenter)
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
@@ -1094,24 +1123,23 @@ class CenteredCheckBox(QWidget):
 class MyTableWidget(QTableWidget):
     def __init__(self, *args):
         super().__init__(*args)
-        self.header_checked = False
-        self.setHorizontalHeader(CheckBoxHeader(Qt.Horizontal, self))
+        self.header = CheckBoxHeader(Qt.Orientation.Horizontal, self)
+        self.setHorizontalHeader(self.header)
 
     def on_header_clicked(self, checked):
         for row in range(self.rowCount()):
             checkbox_widget = self.cellWidget(row, 0)
-            if checkbox_widget:
-                checkbox_widget.checkbox.setChecked(checked)
+            if isinstance(checkbox_widget, CenteredCheckBox):
+                checkbox_widget.setChecked(checked)
 
     def uncheckAllRows(self):
-        self.header_checked = False
-        # 헤더 체크박스도 해제
-        self.horizontalHeader().isOn = False
-        self.horizontalHeader().updateSection(0)
+        self.header.isOn = False
+        self.header.updateSection(0)
+        self.on_header_clicked(False)
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     win = MainWindow()
     win.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

@@ -7,7 +7,7 @@ from PyQt6.QtPrintSupport import QPrinter, QPrintPreviewDialog
 from PyQt6 import QtWidgets, QtGui
 from PyQt6.QtWidgets import *
 from PyQt6.QtGui import QPixmap, QFont, QIcon, QLinearGradient, QColor, QPainter, QPainterPath, QPen
-from PyQt6.QtCore import Qt, QCoreApplication, QTranslator, QObject, QDir, QRect
+from PyQt6.QtCore import Qt, QCoreApplication, QTranslator, QObject, QDir, QRect, QMarginsF
 from common_map_view import CommonCalMapView, CommonWeaponMapView
 from PyQt6.QtCore import QUrl, QTemporaryFile, QSize
 from PyQt6.QtGui import QPageLayout, QPageSize
@@ -151,7 +151,7 @@ class CopViewWindow(QDialog):
         main_layout = QHBoxLayout()
 
         # QSplitter 생성
-        main_splitter = QSplitter(Qt.Horizontal)
+        main_splitter = QSplitter(Qt.Orientation.Horizontal)
 
         # 좌측 레이아웃 (필터 및 테이블)
         left_widget = QWidget()
@@ -168,7 +168,7 @@ class CopViewWindow(QDialog):
         # 방어대상자산 테이블 검색 기능
         self.filter_layout = QHBoxLayout()
         self.search_filter = QLineEdit()
-        self.search_filter.setPlaceholderText(self.tr("방어대상자산 또는 지역구분 검색"))
+        self.search_filter.setPlaceholderText(self.tr("방어대상자산 또는 지역 검색"))
         self.search_button = QPushButton(self.tr("찾기"))
         self.search_button.clicked.connect(self.load_assets)
         self.filter_layout.addWidget(self.search_filter)
@@ -181,7 +181,7 @@ class CopViewWindow(QDialog):
         self.assets_table = MyTableWidget()
         self.assets_table.setColumnCount(5)
         self.assets_table.setHorizontalHeaderLabels(
-            ["", self.tr("우선순위"), self.tr("구성군"), self.tr("지역구분"), self.tr("방어대상자산")])
+            ["", self.tr("우선순위"), self.tr("구성군"), self.tr("지역"), self.tr("방어대상자산")])
 
         # 행 번호 숨기기
         self.assets_table.verticalHeader().setVisible(False)
@@ -190,7 +190,7 @@ class CopViewWindow(QDialog):
         font.setBold(True)
         self.assets_table.horizontalHeader().setFont(font)
         header = self.assets_table.horizontalHeader()
-        header.setSectionResizeMode(QtWidgets.QHeaderView.Interactive)
+        header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Interactive)
         header.resizeSection(0, 40)
         header.resizeSection(1, 80)
 
@@ -198,11 +198,11 @@ class CopViewWindow(QDialog):
         for column in range(header.count()):
             item = self.assets_table.horizontalHeaderItem(column)
             if item:
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # 나머지 열들이 남은 공간을 채우도록 설정
         for column in range(2, header.count()):
-            self.assets_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.Stretch)
+            self.assets_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.ResizeMode.Stretch)
 
         left_layout.addWidget(self.assets_table)
 
@@ -210,7 +210,7 @@ class CopViewWindow(QDialog):
         button_layout = QHBoxLayout()
         button_layout.setSpacing(20)
         button_layout.setContentsMargins(0, 20, 0, 20)
-        button_layout.setAlignment(Qt.AlignCenter)  # 버튼을 중앙에 정렬
+        button_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)  # 버튼을 중앙에 정렬
 
         self.return_button = QPushButton(self.tr("메인화면"), self)
         self.return_button.clicked.connect(self.parent.show_main_page)
@@ -288,17 +288,17 @@ class CopViewWindow(QDialog):
         font.setBold(True)
         self.enemy_sites_table.horizontalHeader().setFont(font)
         header = self.enemy_sites_table.horizontalHeader()
-        header.setSectionResizeMode(QtWidgets.QHeaderView.Interactive)
+        header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Interactive)
         header.resizeSection(0, 40)
         # 헤더 텍스트 중앙 정렬
         for column in range(header.count()):
             item = self.enemy_sites_table.horizontalHeaderItem(column)
             if item:
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # 나머지 열들이 남은 공간을 채우도록 설정
         for column in range(1, header.count()):
-            self.enemy_sites_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.Stretch)
+            self.enemy_sites_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.ResizeMode.Stretch)
 
         right_layout.addWidget(self.enemy_sites_table)
 
@@ -349,17 +349,17 @@ class CopViewWindow(QDialog):
         font.setBold(True)
         self.weapon_assets_table.horizontalHeader().setFont(font)
         header = self.weapon_assets_table.horizontalHeader()
-        header.setSectionResizeMode(QtWidgets.QHeaderView.Interactive)
+        header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Interactive)
         header.resizeSection(0, 40)
         # 헤더 텍스트 중앙 정렬
         for column in range(header.count()):
             item = self.weapon_assets_table.horizontalHeaderItem(column)
             if item:
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # 나머지 열들이 남은 공간을 채우도록 설정
         for column in range(1, header.count()):
-            self.weapon_assets_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.Stretch)
+            self.weapon_assets_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.ResizeMode.Stretch)
 
         right_layout.addWidget(self.weapon_assets_table)
 
@@ -370,18 +370,18 @@ class CopViewWindow(QDialog):
         self.no_defense_cal_table.verticalHeader().setVisible(False)
         self.no_defense_cal_table.horizontalHeader().setFont(font)
         header = self.no_defense_cal_table.horizontalHeader()
-        header.setSectionResizeMode(QtWidgets.QHeaderView.Interactive)
+        header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Interactive)
         header.resizeSection(0, 100)
 
         # 헤더 텍스트 중앙 정렬
         for column in range(header.count()):
             item = self.no_defense_cal_table.horizontalHeaderItem(column)
             if item:
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # 나머지 열들이 남은 공간을 채우도록 설정
         for column in range(1, header.count()):
-            self.no_defense_cal_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.Stretch)
+            self.no_defense_cal_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.ResizeMode.Stretch)
 
         right_layout.addWidget(QLabel(self.tr("방어반경 외곽 CAL 목록")))
         right_layout.addWidget(self.no_defense_cal_table)
@@ -404,13 +404,13 @@ class CopViewWindow(QDialog):
         self.load_weapon_assets()
 
     def toggle_defense_radius(self, state):
-        self.show_defense_radius = state == Qt.Checked
+        self.show_defense_radius = state == Qt.CheckState.Checked.value
         self.no_defense_cal_table.clearContents()
         self.no_defense_cal_table.setRowCount(0)
         self.update_map()
 
     def toggle_threat_radius(self, state):
-        self.show_threat_radius = state == Qt.Checked
+        self.show_threat_radius = state == Qt.CheckState.Checked.value
         self.no_defense_cal_table.clearContents()
         self.no_defense_cal_table.setRowCount(0)
         self.update_map()
@@ -439,7 +439,7 @@ class CopViewWindow(QDialog):
             checkbox.checkbox.stateChanged.connect(self.update_map)
             for col, value in enumerate(asset[['priority', 'unit', 'area', 'target_asset']], start=1):
                 item = QTableWidgetItem(str(value))
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.assets_table.setItem(row, col, item)
         self.update_map()
 
@@ -467,7 +467,7 @@ class CopViewWindow(QDialog):
             checkbox.checkbox.stateChanged.connect(self.update_map)
             for col, value in enumerate(base[['base_name', 'coordinate', 'weapon_system']], start=1):
                 item = QTableWidgetItem(str(value))
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.enemy_sites_table.setItem(row, col, item)
         self.update_map()
 
@@ -495,7 +495,7 @@ class CopViewWindow(QDialog):
             checkbox.checkbox.stateChanged.connect(self.update_map)
             for col, value in enumerate(weapons[['unit', 'area', 'asset_name', 'weapon_system']], start=1):
                 item = QTableWidgetItem(str(value))
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.weapon_assets_table.setItem(row, col, item)
         self.update_map()
 
@@ -573,7 +573,7 @@ class CopViewWindow(QDialog):
             for col, value in enumerate(
                     [priority, asset_name, ', '.join(threatening_bases), ', '.join(threatening_weapons)]):
                 item = QTableWidgetItem(str(value))
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.no_defense_cal_table.setItem(row, col, item)
 
             if threatening_bases or threatening_weapons:
@@ -787,23 +787,23 @@ class CopViewWindow(QDialog):
         return selected_enemy_weapons
 
     def print_map(self):
-        self.printer = QPrinter(QPrinter.HighResolution)
-        self.printer.setPageOrientation(QPageLayout.Landscape)
-        self.printer.setPageSize(QPageSize(QPageSize.A4))
-        self.printer.setPageMargins(10, 10, 10, 10, QPrinter.Millimeter)
+        self.printer = QPrinter(QPrinter.PrinterMode.HighResolution)
+        self.printer.setPageOrientation(QPageLayout.Orientation.Landscape)
+        self.printer.setPageSize(QPageSize(QPageSize.PageSizeId.A4))  # A4 크기 지정
+        self.printer.setPageMargins(QMarginsF(10, 10, 10, 10), QPageLayout.Unit.Millimeter)
 
         self.preview = QPrintPreviewDialog(self.printer, self)
         self.preview.setMinimumSize(1000, 800)
         self.preview.paintRequested.connect(self.handle_print_requested)
         self.preview.finished.connect(self.print_finished)
-        self.preview.exec_()
+        self.preview.exec()
 
     def handle_print_requested(self, printer):
         try:
             painter = QPainter()
             painter.begin(printer)
 
-            page_rect = printer.pageRect(QPrinter.DevicePixel)
+            page_rect = printer.pageRect(QPrinter.Unit.DevicePixel)
 
             title_font = QFont("Arial", 16, QFont.Weight.Bold)
             painter.setFont(title_font)
@@ -816,7 +816,7 @@ class CopViewWindow(QDialog):
 
             content_rect = page_rect.adjusted(0, title_rect.height() + 10, 0, -30)
             scaled_image = combined_image.scaled(QSize(int(content_rect.width()), int(content_rect.height())),
-                                                 Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                                                 Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
 
             x = int(content_rect.left() + (content_rect.width() - scaled_image.width()) / 2)
             y = int(content_rect.top() + (content_rect.height() - scaled_image.height()) / 2)
@@ -826,7 +826,7 @@ class CopViewWindow(QDialog):
             painter.setFont(info_font)
             current_time = QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss")
             info_text = self.tr(f"인쇄 일시: {current_time}")
-            painter.drawText(page_rect.adjusted(10, -20, -10, -10), Qt.AlignBottom | Qt.AlignRight, info_text)
+            painter.drawText(page_rect.adjusted(10, -20, -10, -10), Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignRight, info_text)
 
             painter.end()
         except Exception as e:
@@ -854,15 +854,15 @@ class CheckBoxHeader(QHeaderView):
         if logicalIndex == 0:
             option = QStyleOptionButton()
             option.rect = QRect(rect.x() + rect.width() // 2 - 12, rect.y() + rect.height() // 2 - 12, 24, 24)
-            option.state = QStyle.State_Enabled | QStyle.State_Active
+            option.state = QStyle.StateFlag.State_Enabled | QStyle.StateFlag.State_Active
             if self.isOn:
-                option.state |= QStyle.State_On
+                option.state |= QStyle.StateFlag.State_On
             else:
-                option.state |= QStyle.State_Off
-            self.style().drawControl(QStyle.CE_CheckBox, option, painter)
+                option.state |= QStyle.StateFlag.State_Off
+            self.style().drawControl(QStyle.ControlElement.CE_CheckBox, option, painter)
 
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
+        if event.button() == Qt.MouseButton.LeftButton:
             x = self.logicalIndexAt(event.pos().x())
             if x == 0:
                 self.isOn = not self.isOn
@@ -877,7 +877,7 @@ class CenteredCheckBox(QWidget):
         self.checkbox = QCheckBox()
         self.checkbox.setStyleSheet("QCheckBox::indicator { width: 24px; height: 24px; }")
         layout.addWidget(self.checkbox)
-        layout.setAlignment(Qt.AlignCenter)
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
@@ -890,22 +890,20 @@ class CenteredCheckBox(QWidget):
 class MyTableWidget(QTableWidget):
     def __init__(self, *args):
         super().__init__(*args)
-        self.header_checked = False
-        self.setHorizontalHeader(CheckBoxHeader(Qt.Horizontal, self))
-
+        self.header = CheckBoxHeader(Qt.Orientation.Horizontal, self)
+        self.setHorizontalHeader(self.header)
 
     def on_header_clicked(self, checked):
-        self.header_checked = checked
         for row in range(self.rowCount()):
             checkbox_widget = self.cellWidget(row, 0)
-            if checkbox_widget:
-                checkbox_widget.checkbox.setChecked(checked)
+            if isinstance(checkbox_widget, CenteredCheckBox):
+                checkbox_widget.setChecked(checked)
 
     def uncheckAllRows(self):
-        self.header_checked = False
-        # 헤더 체크박스도 해제
-        self.horizontalHeader().isOn = False
-        self.horizontalHeader().updateSection(0)
+        self.header.isOn = False
+        self.header.updateSection(0)
+        self.on_header_clicked(False)
+
 
 class MainWindow(QtWidgets.QMainWindow, QObject):
     def __init__(self):
@@ -930,4 +928,4 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     window = MainWindow()
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

@@ -99,19 +99,14 @@ class LoginWindow(QDialog):  # QObject 제거
     def __init__(self, parent=None):
         super(LoginWindow, self).__init__(parent)
         try:
-            print("로그인 창 초기화 시작...")
             self.setWindowTitle("CAL/DAL Management System")
             self.setFixedSize(600, 800)
             self.setWindowIcon(QIcon("image/logo.png"))
             self.setStyleSheet("background-color: #F0F0F0;")
 
             # 데이터베이스 초기화
-            print("데이터베이스 초기화 호출...")
             self.init_database()
-
-            print("UI 초기화 호출...")
             self.initUI()
-            print("로그인 창 초기화 완료")
         except Exception as e:
             print(f"로그인 창 초기화 중 오류 발생: {str(e)}")
 
@@ -264,7 +259,6 @@ class LoginWindow(QDialog):  # QObject 제거
     def init_database():
         conn = None
         try:
-            print("데이터베이스 초기화 시작...")
             conn = sqlite3.connect('user_credentials.db')
             cursor = conn.cursor()
 
@@ -293,7 +287,6 @@ class LoginWindow(QDialog):  # QObject 제거
                 ''')
 
                 # 기본 계정 생성
-                print("기본 계정 생성 중...")
                 id_list = ['navy', 'army', 'airforce']
                 for id in ['admin'] + id_list:
                     try:
@@ -322,9 +315,6 @@ class LoginWindow(QDialog):  # QObject 제거
                         print(f"{id} 계정 생성 중 오류 발생: {str(e)}")
 
                 conn.commit()
-                print("데이터베이스 초기화 완료")
-            else:
-                print("users 테이블이 이미 존재합니다.")
 
         except sqlite3.Error as e:
             print(f"SQLite 오류: {str(e)}")
@@ -333,7 +323,6 @@ class LoginWindow(QDialog):  # QObject 제거
         finally:
             if 'conn' in locals():
                 conn.close()
-                print("데이터베이스 연결 종료")
 
     def show_find_credentials_dialog(self):
         dialog = FindCredentialsDialog(self)
@@ -363,7 +352,7 @@ class LoginWindow(QDialog):  # QObject 제거
                         "UPDATE users SET failed_login_attempts = 0, last_failed_login = 0 WHERE username = ?",
                         (username,))
                     conn.commit()
-                    self.show_message(self.tr("로그인 성공"), self.tr("로그인에 성공했습니다."), QMessageBox.Information)
+                    self.show_message(self.tr("로그인 성공"), self.tr("로그인에 성공했습니다."), QMessageBox.Icon.Information)
                     self.username = username
                     self.accept()
                 else:
@@ -376,13 +365,12 @@ class LoginWindow(QDialog):  # QObject 제거
                 raise ValueError(self.tr("존재하지 않는 사용자입니다."))
         except (sqlite3.Error, ValueError) as e:
             print(f"LOGIN Error: {e}")
-            self.show_message(self.tr("로그인 실패"), self.tr(str(e)), QMessageBox.Critical)
+            self.show_message(self.tr("로그인 실패"), self.tr(str(e)), QMessageBox.Icon.Critical)
             self.username_input.clear()
             self.password_input.clear()
             self.username_input.setFocus()
         finally:
             conn.close()
-
 
 class RegisterDialog(QDialog):
     def __init__(self, parent=None):
@@ -506,7 +494,7 @@ class RegisterDialog(QDialog):
     @staticmethod
     def create_password_field():
         field = QLineEdit()
-        field.setEchoMode(QLineEdit.Password)
+        field.setEchoMode(QLineEdit.EchoMode.Password)
         return field
 
     @staticmethod
@@ -530,7 +518,7 @@ class RegisterDialog(QDialog):
         if icon_label:
             icon_pixmap = icon_label.pixmap()
             if icon_pixmap:
-                scaled_pixmap = icon_pixmap.scaled(22, 22, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                scaled_pixmap = icon_pixmap.scaled(22, 22, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
                 icon_label.setPixmap(scaled_pixmap)
 
         msg_box.exec()

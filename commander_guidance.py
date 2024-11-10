@@ -4,9 +4,11 @@ from PyQt6.QtCore import Qt, QCoreApplication, QTranslator
 from addasset import AddAssetWindow
 import sys, json
 import sqlite3
+from PyQt6.QtCore import QDateTime, QMarginsF
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
 from PyQt6.QtPrintSupport import QPrinter, QPrintDialog, QPrintPreviewDialog
-from PyQt6.QtGui import QTextDocument, QTextCursor, QTextTableFormat, QTextFrameFormat, QTextLength, QTextCharFormat, QFont, QTextBlockFormat
+from PyQt6.QtGui import (QTextDocument, QTextCursor, QTextTableFormat, QTextFrameFormat, QTextLength, QTextCharFormat, QFont, QTextBlockFormat,
+                         QPageLayout, QPageSize)
 from languageselection import Translator, LanguageSelectionWindow
 from cal_map_view import CalMapView
 from PyQt6.QtGui import QIcon, QFont, QTextDocument, QTextCursor, QTextTableFormat, QTextLength, QColor
@@ -52,7 +54,7 @@ class BmdPriorityWindow(QtWidgets.QDialog):
 
         # 헤더 설정
         header = self.priority_table.horizontalHeader()
-        header.setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
+        header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Stretch)
 
         # 행 높이 설정
         self.priority_table.verticalHeader().setDefaultSectionSize(60)  # 행 높이를 60으로 설정
@@ -61,8 +63,8 @@ class BmdPriorityWindow(QtWidgets.QDialog):
         # 구분 열 고정값 설정 및 다른 셀 편집 가능하게 설정
         for row in range(5):
             item = QTableWidgetItem(priorities[row])
-            item.setFlags(item.flags() & ~Qt.ItemIsEditable)
-            item.setTextAlignment(Qt.AlignCenter)
+            item.setFlags(item.flags() & ~Qt.ItemFlag.ItemIsEditable)
+            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             item.setBackground(QColor("#e6f2ff"))
             self.priority_table.setItem(row, 0, item)
 
@@ -70,10 +72,10 @@ class BmdPriorityWindow(QtWidgets.QDialog):
         for row in range(self.priority_table.rowCount()):
             for col in range(1, self.priority_table.columnCount()):
                 item = QTableWidgetItem()
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.priority_table.setItem(row, col, item)
 
-        self.priority_table.setEditTriggers(QAbstractItemView.DoubleClicked | QAbstractItemView.EditKeyPressed)
+        self.priority_table.setEditTriggers(QAbstractItemView.EditTrigger.DoubleClicked | QAbstractItemView.EditTrigger.EditKeyPressed)
 
         layout.addWidget(self.priority_table)
 
@@ -148,7 +150,7 @@ class BmdPriorityWindow(QtWidgets.QDialog):
                     if col == 0:  # 구분 열은 건드리지 않음
                         continue
                     item = QTableWidgetItem(cell_data)
-                    item.setTextAlignment(Qt.AlignCenter)
+                    item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                     self.priority_table.setItem(row, col, item)
         except FileNotFoundError:
             pass  # 파일이 없으면 아무것도 하지 않음
@@ -180,43 +182,113 @@ class BmdPriorityWindow(QtWidgets.QDialog):
     def print_table(self):
         document = QTextDocument()
         cursor = QTextCursor(document)
+
+        # CSS 스타일 부분 수정
         document.setDefaultStyleSheet("""
-            body { font-family: 'Arial', sans-serif; }
-            h1 { color: black; }
-            .info { padding: 10px; }
-            table { border-collapse: collapse; width: 100%; }
-            td, th { border: 1px solid black; padding: 4px; text-align: center; }
+            body { 
+                font-family: 'Arial', sans-serif;
+                margin: 30px;
+            }
+            h1 { 
+                color: #2c3e50;
+                text-align: center;
+                font-size: 24px;
+                margin-bottom: 15px;
+            }
+            .timestamp {
+                color: #7f8c8d;
+                text-align: center;
+                font-size: 12px;
+                margin-bottom: 20px;
+            }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin-top: 20px;
+            }
+            th {
+                color: black;
+                padding: 12px;
+                font-weight: bold;
+                border: 1px solid #2c3e50;
+            }
+            td {
+                padding: 10px;
+                border: 1px solid #bdc3c7;
+                text-align: center;
+                background-color: transparent;
+            }
+            tr:hover {
+                background-color: #f5f5f5;
+            }
         """)
 
-        font = QFont("Arial", 8)
+        font = QFont("Arial", 10)
         document.setDefaultFont(font)
 
-        cursor.insertHtml("<h1 align='center'>" + self.tr("연합사령관 BMD 전력배치 우선순위") + "</h1>")
+        # 제목과 시간 삽입 부분 수정
+        cursor.insertHtml("<h1>" + self.tr("연합사령관 BMD 전력배치 우선순위") + "</h1>")
+        cursor.insertBlock()  # 줄바꿈 추가
+        current_time = QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss")
+        cursor.insertHtml(f"<div class='timestamp'>{self.tr('보고서 출력 일시')}: {current_time}</div>")
+
         cursor.insertBlock()
 
+        # 테이블 포맷 설정
         table_format = QTextTableFormat()
-        table_format.setBorderStyle(QTextFrameFormat.BorderStyle_Solid)
-        table_format.setCellPadding(5)
-        table_format.setAlignment(Qt.AlignCenter)
-        table_format.setWidth(QTextLength(QTextLength.PercentageLength, 100))
+        table_format.setBorderStyle(QTextFrameFormat.BorderStyle.BorderStyle_Solid)
+        table_format.setCellPadding(8)
+        table_format.setCellSpacing(0)
+        table_format.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        table_format.setWidth(QTextLength(QTextLength.Type.PercentageLength, 100))
 
-        table = cursor.insertTable(self.priority_table.rowCount() + 1, self.priority_table.columnCount(), table_format)
+        # 테이블 생성
+        table = cursor.insertTable(self.priority_table.rowCount() + 1,
+                                   self.priority_table.columnCount(),
+                                   table_format)
+
+        # 헤더 추가
+        header_format = QTextCharFormat()
+        header_format.setFont(QFont("Arial", 11, QFont.Weight.Bold))
 
         for col in range(self.priority_table.columnCount()):
             cell = table.cellAt(0, col)
             cellCursor = cell.firstCursorPosition()
+            cellCursor.setCharFormat(header_format)
             cellCursor.insertText(self.priority_table.horizontalHeaderItem(col).text())
+
+        # 테이블 데이터 추가 부분에서 배경색 설정 제거
+        cell_format = QTextCharFormat()
+        cell_format.setFont(QFont("Arial", 10))
 
         for row in range(self.priority_table.rowCount()):
             for col in range(self.priority_table.columnCount()):
                 item = self.priority_table.item(row, col)
                 cell = table.cellAt(row + 1, col)
                 cellCursor = cell.firstCursorPosition()
+                cellCursor.setCharFormat(cell_format)
                 cellCursor.insertText(item.text() if item else "")
 
+        # 미리보기 대화상자 설정
         preview = QPrintPreviewDialog()
-        preview.paintRequested.connect(lambda p: document.print_(p))
-        preview.exec_()
+        preview.setWindowIcon(QIcon("image/logo.png"))
+
+        def handle_print(printer):
+            printer.setPageOrientation(QPageLayout.Orientation.Portrait)
+            page_layout = QPageLayout(
+                QPageSize(QPageSize.PageSizeId.A4),
+                QPageLayout.Orientation.Portrait,
+                QMarginsF(1, 1, 1, 1),
+                QPageLayout.Unit.Millimeter
+            )
+            printer.setPageLayout(page_layout)
+            document.print(printer)
+
+        preview.paintRequested.connect(handle_print)
+        preview.exec()
+
+        QCoreApplication.processEvents()
+
 
 class EngagementEffectWindow(QtWidgets.QDialog):
     """저장된 자산을 보여주는 창"""
@@ -306,37 +378,37 @@ class EngagementEffectWindow(QtWidgets.QDialog):
 
         # 헤더 설정
         header = self.assets_table.horizontalHeader()
-        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Fixed)  # 1열 고정
-        header.setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)  # 2열 고정
-        header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)  # 3열 자동 조절
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeMode.Fixed)  # 1열 고정
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeMode.Fixed)  # 2열 고정
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeMode.Stretch)  # 3열 자동 조절
         header.resizeSection(0, 150)
         header.resizeSection(1, 200)
 
         # 헤더 높이 자동 조절
-        self.assets_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
+        self.assets_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Fixed)
         self.assets_table.verticalHeader().setDefaultSectionSize(70)
 
         # 헤더 텍스트 중앙 정렬 및 자동 줄바꿈
         for column in range(header.count()):
             item = self.assets_table.horizontalHeaderItem(column)
             if item:
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # 테이블 설정
         self.assets_table.setWordWrap(True)  # 자동 줄바꿈 활성화
         self.assets_table.horizontalHeader().setStretchLastSection(False)
-        self.assets_table.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.assets_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.assets_table.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
+        self.assets_table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
 
         # 테이블 셀 높이 자동 조절
-        self.assets_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+        self.assets_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
 
         # 내용 열 채우기
         contents = [self.tr("1단계: 원격발사대"), self.tr("2단계: 단층방어"), self.tr("3단계: 중첩방어"), self.tr("4단계: 다층방어")]
         for row, content in enumerate(contents):
             for col in range(3):
                 item = QTableWidgetItem()
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 if col == 0:
                     item.setText(content.split(": ")[0])
                     item.setBackground(QColor("#e6f2ff"))
@@ -450,7 +522,7 @@ class EngagementEffectWindow(QtWidgets.QDialog):
 
                 # 필터링된 결과를 3열에 표시
                 asset_item = QTableWidgetItem(filtered_assets)
-                asset_item.setTextAlignment(Qt.AlignCenter)
+                asset_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.assets_table.setItem(row, 2, asset_item)
 
                 # 행 표시/숨김 처리
@@ -505,40 +577,81 @@ class EngagementEffectWindow(QtWidgets.QDialog):
             cursor = QTextCursor(document)
 
             document.setDefaultStyleSheet("""
-                body { font-family: 'Arial', sans-serif; }
-                h1 { color: black; }
-                .info { padding: 10px; }
-                table { border-collapse: collapse; width: 100%; }
-                td, th { border: 1px solid black; padding: 4px; text-align: center; }
+                body { 
+                    font-family: 'Arial', sans-serif;
+                    margin: 30px;
+                }
+                h1 { 
+                    color: #2c3e50;
+                    text-align: center;
+                    font-size: 24px;
+                    margin-bottom: 15px;
+                }
+                .timestamp {
+                    color: #7f8c8d;
+                    text-align: center;
+                    font-size: 12px;
+                    margin-bottom: 20px;
+                }
+                table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    margin-top: 20px;
+                }
+                th {
+                    color: black;
+                    padding: 12px;
+                    font-weight: bold;
+                    border: 1px solid #2c3e50;
+                }
+                td {
+                    padding: 10px;
+                    border: 1px solid #bdc3c7;
+                    text-align: center;
+                    background-color: transparent;
+                }
+                tr:hover {
+                    background-color: #f5f5f5;
+                }
             """)
 
-            font = QFont("Arial", 8)
+            font = QFont("Arial", 10)
             document.setDefaultFont(font)
 
-            cursor.insertHtml("<h1 align='center'>" + self.tr("교전효과 수준") + "</h1>")
+            # 제목과 시간 삽입
+            cursor.insertHtml("<h1>" + self.tr("교전효과 수준") + "</h1>")
+            cursor.insertBlock()
+            current_time = QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss")
+            cursor.insertHtml(f"<div class='timestamp'>{self.tr('보고서 출력 일시')}: {current_time}</div>")
+
             cursor.insertBlock()
 
-
+            # 테이블 포맷 설정
             table_format = QTextTableFormat()
-            table_format.setBorderStyle(QTextFrameFormat.BorderStyle_Solid)
-            table_format.setCellPadding(1)
-            table_format.setAlignment(Qt.AlignCenter)
-            table_format.setWidth(QTextLength(QTextLength.PercentageLength, 100))
+            table_format.setBorderStyle(QTextFrameFormat.BorderStyle.BorderStyle_Solid)
+            table_format.setCellPadding(8)
+            table_format.setCellSpacing(0)
+            table_format.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            table_format.setWidth(QTextLength(QTextLength.Type.PercentageLength, 100))
 
-            rows = 0
-            for row in range(self.assets_table.rowCount()):
-                if not self.assets_table.isRowHidden(row):
-                    rows += 1
-
+            # 테이블 생성 (보이는 행만 포함)
+            rows = sum(1 for row in range(self.assets_table.rowCount()) if not self.assets_table.isRowHidden(row))
             table = cursor.insertTable(rows + 1, self.assets_table.columnCount(), table_format)
 
             # 헤더 추가
+            header_format = QTextCharFormat()
+            header_format.setFont(QFont("Arial", 11, QFont.Weight.Bold))
+
             for col in range(self.assets_table.columnCount()):
                 cell = table.cellAt(0, col)
                 cellCursor = cell.firstCursorPosition()
-                cellCursor.insertHtml(f"<th>{self.assets_table.horizontalHeaderItem(col).text()}</th>")
+                cellCursor.setCharFormat(header_format)
+                cellCursor.insertText(self.assets_table.horizontalHeaderItem(col).text())
 
             # 데이터 추가
+            cell_format = QTextCharFormat()
+            cell_format.setFont(QFont("Arial", 10))
+
             table_row = 1
             for row in range(self.assets_table.rowCount()):
                 if not self.assets_table.isRowHidden(row):
@@ -547,26 +660,33 @@ class EngagementEffectWindow(QtWidgets.QDialog):
                         if item:
                             cell = table.cellAt(table_row, col)
                             cellCursor = cell.firstCursorPosition()
+                            cellCursor.setCharFormat(cell_format)
                             cellCursor.insertText(item.text())
                     table_row += 1
 
+            # 미리보기 및 PDF 저장
             preview = QPrintPreviewDialog()
             preview.setWindowIcon(QIcon("image/logo.png"))
-            preview.paintRequested.connect(lambda p: document.print_(p))
-            preview.exec_()
 
-            file_path, _ = QFileDialog.getSaveFileName(self, self.tr("PDF 저장"), "", "PDF Files (*.pdf)")
-            if file_path:
-                printer = QPrinter(QPrinter.HighResolution)
-                printer.setOutputFormat(QPrinter.PdfFormat)
-                printer.setOutputFileName(file_path)
-                document.print_(printer)
-                QMessageBox.information(self, self.tr("저장 완료"), self.tr("PDF가 저장되었습니다: {}").format(file_path))
+            def handle_print(printer):
+                printer.setPageOrientation(QPageLayout.Orientation.Portrait)
+                page_layout = QPageLayout(
+                    QPageSize(QPageSize.PageSizeId.A4),
+                    QPageLayout.Orientation.Portrait,
+                    QMarginsF(1, 1, 1, 1),
+                    QPageLayout.Unit.Millimeter
+                )
+                printer.setPageLayout(page_layout)
+                document.print(printer)
+
+            preview.paintRequested.connect(handle_print)
+            preview.exec()
 
             QCoreApplication.processEvents()
 
         except Exception as e:
             QMessageBox.critical(self, self.tr("오류"), self.tr("다음 오류가 발생했습니다: {}").format(str(e)))
+
 
 class BmdPriority(QtWidgets.QDialog):
     def __init__(self, parent):
@@ -603,15 +723,15 @@ class BmdPriority(QtWidgets.QDialog):
 
         # 헤더 설정
         header = self.priority_table.horizontalHeader()
-        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Fixed)  # 1열 고정
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeMode.Fixed)  # 1열 고정
         header.resizeSection(0, 130)
-        header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)  # 3열 자동 조절
-        header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)  # 3열 자동 조절
-        header.setSectionResizeMode(3, QtWidgets.QHeaderView.Stretch)  # 3열 자동 조절
-        header.setSectionResizeMode(4, QtWidgets.QHeaderView.Stretch)  # 3열 자동 조절
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeMode.Stretch)  # 3열 자동 조절
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeMode.Stretch)  # 3열 자동 조절
+        header.setSectionResizeMode(3, QtWidgets.QHeaderView.ResizeMode.Stretch)  # 3열 자동 조절
+        header.setSectionResizeMode(4, QtWidgets.QHeaderView.ResizeMode.Stretch)  # 3열 자동 조절
 
         # 헤더 높이 자동 조절
-        self.priority_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
+        self.priority_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Fixed)
         self.priority_table.verticalHeader().setDefaultSectionSize(40)  # 행 높이를 40으로 설정
 
         # 구분 열 고정값 설정 및 다른 셀 편집 가능하게 설정
@@ -619,7 +739,7 @@ class BmdPriority(QtWidgets.QDialog):
         # 구분 열 고정값 설정 및 다른 셀 편집 가능하게 설정
         for row in range(5):
             item = QTableWidgetItem(priorities[row])
-            item.setTextAlignment(Qt.AlignCenter)
+            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             item.setBackground(QColor("#e6f2ff"))
             self.priority_table.setItem(row, 0, item)
 
@@ -627,7 +747,7 @@ class BmdPriority(QtWidgets.QDialog):
         for row in range(self.priority_table.rowCount()):
             for col in range(1, self.priority_table.columnCount()):
                 item = QTableWidgetItem()
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.priority_table.setItem(row, col, item)
 
 
@@ -649,7 +769,7 @@ class BmdPriority(QtWidgets.QDialog):
                     if col == 0:  # 구분 열은 건드리지 않음
                         continue
                     item = QTableWidgetItem(cell_data)
-                    item.setTextAlignment(Qt.AlignCenter)
+                    item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                     self.priority_table.setItem(row, col, item)
         except FileNotFoundError:
             pass  # 파일이 없으면 아무것도 하지 않음
@@ -690,42 +810,42 @@ class EngagementEffect(QtWidgets.QDialog):
 
         # 헤더 설정
         header = self.assets_table.horizontalHeader()
-        header.setSectionResizeMode(0, QtWidgets.QHeaderView.Fixed)  # 1열 고정
-        header.setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)  # 2열 고정
-        header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)  # 3열 자동 조절
+        header.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeMode.Fixed)  # 1열 고정
+        header.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeMode.Fixed)  # 2열 고정
+        header.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeMode.Stretch)  # 3열 자동 조절
         header.resizeSection(0, 150)
         header.resizeSection(1, 200)
 
         # 헤더 높이 자동 조절
-        self.assets_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
+        self.assets_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Fixed)
         self.assets_table.verticalHeader().setDefaultSectionSize(40)
 
         # 헤더 텍스트 중앙 정렬 및 자동 줄바꿈
         for column in range(header.count()):
             item = self.assets_table.horizontalHeaderItem(column)
             if item:
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # 테이블 설정
         self.assets_table.setWordWrap(True)  # 자동 줄바꿈 활성화
         self.assets_table.horizontalHeader().setStretchLastSection(False)
-        self.assets_table.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.assets_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.assets_table.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
+        self.assets_table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
 
         # 테이블 셀 높이 자동 조절
-        self.assets_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
+        self.assets_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
 
 
         # 구분 열 고정값 설정 및 다른 셀 편집 가능하게 설정
         contents = [self.tr("1단계: 원격발사대"), self.tr("2단계: 단층방어"), self.tr("3단계: 중첩방어"), self.tr("4단계: 다층방어")]
         for row, content in enumerate(contents):
             item = QTableWidgetItem(content.split(": ")[0])
-            item.setTextAlignment(Qt.AlignCenter)
+            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             item.setBackground(QColor("#e6f2ff"))
             self.assets_table.setItem(row, 0, item)
 
             item = QTableWidgetItem(content.split(": ")[1])
-            item.setTextAlignment(Qt.AlignCenter)
+            item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             item.setBackground(QColor("#e6f2ff"))
             self.assets_table.setItem(row, 1, item)
 
@@ -779,6 +899,7 @@ class MainWindow(QMainWindow):
         self.stacked_widget = QStackedWidget(self)
         self.setCentralWidget(self.stacked_widget)
         self.selected_language = 'ko'
+        self.db_path = 'assets_management.db'
         self.bmd_priority_page = BmdPriorityWindow(self)
         self.engagement_effectiveness_page = EngagementEffectWindow(self)
         self.stacked_widget.addWidget(self.bmd_priority_page)
@@ -787,13 +908,13 @@ class MainWindow(QMainWindow):
         self.show_main_page()
 
     def show_main_page(self):
-        self.stacked_widget.setCurrentWidget(self.engagement_effectiveness_page)
+        self.stacked_widget.setCurrentWidget(self.bmd_priority_page)
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     window = MainWindow()
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
 
 

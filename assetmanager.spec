@@ -4,7 +4,7 @@
 a = Analysis(
     ['assetmanager.py'],
     pathex=[],
-    binaries=[('C:\\Users\\hyunc\\PycharmProjects\\CDMS\\.venv\\Lib\\site-packages\\libmgrs.cp312-win_amd64.pyd', '.')],
+    binaries=[('C:\\Users\\hyunc\\PycharmProjects\\CDMS2\\.venv\\Lib\\site-packages\\libmgrs.cp312-win_amd64.pyd', '.')],
     datas=[],
     hiddenimports=['mgrs'],
     hookspath=[],

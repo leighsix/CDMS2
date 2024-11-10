@@ -48,7 +48,7 @@ class DalPriorityWindow(QDialog):
         main_layout = QHBoxLayout()
 
         # 좌우측 너비 조정 가능하도록 설정
-        splitter = QSplitter(Qt.Horizontal)
+        splitter = QSplitter(Qt.Orientation.Horizontal)
 
         left_widget = QWidget()
         left_layout = QVBoxLayout(left_widget)
@@ -64,7 +64,7 @@ class DalPriorityWindow(QDialog):
         # 필터 레이아웃 생성
         filter_layout = QGridLayout()
         filter_layout.setSpacing(10)
-        filter_layout.setAlignment(Qt.AlignLeft | Qt.AlignTop)  # 왼쪽 상단 정렬
+        filter_layout.setAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop)  # 왼쪽 상단 정렬
 
         # 구성군 선택 필터
         unit_filter_label = QLabel(self.tr("구성군 선택"), self)
@@ -131,7 +131,7 @@ class DalPriorityWindow(QDialog):
         self.assets_table.setColumnCount(23)  # 우선순위 열 추가
         self.assets_table.setHorizontalHeaderLabels([
             "", self.tr("우선순위"), self.tr("ID"), self.tr("구성군"), self.tr("자산번호"), self.tr("담당자"),
-            self.tr("연락처"), self.tr("방어대상자산"), self.tr("지역구분"), self.tr("경위도"),
+            self.tr("연락처"), self.tr("방어대상자산"), self.tr("지역"), self.tr("경위도"),
             self.tr("군사좌표(MGRS)"), self.tr("임무/기능 기술"), self.tr("방어자산"), self.tr("무기체계"), self.tr("보유탄수"),
             self.tr("위협방위"), self.tr("교전효과 수준"), self.tr("BMD 우선순위"),
             self.tr("중요도"), self.tr("취약성"), self.tr("위협"), self.tr("합산 점수"), self.tr("삭제")
@@ -141,7 +141,7 @@ class DalPriorityWindow(QDialog):
         self.assets_table.setAlternatingRowColors(True)
         self.assets_table.setStyleSheet("QTableWidget {background-color: #ffffff; font: 바른공군체; font-size: 16px;}"
                                         "QTableWidget::item { padding: 8px; }")
-        self.assets_table.setSelectionBehavior(QTableView.SelectRows)
+        self.assets_table.setSelectionBehavior(QTableView.SelectionBehavior.SelectRows)
         self.assets_table.itemChanged.connect(self.on_checkbox_changed)
 
         font = QFont("강한공군체", 13)
@@ -150,7 +150,7 @@ class DalPriorityWindow(QDialog):
 
         # 헤더 설정
         header = self.assets_table.horizontalHeader()
-        header.setSectionResizeMode(QtWidgets.QHeaderView.Interactive)
+        header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Interactive)
         header.resizeSection(0, 50)
         header.resizeSection(1, 100)
         header.resizeSection(-1, 100)
@@ -163,15 +163,15 @@ class DalPriorityWindow(QDialog):
 
         # 테이블 설정
         self.assets_table.horizontalHeader().setStretchLastSection(False)
-        self.assets_table.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.assets_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.assets_table.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
+        self.assets_table.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
 
         # 각 열의 내용에 맞게 너비 설정
         for column in range(2, header.count() - 1):
-            self.assets_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.Stretch)
+            self.assets_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.ResizeMode.Stretch)
 
         # 헤더 높이 자동 조절
-        self.assets_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
+        self.assets_table.verticalHeader().setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Fixed)
         self.assets_table.verticalHeader().setDefaultSectionSize(60)
 
         # 버튼 레이아웃 수정
@@ -293,7 +293,7 @@ class DalPriorityWindow(QDialog):
 
         right_layout.addWidget(self.stacked_widget)
 
-        right_splitter = QSplitter(Qt.Vertical)
+        right_splitter = QSplitter(Qt.Orientation.Vertical)
 
         right_splitter.addWidget(self.map_view)
         right_splitter.addWidget(self.stacked_widget)
@@ -353,7 +353,7 @@ class DalPriorityWindow(QDialog):
             self.move_down_button.setEnabled(True)
 
     def toggle_defense_radius(self, state):
-        self.show_defense_radius = state == Qt.Checked
+        self.show_defense_radius = state == Qt.CheckState.Checked.value
         self.update_map()
 
     def on_checkbox_changed(self, item):
@@ -424,7 +424,6 @@ class DalPriorityWindow(QDialog):
                 threat_degree = self.assets_table.item(row, 15).text()
                 engagement_effectiveness = self.assets_table.item(row, 16).text()
                 bmd_priority = self.assets_table.item(row, 17).text()
-                # weapon_systems가 비어있거나 None인 경우 처리
                 # weapon_systems가 비어있거나 None인 경우 처리
                 if not weapon_systems_text or weapon_systems_text.strip() == '':
                     for weapon_systems_check, checkbox in self.weapon_systems_checkboxes.items():
@@ -580,12 +579,12 @@ class DalPriorityWindow(QDialog):
             self.assets_table.setCellWidget(row_position, 0, checkbox_widget)
 
             priority_item = QTableWidgetItem(str(row['priority']))
-            priority_item.setTextAlignment(Qt.AlignCenter)
+            priority_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             self.assets_table.setItem(row_position, 1, priority_item)
 
             for col_position, (col_name, value) in enumerate(row.drop('priority').items()):
                 item = QTableWidgetItem(str(value))
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.assets_table.setItem(row_position, col_position + 2, item)
 
             delete_button = QPushButton(self.tr("삭제"))
@@ -609,11 +608,11 @@ class DalPriorityWindow(QDialog):
                 self.df_ko.loc[self.df_ko['id'] == asset_id, 'priority'] = row + 1
                 self.df_en.loc[self.df_en['id'] == asset_id, 'priority'] = row + 1
                 priority_item = QTableWidgetItem(str(row + 1))
-                priority_item.setTextAlignment(Qt.AlignCenter)
+                priority_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.assets_table.setItem(row, 1, priority_item)
             else:
                 priority_item = QTableWidgetItem(str(row + 1))
-                priority_item.setTextAlignment(Qt.AlignCenter)
+                priority_item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.assets_table.setItem(row, 1, priority_item)
 
     def move_checked_items(self, direction):
@@ -661,8 +660,8 @@ class DalPriorityWindow(QDialog):
     def reset_priority(self):
         reply = QMessageBox.question(self, self.tr("확인"),
                                      self.tr("정말로 우선순위를 초기화하시겠습니까?"),
-                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-        if reply == QMessageBox.Yes:
+                                     QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
+        if reply == QMessageBox.StandardButton.Yes:
             for lang in ['ko', 'en']:
                 self.parent.cursor.execute(f"DELETE FROM dal_assets_priority_{lang}")
             self.parent.conn.commit()
@@ -751,8 +750,8 @@ class DalPriorityWindow(QDialog):
         target_asset = self.assets_table.item(row, 7).text()
         reply = QMessageBox.question(self, self.tr("확인"),
                                      self.tr("정말로 '{}' (ID: {}) 을(를) 테이블에서 삭제하시겠습니까?".format(target_asset, asset_id)),
-                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-        if reply == QMessageBox.Yes:
+                                     QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
+        if reply == QMessageBox.StandardButton.Yes:
             self.assets_table.removeRow(row)
             self.update_priorities()
             QMessageBox.information(self, "알림", f"'{target_asset}' (ID: {asset_id})이(가) 테이블에서 삭제되었습니다.")
@@ -773,69 +772,98 @@ class DalPriorityWindow(QDialog):
             document = QTextDocument()
             cursor = QTextCursor(document)
 
-            # CSS 스타일 수정
+            # 개선된 CSS 스타일
             document.setDefaultStyleSheet("""
-                @page { size: A4; margin: 20mm; }
+                @page { size: A4 portrait; margin: 10mm; }
                 body { 
-                    font-family: 'Arial', sans-serif;
+                    font-family: 'Malgun Gothic', sans-serif;
                     width: 100%;
                     margin: 0 auto;
+                    background-color: #ffffff;
                 }
                 h1 { 
-                    color: black; 
+                    color: #2c3e50; 
                     text-align: center;
                     margin-bottom: 20px;
+                    font-size: 22px;
+                    padding: 10px;
+                    border-bottom: 2px solid #3498db;
                 }
-                .info { padding: 1px; }
+                .info { 
+                    padding: 5px;
+                    color: #7f8c8d;
+                    font-size: 12px;
+                    margin-bottom: 15px;
+                }
                 table { 
                     border-collapse: collapse; 
-                    width: 90%;
-                    margin: 0 auto;
-                    text-align: center;
+                    width: 100%;
+                    margin: 10px auto;
+                    background-color: #ffffff;
                 }
-                td, th { 
-                    border: 1px solid black; 
-                    padding: 5px; 
+                th { 
+                    color: black;
                     text-align: center;
+                    font-weight: bold;
+                    padding: 12px 8px;
+                    border: 1px solid #2980b9;
+                }
+                td { 
+                    border: 1px solid #bdc3c7;
+                    padding: 8px;
+                    text-align: center;
+                    color: #2c3e50;
+                }
+                tr:nth-child(even) {
+                    background-color: #f9f9f9;
+                }
+                tr:hover {
+                    background-color: #f5f6fa;
                 }
             """)
 
-            font = QFont("Arial", 8)
+            font = QFont("Arial", 10)
             document.setDefaultFont(font)
 
-            cursor.insertHtml("<h1 align='center'>" + self.tr("DAL 우선순위") + "</h1>")
-            cursor.insertBlock()
+            # 헤더 섹션
+            cursor.insertHtml(f"""
+                <h1>{self.tr("DAL 우선순위")}</h1>
+                <div class='info' style='text-align: right;'>
+                    {self.tr("보고서 생성 일시: ")} {QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss")}
+                </div>
+            """)
 
-            cursor.insertHtml("<div class='info' style='text-align: left; font-size: 0.9em;'>")
-            cursor.insertHtml(self.tr("보고서 생성 일시: ") + QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))
-            cursor.insertHtml("</div>")
-            cursor.insertBlock()
-
+            # 테이블 포맷 설정
             table_format = QTextTableFormat()
-            table_format.setBorderStyle(QTextFrameFormat.BorderStyle_Solid)
+            table_format.setBorderStyle(QTextFrameFormat.BorderStyle.BorderStyle_Solid)
             table_format.setCellPadding(1)
-            table_format.setAlignment(Qt.AlignCenter)
-            table_format.setWidth(QTextLength(QTextLength.PercentageLength, 100))
+            table_format.setCellSpacing(0)
+            table_format.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            table_format.setWidth(QTextLength(QTextLength.Type.PercentageLength, 100))
 
-            rows = self.assets_table.rowCount() + 1
-            cols = self.assets_table.columnCount() - 1
+
 
             excluded_columns = [0, 2, 4, 5, 6, 9, 10, 11, 12, 14, 15, 18, 19, 20]
+            cols = self.assets_table.columnCount() - len(excluded_columns) - 1
+            rows = self.assets_table.rowCount()
 
-            actual_cols = cols - len(excluded_columns)
-            table = cursor.insertTable(rows, actual_cols, table_format)
+            # 테이블 생성
+            table = cursor.insertTable(rows, cols, table_format)
 
+            # 헤더 추가
             header_col = 0
-            for col in range(cols):
+            for col in range(self.assets_table.columnCount()-1):
                 if col not in excluded_columns:
                     cell = table.cellAt(0, header_col)
                     cellCursor = cell.firstCursorPosition()
-                    cellCursor.insertHtml(f"<th>{self.assets_table.horizontalHeaderItem(col).text()}</th>")
+                    header_text = self.assets_table.horizontalHeaderItem(col).text()
+                    cellCursor.insertHtml(f"<th>{header_text}</th>")
                     header_col += 1
 
-            for row in range(self.assets_table.rowCount()):
+            # 데이터 추가
+            for row in range(self.assets_table.rowCount()-1):
                 data_col = 0
-                for col in range(cols):
+                for col in range(self.assets_table.columnCount()):
                     if col not in excluded_columns:
                         item = self.assets_table.item(row, col)
                         if item:
@@ -846,43 +874,44 @@ class DalPriorityWindow(QDialog):
 
             preview = QPrintPreviewDialog()
             preview.setWindowIcon(QIcon("image/logo.png"))
-            preview.paintRequested.connect(lambda p: document.print_(p))
-            preview.exec_()
 
-            file_path, _ = QFileDialog.getSaveFileName(self, self.tr("PDF 저장"), "", "PDF Files (*.pdf)")
-            if file_path:
-                printer = QPrinter(QPrinter.HighResolution)
-                printer.setOutputFormat(QPrinter.PdfFormat)
-                printer.setOutputFileName(file_path)
-                printer.setPageSize(QPageSize(QPageSize.A4))
-                printer.setPageMargins(QMarginsF(20, 20, 20, 20), QPageLayout.Millimeter)
-                printer.setPageOrientation(QPageLayout.Landscape)
-                document.print_(printer)
-                QMessageBox.information(self, self.tr("저장 완료"), self.tr("PDF가 저장되었습니다: {}").format(file_path))
+            def handle_print(printer):
+                printer.setPageOrientation(QPageLayout.Orientation.Portrait)
+                page_layout = QPageLayout(
+                    QPageSize(QPageSize.PageSizeId.A4),
+                    QPageLayout.Orientation.Portrait,
+                    QMarginsF(1, 1, 1, 1),
+                    QPageLayout.Unit.Millimeter
+                )
+                printer.setPageLayout(page_layout)
+                document.print(printer)
+
+            preview.paintRequested.connect(handle_print)
+            preview.exec()
 
             QCoreApplication.processEvents()
 
         except Exception as e:
             QMessageBox.critical(self, self.tr("오류"), self.tr("다음 오류가 발생했습니다: {}").format(str(e)))
 
-    def print_map(self, *args):  # *args를 추가하여 추가 인자를 무시합니다.
-        self.printer = QPrinter(QPrinter.HighResolution)
-        self.printer.setPageOrientation(QPageLayout.Landscape)
-        self.printer.setPageSize(QPageSize(QPageSize.A4))
-        self.printer.setPageMargins(10, 10, 10, 10, QPrinter.Millimeter)
+    def print_map(self):
+        self.printer = QPrinter(QPrinter.PrinterMode.HighResolution)
+        self.printer.setPageOrientation(QPageLayout.Orientation.Landscape)
+        self.printer.setPageSize(QPageSize(QPageSize.PageSizeId.A4))  # A4 크기 지정
+        self.printer.setPageMargins(QMarginsF(10, 10, 10, 10), QPageLayout.Unit.Millimeter)
 
         self.preview = QPrintPreviewDialog(self.printer, self)
         self.preview.setMinimumSize(1000, 800)
         self.preview.paintRequested.connect(self.handle_print_requested)
         self.preview.finished.connect(self.print_finished)
-        self.preview.exec_()
+        self.preview.exec()
 
     def handle_print_requested(self, printer):
         try:
             painter = QPainter()
             painter.begin(printer)
 
-            page_rect = printer.pageRect(QPrinter.DevicePixel)
+            page_rect = printer.pageRect(QPrinter.Unit.DevicePixel)
 
             title_font = QFont("Arial", 16, QFont.Weight.Bold)
             painter.setFont(title_font)
@@ -893,7 +922,7 @@ class DalPriorityWindow(QDialog):
 
             content_rect = page_rect.adjusted(0, title_rect.height() + 10, 0, -30)
             scaled_image = full_map.scaled(QSize(int(content_rect.width()), int(content_rect.height())),
-                                           Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                                           Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
 
             x = int(content_rect.left() + (content_rect.width() - scaled_image.width()) / 2)
             y = int(content_rect.top() + (content_rect.height() - scaled_image.height()) / 2)
@@ -903,7 +932,7 @@ class DalPriorityWindow(QDialog):
             painter.setFont(info_font)
             current_time = QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss")
             info_text = f"인쇄 일시: {current_time}"
-            painter.drawText(page_rect.adjusted(10, -20, -10, -10), Qt.AlignBottom | Qt.AlignRight, info_text)
+            painter.drawText(page_rect.adjusted(10, -20, -10, -10), Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignRight, info_text)
 
             painter.end()
         except Exception as e:
@@ -977,15 +1006,15 @@ class CheckBoxHeader(QHeaderView):
         if logicalIndex == 0:
             option = QStyleOptionButton()
             option.rect = QRect(rect.x() + rect.width() // 2 - 12, rect.y() + rect.height() // 2 - 12, 24, 24)
-            option.state = QStyle.State_Enabled | QStyle.State_Active
+            option.state = QStyle.StateFlag.State_Enabled | QStyle.StateFlag.State_Active
             if self.isOn:
-                option.state |= QStyle.State_On
+                option.state |= QStyle.StateFlag.State_On
             else:
-                option.state |= QStyle.State_Off
-            self.style().drawControl(QStyle.CE_CheckBox, option, painter)
+                option.state |= QStyle.StateFlag.State_Off
+            self.style().drawControl(QStyle.ControlElement.CE_CheckBox, option, painter)
 
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
+        if event.button() == Qt.MouseButton.LeftButton:
             x = self.logicalIndexAt(event.pos().x())
             if x == 0:
                 self.isOn = not self.isOn
@@ -1000,7 +1029,7 @@ class CenteredCheckBox(QWidget):
         self.checkbox = QCheckBox()
         self.checkbox.setStyleSheet("QCheckBox::indicator { width: 24px; height: 24px; }")
         layout.addWidget(self.checkbox)
-        layout.setAlignment(Qt.AlignCenter)
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
@@ -1013,24 +1042,24 @@ class CenteredCheckBox(QWidget):
 class MyTableWidget(QTableWidget):
     def __init__(self, *args):
         super().__init__(*args)
-        self.header_checked = False
-        self.setHorizontalHeader(CheckBoxHeader(Qt.Horizontal, self))
+        self.header = CheckBoxHeader(Qt.Orientation.Horizontal, self)
+        self.setHorizontalHeader(self.header)
 
     def on_header_clicked(self, checked):
         for row in range(self.rowCount()):
             checkbox_widget = self.cellWidget(row, 0)
-            if checkbox_widget:
-                checkbox_widget.checkbox.setChecked(checked)
+            if isinstance(checkbox_widget, CenteredCheckBox):
+                checkbox_widget.setChecked(checked)
 
     def uncheckAllRows(self):
-        self.header_checked = False
-        # 헤더 체크박스도 해제
-        self.horizontalHeader().isOn = False
-        self.horizontalHeader().updateSection(0)
+        self.header.isOn = False
+        self.header.updateSection(0)
+        self.on_header_clicked(False)
+
 
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     window = MainWindow()
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

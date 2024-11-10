@@ -11,13 +11,13 @@ class WeaponSystemWindow(QDialog):
         super().__init__(parent)
         self.setWindowTitle(self.tr("방공무기체계 제원 입력"))
         self.initUI()
-        self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint | Qt.WindowMinimizeButtonHint)
+        self.setWindowFlags(self.windowFlags() | Qt.WindowType.WindowMaximizeButtonHint | Qt.WindowType.WindowMinimizeButtonHint)
 
     def initUI(self):
         layout = QVBoxLayout()  # QHBoxLayout에서 QVBoxLayout으로 변경
         self.setLayout(layout)
 
-        splitter = QSplitter(Qt.Vertical)  # Qt.Horizontal에서 Qt.Vertical로 변경
+        splitter = QSplitter(Qt.Orientation.Vertical)  # Qt.Orientation.Horizontal에서 Qt.Orientation.Vertical로 변경
         layout.addWidget(splitter)
 
         # 상단 위젯 (테이블)
@@ -27,12 +27,12 @@ class WeaponSystemWindow(QDialog):
         self.table = MyTableWidget()
         self.table.setColumnCount(8)
         self.table.setHorizontalHeaderLabels(["", self.tr("무기체계명"), self.tr("최저요격고도"), self.tr("최고요격고도"), self.tr("최소방어반경"), self.tr("최대방어반경"), self.tr("방어각"), self.tr("주요기능")])
-        self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Fixed)
+        self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Fixed)
         self.table.setColumnWidth(0, 60)
-        self.table.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch)
-        self.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.Stretch)
-        self.table.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)
-        self.table.horizontalHeader().setSectionResizeMode(4, QHeaderView.Stretch)
+        self.table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
+        self.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeMode.Stretch)
+        self.table.horizontalHeader().setSectionResizeMode(3, QHeaderView.ResizeMode.Stretch)
+        self.table.horizontalHeader().setSectionResizeMode(4, QHeaderView.ResizeMode.Stretch)
         self.table.setAlternatingRowColors(True)
         self.table.setStyleSheet(
             "QTableWidget { background-color: #f8f9fa; border: 1px solid #dee2e6; }"
@@ -134,7 +134,7 @@ class WeaponSystemWindow(QDialog):
         )
         save_button.clicked.connect(self.save_weapon_system)
 
-        bottom_layout.addWidget(save_button, alignment=Qt.AlignCenter)
+        bottom_layout.addWidget(save_button, alignment=Qt.AlignmentFlag.AlignCenter)
         bottom_layout.addStretch(1)
 
         splitter.addWidget(bottom_widget)
@@ -177,8 +177,8 @@ class WeaponSystemWindow(QDialog):
         if name in data:
             reply = QMessageBox.question(self, self.tr('확인'),
                                          self.tr('이미 존재하는 무기체계명입니다. 수정하시겠습니까?'),
-                                         QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-            if reply == QMessageBox.No:
+                                         QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
+            if reply == QMessageBox.StandardButton.No:
                 return
 
         data[name] = {
@@ -222,9 +222,9 @@ class WeaponSystemWindow(QDialog):
                      info['angle'], info['function']], start=1):
                 item = QTableWidgetItem(str(text))
                 if text == info['function']:  # function 컬럼인 경우
-                    item.setTextAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+                    item.setTextAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
                 else:  # 나머지 컬럼
-                    item.setTextAlignment(Qt.AlignCenter)
+                    item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.table.setItem(row, col, item)
 
             # 행 높이 설정 (체크박스 높이 + 여유 공간)
@@ -277,8 +277,8 @@ class WeaponSystemWindow(QDialog):
             return
 
         reply = QMessageBox.question(self, self.tr('확인'), self.tr('선택한 항목을 삭제하시겠습니까?'),
-                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-        if reply == QMessageBox.Yes:
+                                     QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
+        if reply == QMessageBox.StandardButton.Yes:
             with open('weapon_systems.json', 'r', encoding='utf-8') as file:
                 data = json.load(file)
 
@@ -307,15 +307,15 @@ class CheckBoxHeader(QHeaderView):
         if logicalIndex == 0:
             option = QStyleOptionButton()
             option.rect = QRect(rect.x() + rect.width() // 2 - 12, rect.y() + rect.height() // 2 - 12, 24, 24)
-            option.state = QStyle.State_Enabled | QStyle.State_Active
+            option.state = QStyle.StateFlag.State_Enabled | QStyle.StateFlag.State_Active
             if self.isOn:
-                option.state |= QStyle.State_On
+                option.state |= QStyle.StateFlag.State_On
             else:
-                option.state |= QStyle.State_Off
-            self.style().drawControl(QStyle.CE_CheckBox, option, painter)
+                option.state |= QStyle.StateFlag.State_Off
+            self.style().drawControl(QStyle.ControlElement.CE_CheckBox, option, painter)
 
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
+        if event.button() == Qt.MouseButton.LeftButton:
             x = self.logicalIndexAt(event.pos().x())
             if x == 0:
                 self.isOn = not self.isOn
@@ -330,7 +330,7 @@ class CenteredCheckBox(QWidget):
         self.checkbox = QCheckBox()
         self.checkbox.setStyleSheet("QCheckBox::indicator { width: 20px; height: 20px; }")
         layout.addWidget(self.checkbox)
-        layout.setAlignment(Qt.AlignCenter)
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
@@ -344,7 +344,7 @@ class MyTableWidget(QTableWidget):
     def __init__(self, *args):
         super().__init__(*args)
         self.header_checked = False
-        self.setHorizontalHeader(CheckBoxHeader(Qt.Horizontal, self))
+        self.setHorizontalHeader(CheckBoxHeader(Qt.Orientation.Horizontal, self))
 
     def on_header_clicked(self, checked):
         for row in range(self.rowCount()):
@@ -362,4 +362,4 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = WeaponSystemWindow()
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

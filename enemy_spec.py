@@ -11,14 +11,14 @@ class EnemySpecWindow(QDialog):
         super().__init__(parent)
         self.setWindowTitle(self.tr("적 미사일 제원 입력"))
         self.initUI()
-        self.setWindowFlags(self.windowFlags() | Qt.WindowMaximizeButtonHint | Qt.WindowMinimizeButtonHint)
+        self.setWindowFlags(self.windowFlags() | Qt.WindowType.WindowMaximizeButtonHint | Qt.WindowType.WindowMinimizeButtonHint)
 
 
     def initUI(self):
         layout = QHBoxLayout()
         self.setLayout(layout)
 
-        splitter = QSplitter(Qt.Vertical)
+        splitter = QSplitter(Qt.Orientation.Vertical)
         layout.addWidget(splitter)
 
         # 상단 위젯 (테이블)
@@ -29,12 +29,12 @@ class EnemySpecWindow(QDialog):
         self.table.setColumnCount(6)
         self.table.setHorizontalHeaderLabels(
             ["", self.tr("미사일명"), self.tr("최소위협반경"), self.tr("최대위협반경"), self.tr("주요기능"), self.tr("궤적계수")])
-        self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.Fixed)
+        self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Fixed)
         self.table.setColumnWidth(0, 60)
         self.table.hideColumn(5)  # 궤적계수 열(5번 열)을 숨깁니다.
 
         for i in range(1, 6):
-            self.table.horizontalHeader().setSectionResizeMode(i, QHeaderView.Stretch)
+            self.table.horizontalHeader().setSectionResizeMode(i, QHeaderView.ResizeMode.Stretch)
 
         self.table.setAlternatingRowColors(True)
         self.table.setStyleSheet(
@@ -173,8 +173,8 @@ class EnemySpecWindow(QDialog):
             if name in data:
                 reply = QMessageBox.question(self, self.tr('확인'),
                                              self.tr('이미 존재하는 미사일 정보입니다. 수정하시겠습니까?'),
-                                             QMessageBox.Yes | QMessageBox.No)
-                if reply == QMessageBox.No:
+                                             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+                if reply == QMessageBox.StandardButton.No:
                     return
 
             # 미사일 계수 처리 Nathan J. Siegel의 "Modeling and Simulation of Ballistic Missile Trajectories" (2016) 논문
@@ -246,9 +246,9 @@ class EnemySpecWindow(QDialog):
             for col, text in enumerate(items, start=1):
                 item = QTableWidgetItem(str(text))
                 if col == 4:  # function 컬럼
-                    item.setTextAlignment(Qt.AlignLeft | Qt.AlignVCenter)
+                    item.setTextAlignment(Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignVCenter)
                 else:
-                    item.setTextAlignment(Qt.AlignCenter)
+                    item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.table.setItem(row, col, item)
 
             self.table.setRowHeight(row, 40)
@@ -321,8 +321,8 @@ class EnemySpecWindow(QDialog):
             return
 
         reply = QMessageBox.question(self, self.tr('확인'), self.tr('선택한 항목을 삭제하시겠습니까?'),
-                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-        if reply == QMessageBox.Yes:
+                                     QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No, QMessageBox.StandardButton.No)
+        if reply == QMessageBox.StandardButton.Yes:
             with open('missile_info.json', 'r', encoding='utf-8') as file:
                 data = json.load(file)
 
@@ -351,15 +351,15 @@ class CheckBoxHeader(QHeaderView):
         if logicalIndex == 0:
             option = QStyleOptionButton()
             option.rect = QRect(rect.x() + rect.width() // 2 - 12, rect.y() + rect.height() // 2 - 12, 24, 24)
-            option.state = QStyle.State_Enabled | QStyle.State_Active
+            option.state = QStyle.StateFlag.State_Enabled | QStyle.StateFlag.State_Active
             if self.isOn:
-                option.state |= QStyle.State_On
+                option.state |= QStyle.StateFlag.State_On
             else:
-                option.state |= QStyle.State_Off
-            self.style().drawControl(QStyle.CE_CheckBox, option, painter)
+                option.state |= QStyle.StateFlag.State_Off
+            self.style().drawControl(QStyle.ControlElement.CE_CheckBox, option, painter)
 
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
+        if event.button() == Qt.MouseButton.LeftButton:
             x = self.logicalIndexAt(event.pos().x())
             if x == 0:
                 self.isOn = not self.isOn
@@ -374,7 +374,7 @@ class CenteredCheckBox(QWidget):
         self.checkbox = QCheckBox()
         self.checkbox.setStyleSheet("QCheckBox::indicator { width: 20px; height: 20px; }")
         layout.addWidget(self.checkbox)
-        layout.setAlignment(Qt.AlignCenter)
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
@@ -388,7 +388,7 @@ class MyTableWidget(QTableWidget):
     def __init__(self, *args):
         super().__init__(*args)
         self.header_checked = False
-        self.setHorizontalHeader(CheckBoxHeader(Qt.Horizontal, self))
+        self.setHorizontalHeader(CheckBoxHeader(Qt.Orientation.Horizontal, self))
 
     def on_header_clicked(self, checked):
         for row in range(self.rowCount()):
@@ -406,4 +406,4 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = EnemySpecWindow()
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

@@ -112,6 +112,16 @@ class EngagementPossibilityCalculator:
                 distances <= range_tuple[1]
             )
 
+            # 고도 변화 계산 (하강 여부 확인)
+            altitude_changes = np.diff(trajectories[:, :, 2], axis=1)
+            is_descending = np.pad(altitude_changes < 0, ((0, 0), (1, 0)), mode='edge')
+
+            # 기존 조건들과 하강 조건 결합
+            altitude_condition = np.logical_and(
+                altitude_condition,
+                is_descending
+            )
+
             if angle >= 360:
                 engagement_possible = np.any(np.logical_and(range_condition, altitude_condition), axis=1)
             else:

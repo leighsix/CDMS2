@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import *
 from PyQt6.QtCore import Qt, QTranslator, QLocale, QLibraryInfo, QObject, QPoint, QRectF, QRect, QSize, QPointF
 from PyQt6.QtWidgets import QWidget, QLabel, QHBoxLayout, QPushButton, QVBoxLayout
 from PyQt6.QtGui import QPixmap, QFont, QIcon, QLinearGradient, QColor, QPainter, QPainterPath, QPen
+import sys
 
 
 class TitleLabel(QLabel):
@@ -14,7 +15,7 @@ class TitleLabel(QLabel):
 
     def paintEvent(self, event):
         painter = QPainter(self)
-        painter.setRenderHint(QPainter.Antialiasing)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
 
         # 배경 그라데이션 (둥근 모서리와 남색 계열)
         gradient = QLinearGradient(0, 0, self.width(), self.height())
@@ -62,7 +63,7 @@ class TitleLabel(QLabel):
         painter.drawLine(20, 120, self.width() - 20, 120)
 
 
-class LanguageSelectionWindow(QDialog, QObject):
+class LanguageSelectionWindow(QDialog):
     def __init__(self, parent=None):
         super(LanguageSelectionWindow, self).__init__(parent)
         self.setWindowTitle("CAL/DAL Management System")
@@ -91,7 +92,7 @@ class LanguageSelectionWindow(QDialog, QObject):
             font: 바른공군체;
             font-size: 22px;
             font-weight: bold;
-            padding: 10px;
+            padding: 5px;
             background-color: #007BFF;
             color: white;
             border: none;
@@ -139,7 +140,6 @@ class LanguageSelectionWindow(QDialog, QObject):
 
         # 버튼 크기 정책 설정
         size_policy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        size_policy.setHeightForWidth(True)
 
         for button in [self.korean_button, self.english_button]:
             button.setSizePolicy(size_policy)
@@ -187,6 +187,11 @@ class Translator:
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    window = LanguageSelectionWindow()
-    window.show()
-    sys.exit(app.exec_())
+    try:
+        window = LanguageSelectionWindow()
+        window.show()
+        sys.exit(app.exec())
+    except Exception as e:
+        print(f"오류 발생: {str(e)}")
+        import traceback
+        traceback.print_exc()

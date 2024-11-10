@@ -8,6 +8,7 @@ from simulation_map_view import SimulationCalMapView, SimulationWeaponMapView, S
 import io
 import pandas as pd
 import folium
+from PyQt6.QtWebEngineCore import QWebEngineProfile
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6 import QtWidgets, QtGui
 from PyQt6.QtWidgets import *
@@ -189,7 +190,7 @@ class MissileDefenseApp(QDialog):
         """UI 초기화 메서드"""
         # UI 구성 변경
         main_layout = QVBoxLayout(self)
-        main_splitter = QSplitter(Qt.Horizontal)
+        main_splitter = QSplitter(Qt.Orientation.Horizontal)
 
         # 좌측 위젯 (방어 대상 자산 우선순위 테이블)
         left_widget = QWidget()
@@ -207,7 +208,7 @@ class MissileDefenseApp(QDialog):
         # 방어대상자산 테이블 검색 기능
         self.filter_layout = QHBoxLayout()
         self.search_filter = QLineEdit()
-        self.search_filter.setPlaceholderText(self.tr("방어대상자산 또는 지역구분 검색"))
+        self.search_filter.setPlaceholderText(self.tr("방어대상자산 또는 지역 검색"))
         self.search_button = QPushButton(self.tr("찾기"))
         self.search_button.clicked.connect(self.load_assets)
         self.filter_layout.addWidget(self.search_filter)
@@ -219,7 +220,7 @@ class MissileDefenseApp(QDialog):
         self.assets_table = MyTableWidget()
         self.assets_table.setColumnCount(5)
         self.assets_table.setHorizontalHeaderLabels(
-            ["", self.tr("우선순위"), self.tr("구성군"), self.tr("지역구분"), self.tr("방어대상자산")])
+            ["", self.tr("우선순위"), self.tr("구성군"), self.tr("지역"), self.tr("방어대상자산")])
 
         # 행 번호 숨기기
         self.assets_table.verticalHeader().setVisible(False)
@@ -228,7 +229,7 @@ class MissileDefenseApp(QDialog):
         font.setBold(True)
         self.assets_table.horizontalHeader().setFont(font)
         header = self.assets_table.horizontalHeader()
-        header.setSectionResizeMode(QtWidgets.QHeaderView.Interactive)
+        header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Interactive)
         header.resizeSection(0, 40)
         header.resizeSection(1, 80)
 
@@ -236,11 +237,11 @@ class MissileDefenseApp(QDialog):
         for column in range(header.count()):
             item = self.assets_table.horizontalHeaderItem(column)
             if item:
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # 나머지 열들이 남은 공간을 채우도록 설정
         for column in range(2, header.count()):
-            self.assets_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.Stretch)
+            self.assets_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.ResizeMode.Stretch)
 
         left_layout.addWidget(self.assets_table)
 
@@ -248,7 +249,7 @@ class MissileDefenseApp(QDialog):
         button_layout = QHBoxLayout()
         button_layout.setSpacing(20)
         button_layout.setContentsMargins(0, 20, 0, 20)
-        button_layout.setAlignment(Qt.AlignCenter)  # 버튼을 중앙에 정렬
+        button_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)  # 버튼을 중앙에 정렬
 
         self.return_button = QPushButton(self.tr("메인화면"), self)
         self.return_button.clicked.connect(self.parent.show_main_page)
@@ -306,17 +307,17 @@ class MissileDefenseApp(QDialog):
         font.setBold(True)
         self.enemy_sites_table.horizontalHeader().setFont(font)
         header = self.enemy_sites_table.horizontalHeader()
-        header.setSectionResizeMode(QtWidgets.QHeaderView.Interactive)
+        header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Interactive)
         header.resizeSection(0, 40)
         # 헤더 텍스트 중앙 정렬
         for column in range(header.count()):
             item = self.enemy_sites_table.horizontalHeaderItem(column)
             if item:
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # 나머지 열들이 남은 공간을 채우도록 설정
         for column in range(1, header.count()):
-            self.enemy_sites_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.Stretch)
+            self.enemy_sites_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.ResizeMode.Stretch)
 
         top_right_layout.addWidget(self.enemy_sites_table)
 
@@ -371,17 +372,17 @@ class MissileDefenseApp(QDialog):
         font.setBold(True)
         self.weapon_assets_table.horizontalHeader().setFont(font)
         header = self.weapon_assets_table.horizontalHeader()
-        header.setSectionResizeMode(QtWidgets.QHeaderView.Interactive)
+        header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeMode.Interactive)
         header.resizeSection(0, 40)
         # 헤더 텍스트 중앙 정렬
         for column in range(header.count()):
             item = self.weapon_assets_table.horizontalHeaderItem(column)
             if item:
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # 나머지 열들이 남은 공간을 채우도록 설정
         for column in range(1, header.count()):
-            self.weapon_assets_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.Stretch)
+            self.weapon_assets_table.horizontalHeader().setSectionResizeMode(column, QtWidgets.QHeaderView.ResizeMode.Stretch)
 
         bottom_right_layout.addWidget(self.weapon_assets_table)
 
@@ -393,14 +394,13 @@ class MissileDefenseApp(QDialog):
         simulate_button_layout = QHBoxLayout()
         simulate_button_layout.setSpacing(20)
         simulate_button_layout.setContentsMargins(0, 20, 0, 20)
-        simulate_button_layout.setAlignment(Qt.AlignCenter)
+        simulate_button_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         # 미사일 궤적 분석 버튼
         self.analyze_trajectories_button = QPushButton(self.tr("미사일 궤적분석"))
         self.analyze_trajectories_button.setFont(QFont("강한공군체", 12, QFont.Weight.Bold))
         self.analyze_trajectories_button.setFixedSize(200, 30)
         self.analyze_trajectories_button.setStyleSheet("QPushButton { text-align: center; }")
-
         self.analyze_trajectories_button.clicked.connect(self.run_trajectory_analysis)
         simulate_button_layout.addWidget(self.analyze_trajectories_button)
 
@@ -409,7 +409,6 @@ class MissileDefenseApp(QDialog):
         self.optimize_locations_button.setFont(QFont("강한공군체", 12, QFont.Weight.Bold))
         self.optimize_locations_button.setFixedSize(200, 30)
         self.optimize_locations_button.setStyleSheet("QPushButton { text-align: center; }")
-
         self.optimize_locations_button.clicked.connect(self.run_location_optimization)
         simulate_button_layout.addWidget(self.optimize_locations_button)
 
@@ -484,7 +483,7 @@ class MissileDefenseApp(QDialog):
         center_bottom_layout.addWidget(center_bottom_right_widget)
 
         # QSplitter를 사용하여 위젯들을 배치하고 크기 조절 가능하게 함
-        splitter = QSplitter(Qt.Vertical)
+        splitter = QSplitter(Qt.Orientation.Vertical)
         splitter.addWidget(center_top_widget)
 
         # 하단 위젯 (3D 그래프와 테이블)
@@ -492,7 +491,7 @@ class MissileDefenseApp(QDialog):
         center_bottom_layout = QHBoxLayout(center_bottom_widget)
 
         # 3D 그래프와 테이블 사이의 QSplitter 추가
-        bottom_splitter = QSplitter(Qt.Horizontal)
+        bottom_splitter = QSplitter(Qt.Orientation.Horizontal)
         bottom_splitter.addWidget(center_bottom_left_widget)
         bottom_splitter.addWidget(center_bottom_right_widget)
         center_bottom_layout.addWidget(bottom_splitter)
@@ -516,7 +515,7 @@ class MissileDefenseApp(QDialog):
         self.figure.tight_layout()  # 그래프 레이아웃 최적화
 
         # Splitter에 위젯 추가 및 레이아웃 설정
-        right_splitter = QSplitter(Qt.Vertical)
+        right_splitter = QSplitter(Qt.Orientation.Vertical)
         right_splitter.addWidget(top_right_widget)
         right_splitter.addWidget(bottom_right_widget)
 
@@ -548,9 +547,9 @@ class MissileDefenseApp(QDialog):
         reply = QMessageBox.question(self,
                                      self.tr("초기화 확인"),
                                      self.tr("시뮬레이션을 초기화하시겠습니까?"),
-                                     QMessageBox.Yes | QMessageBox.No)
+                                     QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
 
-        if reply == QMessageBox.Yes:
+        if reply == QMessageBox.StandardButton.Yes:
             try:
                 # 데이터 초기화
                 self.trajectories = []
@@ -601,11 +600,11 @@ class MissileDefenseApp(QDialog):
                                      self.tr(f"초기화 중 오류가 발생했습니다: {str(e)}"))
 
     def toggle_defense_radius(self, state):
-        self.show_defense_radius = state == Qt.Checked
+        self.show_defense_radius = state == Qt.CheckState.Checked.value
         self.update_map_with_trajectories()
 
     def toggle_threat_radius(self, state):
-        self.show_threat_radius = state == Qt.Checked
+        self.show_threat_radius = state == Qt.CheckState.Checked.value
         self.update_map_with_trajectories()
 
     def load_assets(self):
@@ -632,7 +631,7 @@ class MissileDefenseApp(QDialog):
             checkbox.checkbox.stateChanged.connect(self.update_map_with_trajectories)
             for col, value in enumerate(asset[['priority', 'unit', 'area', 'target_asset']], start=1):
                 item = QTableWidgetItem(str(value))
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.assets_table.setItem(row, col, item)
         self.update_map_with_trajectories()
 
@@ -660,7 +659,7 @@ class MissileDefenseApp(QDialog):
             checkbox.checkbox.stateChanged.connect(self.update_map_with_trajectories)
             for col, value in enumerate(base[['base_name', 'coordinate', 'weapon_system']], start=1):
                 item = QTableWidgetItem(str(value))
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.enemy_sites_table.setItem(row, col, item)
         self.update_map_with_trajectories()
 
@@ -688,7 +687,7 @@ class MissileDefenseApp(QDialog):
             checkbox.checkbox.stateChanged.connect(self.update_map_with_trajectories)
             for col, value in enumerate(weapons[['unit', 'area', 'asset_name', 'weapon_system']], start=1):
                 item = QTableWidgetItem(str(value))
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.weapon_assets_table.setItem(row, col, item)
         self.update_map_with_trajectories()
 
@@ -697,7 +696,7 @@ class MissileDefenseApp(QDialog):
             # 진행 상태 다이얼로그 생성
             progress = QProgressDialog(self.tr("미사일 궤적 분석 중..."), None, 0, 100, self)
             progress.setWindowTitle(self.tr("미사일 궤도 분석"))
-            progress.setWindowModality(Qt.WindowModal)
+            progress.setWindowModality(Qt.WindowModality.WindowModal)
             progress.setAutoClose(True)
             progress.setMinimumDuration(0)
             progress.setValue(0)
@@ -1021,18 +1020,18 @@ class MissileDefenseApp(QDialog):
 
             # 중앙 정렬을 위한 아이템 설정
             item1 = QTableWidgetItem(str(total_trajectories))
-            item1.setTextAlignment(Qt.AlignCenter)
+            item1.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             self.result_table.setItem(0, 0, item1)
 
             item2 = QTableWidgetItem(str(defensible_trajectories))
-            item2.setTextAlignment(Qt.AlignCenter)
+            item2.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             self.result_table.setItem(0, 1, item2)
 
             item3 = QTableWidgetItem(f"{defense_rate:.2f}%")
-            item3.setTextAlignment(Qt.AlignCenter)
+            item3.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
             self.result_table.setItem(0, 2, item3)
 
-        self.result_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.result_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.result_table.verticalHeader().setVisible(False)
 
     def update_3d_graph(self):
@@ -1189,7 +1188,7 @@ class MissileDefenseApp(QDialog):
             # 프로그레스 다이얼로그 설정 부분만 수정
             self.progress_dialog = QDialog(self)
             self.progress_dialog.setWindowTitle(self.tr("최적화 진행 상황"))
-            self.progress_dialog.setWindowModality(Qt.WindowModal)
+            self.progress_dialog.setWindowModality(Qt.WindowModality.WindowModal)
 
             layout = QVBoxLayout()
 
@@ -1332,8 +1331,8 @@ class MissileDefenseApp(QDialog):
             reply = QMessageBox.question(self,
                                          self.tr("취소 확인"),
                                          self.tr("최적화를 취소하시겠습니까?"),
-                                         QMessageBox.Yes | QMessageBox.No)
-            if reply == QMessageBox.Yes:
+                                         QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+            if reply == QMessageBox.StandardButton.Yes:
                 if hasattr(self, 'optimization_worker'):
                     # 워커 중지 플래그 설정
                     self.optimization_worker.stop()
@@ -1529,10 +1528,10 @@ class MissileDefenseApp(QDialog):
                 f"{optimal_location['defense_rate']:.2f}%"
             ]):
                 item = QTableWidgetItem(value)
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.result_table.setItem(row, col, item)
                 if col == 4:  # 방어 가능 자산 컬럼의 경우
-                    self.result_table.verticalHeader().setSectionResizeMode(row, QHeaderView.ResizeToContents)
+                    self.result_table.verticalHeader().setSectionResizeMode(row, QHeaderView.ResizeMode.ResizeToContents)
 
         # 총 방어율 계산 및 추가
         total_trajectories = len(self.trajectories)
@@ -1552,10 +1551,10 @@ class MissileDefenseApp(QDialog):
         for col, value in enumerate([self.tr("총 방어율"), "", "", "", "", f"{defense_rate:.2f}%"]):
             if value:
                 item = QTableWidgetItem(value)
-                item.setTextAlignment(Qt.AlignCenter)
+                item.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.result_table.setItem(row, col, item)
 
-        self.result_table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.result_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
         self.result_table.verticalHeader().setVisible(False)
 
     def update_map_with_optimized_locations(self):
@@ -1624,13 +1623,18 @@ class MissileDefenseApp(QDialog):
             print(f"지도 업데이트 중 오류 발생: {str(e)}")
 
     def _add_grid_to_map(self, grid_group):
-        """격자를 지도에 추가하는 헬퍼 메서드"""
         min_lat = min(center[0] for center in self.optimizer.grid_centers.values())
         max_lat = max(center[0] for center in self.optimizer.grid_centers.values())
         min_lon = min(center[1] for center in self.optimizer.grid_centers.values())
         max_lon = max(center[1] for center in self.optimizer.grid_centers.values())
 
-        for lat in np.arange(min_lat, max_lat + 0.2, 0.2):
+        # 20km 간격으로 변환
+        lat_step = 20.0 / 111
+        center_lat = (min_lat + max_lat) / 2
+        lon_step = 20.0 / (111 * np.cos(np.radians(center_lat)))
+
+        # 위도선 그리기
+        for lat in np.arange(min_lat, max_lat + lat_step, lat_step):
             folium.PolyLine(
                 locations=[[lat, min_lon], [lat, max_lon]],
                 color="gray",
@@ -1638,7 +1642,8 @@ class MissileDefenseApp(QDialog):
                 opacity=0.5
             ).add_to(grid_group)
 
-        for lon in np.arange(min_lon, max_lon + 0.2, 0.2):
+        # 경도선 그리기
+        for lon in np.arange(min_lon, max_lon + lon_step, lon_step):
             folium.PolyLine(
                 locations=[[min_lat, lon], [max_lat, lon]],
                 color="gray",
@@ -1934,23 +1939,23 @@ class MissileDefenseApp(QDialog):
         return R * c
 
     def print_map(self):
-        self.printer = QPrinter(QPrinter.HighResolution)
-        self.printer.setPageOrientation(QPageLayout.Landscape)
-        self.printer.setPageSize(QPageSize(QPageSize.A4))
-        self.printer.setPageMargins(10, 10, 10, 10, QPrinter.Millimeter)
+        self.printer = QPrinter(QPrinter.PrinterMode.HighResolution)
+        self.printer.setPageOrientation(QPageLayout.Orientation.Landscape)
+        self.printer.setPageSize(QPageSize(QPageSize.PageSizeId.A4))  # A4 크기 지정
+        self.printer.setPageMargins(QMarginsF(10, 10, 10, 10), QPageLayout.Unit.Millimeter)
 
         self.preview = QPrintPreviewDialog(self.printer, self)
         self.preview.setMinimumSize(1000, 800)
         self.preview.paintRequested.connect(self.handle_print_requested)
         self.preview.finished.connect(self.print_map_finished)
-        self.preview.exec_()
+        self.preview.exec()
 
     def handle_print_requested(self, printer):
         try:
             painter = QPainter()
             painter.begin(printer)
 
-            page_rect = printer.pageRect(QPrinter.DevicePixel)
+            page_rect = printer.pageRect(QPrinter.Unit.DevicePixel)
 
             title_font = QFont("Arial", 16, QFont.Weight.Bold)
             painter.setFont(title_font)
@@ -1963,7 +1968,7 @@ class MissileDefenseApp(QDialog):
 
             content_rect = page_rect.adjusted(0, title_rect.height() + 10, 0, -30)
             scaled_image = combined_image.scaled(QSize(int(content_rect.width()), int(content_rect.height())),
-                                                 Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                                                 Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
 
             x = int(content_rect.left() + (content_rect.width() - scaled_image.width()) / 2)
             y = int(content_rect.top() + (content_rect.height() - scaled_image.height()) / 2)
@@ -1993,52 +1998,81 @@ class MissileDefenseApp(QDialog):
             document = QTextDocument()
             cursor = QTextCursor(document)
 
-            # CSS 스타일 수정
+            # 개선된 CSS 스타일
             document.setDefaultStyleSheet("""
-                @page { size: A4; margin: 20mm; }
+                @page { size: A4 landscape; margin: 10mm; }
                 body { 
-                    font-family: 'Arial', sans-serif;
+                    font-family: 'Malgun Gothic', sans-serif;
                     width: 100%;
                     margin: 0 auto;
+                    background-color: #ffffff;
                 }
                 h1 { 
-                    color: black; 
+                    color: #2c3e50; 
                     text-align: center;
                     margin-bottom: 20px;
+                    font-size: 22px;
+                    padding: 10px;
+                    border-bottom: 2px solid #3498db;
                 }
-                .info { padding: 1px; }
+                .info { 
+                    padding: 5px;
+                    color: #7f8c8d;
+                    font-size: 12px;
+                    margin-bottom: 15px;
+                }
                 table { 
                     border-collapse: collapse; 
-                    width: 90%;
-                    margin: 0 auto;
-                    text-align: center;
+                    width: 100%;
+                    margin: 10px auto;
+                    background-color: #ffffff;
                 }
-                td, th { 
-                    border: 1px solid black; 
-                    padding: 5px; 
+                th { 
+                    color: black;
                     text-align: center;
+                    font-weight: bold;
+                    padding: 12px 8px;
+                    border: 1px solid #2980b9;
+                }
+                td { 
+                    border: 1px solid #bdc3c7;
+                    padding: 8px;
+                    text-align: center;
+                    color: #2c3e50;
+                }
+                tr:nth-child(even) {
+                    background-color: #f9f9f9;
+                }
+                tr:hover {
+                    background-color: #f5f6fa;
                 }
             """)
 
-            font = QFont("Arial", 8)
+            font = QFont("Arial", 10)
             document.setDefaultFont(font)
 
             if self.result_table.columnCount() == 3:
-                cursor.insertHtml("<h1 align='center'>" + self.tr("미사일 궤적 분석 결과") + "</h1>")
+                cursor.insertHtml(f"""
+                <h1 align='center'>{self.tr("미사일 궤적 분석 결과")}</h1>
+                <div class='info' style='text-align: right;'>
+                    {self.tr("보고서 생성 일시: ")} {QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss")}
+                </div>
+            """)
             else:
-                cursor.insertHtml("<h1 align='center'>" + self.tr("최적 방어포대 위치 및 위협 방위각") + "</h1>")
-            cursor.insertBlock()
+                cursor.insertHtml(f"""
+                    <h1 align='center'>{self.tr("최적 방어포대 위치 및 위협 방위각")}</h1>
+                    <div class='info' style='text-align: right;'>
+                        {self.tr("보고서 생성 일시: ")} {QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss")}
+                    </div>
+                """)
 
-            cursor.insertHtml("<div class='info' style='text-align: left; font-size: 0.9em;'>")
-            cursor.insertHtml(self.tr("보고서 생성 일시: ") + QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))
-            cursor.insertHtml("</div>")
-            cursor.insertBlock()
-
+            # 테이블 포맷 설정
             table_format = QTextTableFormat()
-            table_format.setBorderStyle(QTextFrameFormat.BorderStyle_Solid)
+            table_format.setBorderStyle(QTextFrameFormat.BorderStyle.BorderStyle_Solid)
             table_format.setCellPadding(1)
-            table_format.setAlignment(Qt.AlignCenter)
-            table_format.setWidth(QTextLength(QTextLength.PercentageLength, 100))
+            table_format.setCellSpacing(0)
+            table_format.setAlignment(Qt.AlignmentFlag.AlignCenter)
+            table_format.setWidth(QTextLength(QTextLength.Type.PercentageLength, 100))
 
             rows = self.result_table.rowCount() + 1
             cols = self.result_table.columnCount()
@@ -2049,7 +2083,7 @@ class MissileDefenseApp(QDialog):
             header_row = table.cellAt(0, 0).firstCursorPosition()
             for col in range(cols):
                 header_row.insertHtml(f"<th>{self.result_table.horizontalHeaderItem(col).text()}</th>")
-                header_row.movePosition(QTextCursor.NextCell)
+                header_row.movePosition(QTextCursor.MoveOperation.NextCell)
 
             # 테이블 데이터 삽입
             for row in range(self.result_table.rowCount()):
@@ -2061,44 +2095,29 @@ class MissileDefenseApp(QDialog):
                             data_row.insertHtml(f"{item.text()}<br>")
                         else:
                             data_row.insertText(item.text())
-                            data_row.movePosition(QTextCursor.NextCell)
+                            data_row.movePosition(QTextCursor.MoveOperation.NextCell)
 
             preview = QPrintPreviewDialog()
             preview.setWindowIcon(QIcon("image/logo.png"))
-            preview.paintRequested.connect(lambda p: document.print_(p))
-            preview.exec_()
 
-            file_path, _ = QFileDialog.getSaveFileName(self, self.tr("PDF 저장"), "", "PDF Files (*.pdf)")
-            if file_path:
-                printer = QPrinter(QPrinter.HighResolution)
-                printer.setOutputFormat(QPrinter.PdfFormat)
-                printer.setOutputFileName(file_path)
-                printer.setPageSize(QPageSize(QPageSize.A4))
-                printer.setPageMargins(QMarginsF(20, 20, 20, 20), QPageLayout.Millimeter)
-                printer.setPageOrientation(QPageLayout.Landscape)
-                document.print_(printer)
-                QMessageBox.information(self, self.tr("저장 완료"), self.tr("PDF가 저장되었습니다: {}").format(file_path))
+            def handle_print(printer):
+                printer.setPageOrientation(QPageLayout.Orientation.Portrait)
+                page_layout = QPageLayout(
+                    QPageSize(QPageSize.PageSizeId.A4),
+                    QPageLayout.Orientation.Portrait,
+                    QMarginsF(1, 1, 1, 1),
+                    QPageLayout.Unit.Millimeter
+                )
+                printer.setPageLayout(page_layout)
+                document.print(printer)
+
+            preview.paintRequested.connect(handle_print)
+            preview.exec()
 
             QCoreApplication.processEvents()
 
         except Exception as e:
             QMessageBox.critical(self, self.tr("오류"), self.tr("다음 오류가 발생했습니다: {}").format(str(e)))
-
-class CenteredCheckBox(QWidget):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        layout = QHBoxLayout(self)
-        self.checkbox = QCheckBox()
-        layout.addWidget(self.checkbox)
-        layout.setAlignment(Qt.AlignCenter)
-        layout.setContentsMargins(0, 0, 0, 0)
-        self.setLayout(layout)
-
-    def isChecked(self):
-        return self.checkbox.isChecked()
-
-    def setChecked(self, checked):
-        self.checkbox.setChecked(checked)
 
 class CheckBoxHeader(QHeaderView):
     def __init__(self, orientation, parent):
@@ -2113,15 +2132,15 @@ class CheckBoxHeader(QHeaderView):
         if logicalIndex == 0:
             option = QStyleOptionButton()
             option.rect = QRect(rect.x() + rect.width() // 2 - 12, rect.y() + rect.height() // 2 - 12, 24, 24)
-            option.state = QStyle.State_Enabled | QStyle.State_Active
+            option.state = QStyle.StateFlag.State_Enabled | QStyle.StateFlag.State_Active
             if self.isOn:
-                option.state |= QStyle.State_On
+                option.state |= QStyle.StateFlag.State_On
             else:
-                option.state |= QStyle.State_Off
-            self.style().drawControl(QStyle.CE_CheckBox, option, painter)
+                option.state |= QStyle.StateFlag.State_Off
+            self.style().drawControl(QStyle.ControlElement.CE_CheckBox, option, painter)
 
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
+        if event.button() == Qt.MouseButton.LeftButton:
             x = self.logicalIndexAt(event.pos().x())
             if x == 0:
                 self.isOn = not self.isOn
@@ -2129,24 +2148,40 @@ class CheckBoxHeader(QHeaderView):
                 self.parent().on_header_clicked(self.isOn)
         super().mousePressEvent(event)
 
+class CenteredCheckBox(QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        layout = QHBoxLayout(self)
+        self.checkbox = QCheckBox()
+        self.checkbox.setStyleSheet("QCheckBox::indicator { width: 24px; height: 24px; }")
+        layout.addWidget(self.checkbox)
+        layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.setContentsMargins(0, 0, 0, 0)
+        self.setLayout(layout)
+
+    def isChecked(self):
+        return self.checkbox.isChecked()
+
+    def setChecked(self, checked):
+        self.checkbox.setChecked(checked)
+
 class MyTableWidget(QTableWidget):
     def __init__(self, *args):
         super().__init__(*args)
-        self.setHorizontalHeader(CheckBoxHeader(Qt.Horizontal, self))
+        self.header = CheckBoxHeader(Qt.Orientation.Horizontal, self)
+        self.setHorizontalHeader(self.header)
 
     def on_header_clicked(self, checked):
         for row in range(self.rowCount()):
             checkbox_widget = self.cellWidget(row, 0)
-            if checkbox_widget:
-                checkbox_widget.checkbox.setChecked(checked)
+            if isinstance(checkbox_widget, CenteredCheckBox):
+                checkbox_widget.setChecked(checked)
 
     def uncheckAllRows(self):
-        self.horizontalHeader().isOn = False
-        self.horizontalHeader().updateSection(0)
-        for row in range(self.rowCount()):
-            checkbox_widget = self.cellWidget(row, 0)
-            if checkbox_widget:
-                checkbox_widget.setChecked(False)
+        self.header.isOn = False
+        self.header.updateSection(0)
+        self.on_header_clicked(False)
+
 
 class MainWindow(QtWidgets.QMainWindow, QObject):
     def __init__(self):
@@ -2170,6 +2205,6 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
 

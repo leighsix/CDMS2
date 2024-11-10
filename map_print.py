@@ -46,7 +46,7 @@ class DefenseAssetMapView(QMainWindow):
         toolbar.addWidget(self.checkbox)
 
         spacer = QWidget()
-        spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        spacer.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         toolbar.addWidget(spacer)
 
         self.print_button = QPushButton(self.tr("지도 출력"))
@@ -55,7 +55,7 @@ class DefenseAssetMapView(QMainWindow):
         toolbar.addWidget(self.print_button)
 
     def toggle_defense_radius(self, state):
-        self.show_defense_radius = state == Qt.Checked
+        self.show_defense_radius = state == Qt.CheckState.Checked.value
         self.load_map(self.coordinates_list)
 
     def parse_mgrs(self, mgrs_string):
@@ -195,16 +195,16 @@ class DefenseAssetMapView(QMainWindow):
         ).add_to(self.map)
 
     def print_map(self):
-        self.printer = QPrinter(QPrinter.HighResolution)
-        self.printer.setPageOrientation(QPageLayout.Landscape)
-        self.printer.setPageSize(QPageSize(QPageSize.A4))
-        self.printer.setPageMargins(10, 10, 10, 10, QPrinter.Millimeter)
+        self.printer = QPrinter(QPrinter.PrinterMode.HighResolution)
+        self.printer.setPageOrientation(QPageLayout.Orientation.Landscape)
+        self.printer.setPageSize(QPageSize(QPageSize.PageSizeId.A4))  # A4 크기 지정
+        self.printer.setPageMargins(QMarginsF(10, 10, 10, 10), QPageLayout.Unit.Millimeter)
 
         self.preview = QPrintPreviewDialog(self.printer, self)
         self.preview.setMinimumSize(1000, 800)  # 미리보기 창 크기 증가
         self.preview.paintRequested.connect(self.handle_print_requested)
         self.preview.finished.connect(self.print_finished)
-        self.preview.exec_()
+        self.preview.exec()
 
     def handle_print_requested(self, printer):
         try:
@@ -212,13 +212,13 @@ class DefenseAssetMapView(QMainWindow):
             painter.begin(printer)
 
             # 프린터 페이지의 크기 가져오기
-            page_rect = printer.pageRect(QPrinter.DevicePixel)
+            page_rect = printer.pageRect(QPrinter.Unit.DevicePixel)
 
             # 제목 추가
             title_font = QFont("Arial", 16, QFont.Weight.Bold)
             painter.setFont(title_font)
-            title_rect = painter.boundingRect(page_rect, Qt.AlignTop | Qt.AlignHCenter, "Common Operational Picture")
-            painter.drawText(title_rect, Qt.AlignTop | Qt.AlignHCenter, "Common Operational Picture")
+            title_rect = painter.boundingRect(page_rect, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter, "Common Operational Picture")
+            painter.drawText(title_rect, Qt.AlignmentFlag.AlignTop | Qt.AlignmentFlag.AlignHCenter, "Common Operational Picture")
 
             # 웹 뷰의 전체 내용 캡처
             full_map = self.view.grab()
@@ -242,7 +242,7 @@ class DefenseAssetMapView(QMainWindow):
             # 이미지를 페이지에 맞게 스케일링
             content_rect = page_rect.adjusted(0, title_rect.height() + 10, 0, -30)
             scaled_image = combined_image.scaled(QSize(int(content_rect.width()), int(content_rect.height())),
-                                                 Qt.KeepAspectRatio, Qt.SmoothTransformation)
+                                                 Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation)
 
             # 이미지를 페이지 중앙에 그리기
             x = content_rect.left() + (content_rect.width() - scaled_image.width()) / 2
@@ -254,7 +254,7 @@ class DefenseAssetMapView(QMainWindow):
             painter.setFont(info_font)
             current_time = QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss")
             info_text = f"인쇄 일시: {current_time}"
-            painter.drawText(page_rect.adjusted(10, -20, -10, -10), Qt.AlignBottom | Qt.AlignRight, info_text)
+            painter.drawText(page_rect.adjusted(10, -20, -10, -10), Qt.AlignmentFlag.AlignBottom | Qt.AlignmentFlag.AlignRight, info_text)
 
             painter.end()
         except Exception as e:
@@ -284,4 +284,4 @@ if __name__ == '__main__':
     map_loader = DefenseAssetMapView(coordinates_list_example, "Korean")
     map_loader.show()
 
-    sys.exit(app.exec_())
+    sys.exit(app.exec())

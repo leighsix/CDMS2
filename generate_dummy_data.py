@@ -91,7 +91,7 @@ def generate_dummy_weapon(db_path):
             weapon_asset_en = f"Defense Missile{weapon_asset_num}"
 
             # 한국 내 좌표 생성
-            lat = random.uniform(34.4, 38.2)
+            lat = random.uniform(34.8, 38.2)
             lon = random.uniform(126.0, 129.8)
             coordinate = f"N{lat:.5f},E{lon:.5f}"
 
@@ -207,8 +207,8 @@ def generate_dummy_cal(db_path):
             area_en = cities[area_ko]
 
             # 한국 내 좌표 생성
-            lat = random.uniform(33.5, 38.0)
-            lon = random.uniform(126.5, 129.5)
+            lat = random.uniform(34.8, 38.2)
+            lon = random.uniform(126.0, 129.8)
             coordinate = f"N{lat:.5f},E{lon:.5f}"
 
             # MGRS 변환
